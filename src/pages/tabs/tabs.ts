@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 import { RequestJobsPage } from '../RequestJobs/RequestJobs';
 import { JobRequestsPage} from '../job-requests/job-requests';
-import { HiredJobsPage } from '../HiredJobs/HiredJobs';
+import { HiredJobsPage } from '../hired-jobs/hired-jobs';
 import {ProfilePage} from "../Profile/Profile";
 
 @Component({

@@ -15,10 +15,4 @@ export class JobRequestsPage {
 
   }
 
-  // TODO: ngInit? to fetch jobs
-
-  // TODO: We need to store which user is logged in currently
-
-  // TODO: Function to GET data?
-
 }

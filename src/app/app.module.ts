@@ -2,13 +2,14 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import {IonicApp, IonicModule, IonicErrorHandler, NavController} from 'ionic-angular';
 import { MyApp } from './app.component';
 import { JobRequestsPage } from '../pages/job-requests/job-requests';
-import { HiredJobsPage } from '../pages/HiredJobs/HiredJobs';
+import { HiredJobsPage } from '../pages/hired-jobs/hired-jobs';
 import { RequestJobsPage } from '../pages/RequestJobs/RequestJobs';
 import { ProfilePage } from '../pages/Profile/Profile';
 import { TabsPage } from '../pages/tabs/tabs';
 import { LoginPage } from '../pages/login/login'
 import {SignUpPage} from "../pages/signup/sign-up";
 import {HttpModule} from "@angular/http";
+import {JobDetailsPage} from "../pages/job-details/job-details";
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import {HttpModule} from "@angular/http";
     ProfilePage,
     LoginPage,
     TabsPage,
-    SignUpPage
+    SignUpPage,
+    JobDetailsPage
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -34,7 +36,8 @@ import {HttpModule} from "@angular/http";
     ProfilePage,
     LoginPage,
     TabsPage,
-    SignUpPage
+    SignUpPage,
+    JobDetailsPage
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
 })
