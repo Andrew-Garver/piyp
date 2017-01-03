@@ -1,0 +1,25 @@
+<ion-content padding>
+
+
+  <img class="logo-img" src="assets/img/piyp_logo.png">
+
+  <form #f="ngForm" (ngSubmit)="login(f.value)">
+    <ion-item>
+      <ion-input type="text" name="username" placeholder="Username" ngModel required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input type="password" name="password" placeholder="Password" ngModel required></ion-input>
+    </ion-item>
+
+    <br>
+    <button type="submit" ion-button full>Login</button>
+  </form>
+
+  <div class="center">
+    <a (click)="presentModal()">
+      No Account? Sign Up!
+    </a>
+  </div>
+
+</ion-content>
