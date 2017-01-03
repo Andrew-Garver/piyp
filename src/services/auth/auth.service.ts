@@ -4,13 +4,14 @@ import 'rxjs/add/operator/map';
 import {User} from "../../entities/user";
 import {NavController} from "ionic-angular";
 import {TabsPage} from "../../pages/tabs/tabs";
-import {tokenNotExpired} from "angular2-jwt";
+import {tokenNotExpired, JwtHelper} from "angular2-jwt";
 import {LoginPage} from "../../pages/login/login";
 
 @Injectable()
 export class AuthService {
 
   private user: User;
+  private jwtHelper: JwtHelper = new JwtHelper();
 
   constructor(private http: Http, private navCtrl: NavController) {}
 
@@ -51,11 +52,9 @@ export class AuthService {
   }
 
   private getUserFromJWT(mockToken: string): User {
-    // TODO: get this info from the JWT
-
     this.user = new User();
-    this.user.username = "andrew";
-    this.user.id = 1;
+    this.user.username = this.jwtHelper.decodeToken(mockToken).username;
+    this.user.id = this.jwtHelper.decodeToken(mockToken).id;
 
     return this.user;
   }
