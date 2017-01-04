@@ -3,9 +3,7 @@ import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 import {User} from "../../entities/user";
 import {NavController} from "ionic-angular";
-import {TabsPage} from "../../pages/tabs/tabs";
 import {tokenNotExpired, JwtHelper} from "angular2-jwt";
-import {LoginPage} from "../../pages/login/login";
 
 @Injectable()
 export class AuthService {
@@ -16,7 +14,7 @@ export class AuthService {
   constructor(private http: Http, private navCtrl: NavController) {}
 
   // TODO: This is just dummy data
-  login(credentials) {
+  login(credentials): boolean {
     let mockToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6ImFuZHJldyJ9.OYrzpw8O_3z1oB11UFp6NaBQNbI0Jg10reIElVJBP1o";
     localStorage.setItem('id_token', mockToken);
     localStorage.setItem('current_user', JSON.stringify(this.getUserFromJWT(mockToken)));
@@ -29,22 +27,17 @@ export class AuthService {
     //     error => console.log(error)
     //   );
 
-    this.push(TabsPage);
+    if (localStorage.getItem('id_token')) {
+      return true;
+    }
+    else {
+      return false;
+    }
   }
 
   logout() {
     localStorage.removeItem('id_token');
     localStorage.removeItem('current_user');
-  }
-
-  push(page) {
-    // If user is not logged in we'll send them to the homepage
-    if (!this.loggedIn()) {
-      this.navCtrl.push(LoginPage);
-      return false;
-    }
-    this.navCtrl.push(page);
-    return true;
   }
 
   loggedIn() {

@@ -1,5 +1,5 @@
 import { NgModule, ErrorHandler } from '@angular/core';
-import {IonicApp, IonicModule, IonicErrorHandler, NavController} from 'ionic-angular';
+import {IonicApp, IonicModule, IonicErrorHandler} from 'ionic-angular';
 import { MyApp } from './app.component';
 import { JobRequestsPage } from '../pages/job-requests/job-requests';
 import { HiredJobsPage } from '../pages/hired-jobs/hired-jobs';
@@ -10,6 +10,7 @@ import { LoginPage } from '../pages/login/login'
 import {SignUpPage} from "../pages/signup/sign-up";
 import {HttpModule} from "@angular/http";
 import {JobDetailsPage} from "../pages/job-details/job-details";
+import {ErrorPage} from "../pages/error/error";
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import {JobDetailsPage} from "../pages/job-details/job-details";
     LoginPage,
     TabsPage,
     SignUpPage,
-    JobDetailsPage
+    JobDetailsPage,
+    ErrorPage
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -37,7 +39,8 @@ import {JobDetailsPage} from "../pages/job-details/job-details";
     LoginPage,
     TabsPage,
     SignUpPage,
-    JobDetailsPage
+    JobDetailsPage,
+    ErrorPage
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
 })

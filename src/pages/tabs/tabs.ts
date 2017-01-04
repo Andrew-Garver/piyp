@@ -3,10 +3,12 @@ import { Component } from '@angular/core';
 import { RequestJobsPage } from '../RequestJobs/RequestJobs';
 import { JobRequestsPage} from '../job-requests/job-requests';
 import { HiredJobsPage } from '../hired-jobs/hired-jobs';
-import {ProfilePage} from "../Profile/Profile";
+import { ProfilePage } from "../Profile/Profile";
+import {AuthService} from "../../services/auth/auth.service";
 
 @Component({
-  templateUrl: 'tabs.html'
+  templateUrl: 'tabs.html',
+  providers: [AuthService]
 })
 export class TabsPage {
   // this tells the tabs component which Pages
@@ -16,7 +18,7 @@ export class TabsPage {
   tab3Root: any = HiredJobsPage;
   tab4Root: any = ProfilePage;
 
-  constructor() {
+  constructor(private authService: AuthService) {
 
   }
 }

@@ -17,8 +17,8 @@ export const PROS: Pro[] = [
 
 export const JOBS: Job[] = [
   {id: 1, name: "Toilet Repair", category: "Bathroom", description: "Clean it please.", location: "La Grande", customer: CUSTOMERS[0], pro: PROS[0]},
-  {id: 1, name: "Cell Phone Repair", category: "Cellphone", description: "Fix it please.", location: "Nevada", customer: CUSTOMERS[0], pro: null},
-  {id: 1, name: "Internet Down", category: "Tech", description: "Make it work.", location: "Provo", customer: CUSTOMERS[0], pro: null}
+  {id: 2, name: "Cell Phone Repair", category: "Cellphone", description: "Fix it please.", location: "Nevada", customer: CUSTOMERS[0], pro: null},
+  {id: 3, name: "Internet Down", category: "Tech", description: "Make it work.", location: "Provo", customer: CUSTOMERS[0], pro: null}
 ];
 
 export const USERS: User[] = [

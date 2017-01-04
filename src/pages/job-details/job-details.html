@@ -7,5 +7,16 @@
 </ion-header>
 
 <ion-content padding>
-
+  <ion-list>
+    <button ion-item>Name: {{selectedJob.name}}</button>
+    <button ion-item>Category: {{selectedJob.category}}</button>
+    <button ion-item>Location: {{selectedJob.location}}</button>
+    <button ion-item>Description: {{selectedJob.description}}</button>
+    <div *ngIf="selectedJob.pro">
+      <button ion-item>Hired Pro: {{selectedJob.pro.name}}</button>
+    </div>
+    <div *ngIf="selectedJob.customer">
+      <button ion-item>Customer: {{selectedJob.customer.name}}</button>
+    </div>
+  </ion-list>
 </ion-content>

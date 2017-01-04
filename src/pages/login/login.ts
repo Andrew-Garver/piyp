@@ -1,9 +1,9 @@
 import {Component} from '@angular/core';
 
-import { ModalController } from 'ionic-angular';
-import {DatabaseService} from "../../services/database.service";
+import {ModalController, NavController} from 'ionic-angular';
 import {SignUpPage} from "../signup/sign-up";
 import {AuthService} from "../../services/auth/auth.service";
+import {TabsPage} from "../tabs/tabs";
 
 interface Credentials {
   username: string;
@@ -13,20 +13,25 @@ interface Credentials {
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html',
-  providers: [DatabaseService, AuthService]
+  providers: [AuthService]
 })
 
 export class LoginPage {
 
   credentials: Credentials;
 
-  constructor(public modalCtrl: ModalController, private authService: AuthService) {
+  constructor(public modalCtrl: ModalController, private authService: AuthService, private navCtrl: NavController) {
 
   }
 
   login(credentials): void {
     console.log('Logging in...');
-    this.authService.login(credentials);
+    if (this.authService.login(credentials)) {
+      this.navCtrl.push(TabsPage)
+    }
+    else {
+      // TODO
+    }
   }
 
   presentModal() {

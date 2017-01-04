@@ -12,7 +12,7 @@ export class DatabaseService {
   }
 
   getJobById(id: number): Job {
-    if (id > 0 && id < JOBS.length) {
+    if (id > 0 && id <= JOBS.length) {
       return JOBS[id];
     }
     return null;
@@ -23,7 +23,7 @@ export class DatabaseService {
   }
 
   getProById(id: number): Pro {
-    if (id > 0 && id < PROS.length) {
+    if (id > 0 && id <= PROS.length) {
       return PROS[id];
     }
     return null;
@@ -34,7 +34,7 @@ export class DatabaseService {
   }
 
   getCustomerById(id: number): Customer {
-    if (id > 0 && id < CUSTOMERS.length) {
+    if (id > 0 && id <= CUSTOMERS.length) {
       return CUSTOMERS[id];
     }
     return null;

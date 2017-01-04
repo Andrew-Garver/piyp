@@ -8,6 +8,6 @@
 
 <ion-content padding>
   <ion-list>
-    <button ion-item *ngFor="let job of hiredJobs" (click)="viewJobDetails(job)">{{job.name}}</button>
+    <button ion-item *ngFor="let job of hiredJobs" (click)="viewJobDetails(job.id)">{{job.name}}</button>
   </ion-list>
 </ion-content>
