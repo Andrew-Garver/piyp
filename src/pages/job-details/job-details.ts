@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 
-import {NavController, NavParams, App} from 'ionic-angular';
+import {NavController, NavParams, App, Tabs} from 'ionic-angular';
 import {Job} from "../../entities/job";
 import {AuthService} from "../../services/auth/auth.service";
 import {DatabaseService} from "../../services/database.service";
@@ -10,6 +10,7 @@ import {Customer} from "../../entities/customer";
 import {CustomerDetailsPage} from "../customer-details/customer-details";
 import {Pro} from "../../entities/pro";
 import {ProDetailsPage} from "../pro-details/pro-details";
+import {BidsPage} from "../bids/bids";
 
 @Component({
   selector: 'page-job-details',
@@ -19,10 +20,14 @@ import {ProDetailsPage} from "../pro-details/pro-details";
 export class JobDetailsPage {
 
   selectedJob: Job;
+  currentTab: string;
 
   constructor(public navCtrl: NavController, private authService: AuthService,
               private params: NavParams, private app: App) {
     this.selectedJob = params.get("job");
+    if (this.navCtrl.parent && this.navCtrl.parent.getSelected()) {
+      this.currentTab = this.navCtrl.parent.getSelected().tabTitle;
+    }
   }
 
   ionViewCanEnter(): boolean {
@@ -30,6 +35,22 @@ export class JobDetailsPage {
       return true;
     }
     return false;
+  }
+
+  private viewBids(jobId: number) {
+    if (jobId) {
+      this.navCtrl.push(BidsPage, {jobId: jobId}).catch(() => {
+        this.authService.logout();
+        this.app.getRootNav().setRoot(LoginPage);
+      });
+    }
+    else {
+      this.navCtrl.push(ErrorPage);
+    }
+  }
+
+  private markJobComplete(jobId: number) {
+    console.log("Completing job");
   }
 
   private viewCustomerDetails(customer: Customer) {

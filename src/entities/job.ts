@@ -9,4 +9,5 @@ export class Job {
   location: string;
   customer: Customer;
   pro: Pro;
+  acceptedBidId: number
 }

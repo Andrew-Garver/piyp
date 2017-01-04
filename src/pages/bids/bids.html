@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Current Bids
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <div *ngIf="numBids">
+    <h1>You have bids!</h1>
+    <ion-list>
+      <button ion-item *ngFor="let bid of openBids" (click)="viewBidDetails(bid)">{{bid.amount}}</button>
+    </ion-list>
+  </div>
+  <div *ngIf="!numBids">
+    <h1>No bids yet!</h1>
+  </div>
+</ion-content>

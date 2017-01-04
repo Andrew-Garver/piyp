@@ -19,4 +19,11 @@
       <button ion-item (click)="viewCustomerDetails(selectedJob.customer)">Customer: {{selectedJob.customer.name}}</button>
     </div>
   </ion-list>
+
+  <div *ngIf="currentTab === 'Job Requests'">
+    <button ion-button full (click)="viewBids(selectedJob.id)">View bids</button>
+  </div>
+  <div *ngIf="currentTab === 'Hired Jobs'">
+    <button ion-button full (click)="markJobComplete(selectedJob.id)">Mark Job as Complete</button>
+  </div>
 </ion-content>

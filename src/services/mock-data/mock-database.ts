@@ -2,6 +2,7 @@ import {Job} from "../../entities/job";
 import {Pro} from "../../entities/pro";
 import {Customer} from "../../entities/customer";
 import {User} from "../../entities/user";
+import {Bid} from "../../entities/bids";
 
 export const CUSTOMERS: Customer[] = [
   {id: 1, name: "Andrew", location: "La Grande"},
@@ -15,14 +16,27 @@ export const PROS: Pro[] = [
   {id: 3, name: "Thomas", location: "Provo"}
 ];
 
+export const BIDS: Bid[] = [
+  {id: 1, proId: 1, jobId: 3, amount: 19.99},
+  {id: 2, proId: 2, jobId: 3, amount: 14.99},
+  {id: 3, proId: 3, jobId: 3, amount: 20},
+  {id: 4, proId: 1, jobId: 4, amount: 4.99},
+  {id: 5, proId: 2, jobId: 4, amount: 49.50},
+  {id: 6, proId: 3, jobId: 4, amount: 10},
+  {id: 7, proId: 1, jobId: 5, amount: 30},
+  {id: 8, proId: 3, jobId: 5, amount: 30},
+  {id: 9, proId: 2, jobId: 1, amount: .99},
+  {id: 10, proId: 3, jobId: 2, amount: 0}
+]
+
 export const JOBS: Job[] = [
-  {id: 1, name: "Toilet Repair", category: "Bathroom", description: "Clean it please.", location: "La Grande", customer: CUSTOMERS[0], pro: PROS[0]},
-  {id: 2, name: "Cell Phone Repair", category: "Cellphone", description: "Fix it please.", location: "Nevada", customer: CUSTOMERS[0], pro: PROS[1]},
-  {id: 3, name: "Internet Down", category: "Tech", description: "Make it work.", location: "Provo", customer: CUSTOMERS[0], pro: null},
-  {id: 4, name: "Gardening Mayhem", category: "Garden", description: "Gnomes are everywhere!", location: "Provo", customer: CUSTOMERS[0], pro: null},
-  {id: 5, name: "Fuel Explosion", category: "Fuel", description: "I lit a match. Everything went boom.", location: "Provo", customer: CUSTOMERS[0], pro: null},
-  {id: 6, name: "Out of Gas", category: "Transportation", description: "What do I do if my car won't start?", location: "Provo", customer: CUSTOMERS[0], pro: null},
-  {id: 7, name: "Indigestion", category: "Food", description: "Jack in the Box...", location: "Rexburg", customer: CUSTOMERS[0], pro: null}
+  {id: 1, name: "Toilet Repair", category: "Bathroom", description: "Clean it please.", location: "La Grande", customer: CUSTOMERS[0], pro: PROS[0], acceptedBidId: 9},
+  {id: 2, name: "Cell Phone Repair", category: "Cellphone", description: "Fix it please.", location: "Nevada", customer: CUSTOMERS[0], pro: PROS[1], acceptedBidId: 10},
+  {id: 3, name: "Internet Down", category: "Tech", description: "Make it work.", location: "Provo", customer: CUSTOMERS[0], pro: null, acceptedBidId: null},
+  {id: 4, name: "Gardening Mayhem", category: "Garden", description: "Gnomes are everywhere!", location: "Provo", customer: CUSTOMERS[0], pro: null, acceptedBidId: null},
+  {id: 5, name: "Fuel Explosion", category: "Fuel", description: "I lit a match. Everything went boom.", location: "Provo", customer: CUSTOMERS[0], pro: null, acceptedBidId: null},
+  {id: 6, name: "Out of Gas", category: "Transportation", description: "What do I do if my car won't start?", location: "Provo", customer: CUSTOMERS[0], pro: null, acceptedBidId: null},
+  {id: 7, name: "Indigestion", category: "Food", description: "Jack in the Box...", location: "Rexburg", customer: CUSTOMERS[0], pro: null, acceptedBidId: null}
 ];
 
 export const USERS: User[] = [

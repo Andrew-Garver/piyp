@@ -1,9 +1,10 @@
 import {Injectable} from "@angular/core";
 import {Job} from "../entities/job";
-import {JOBS, PROS, CUSTOMERS, USERS} from "./mock-data/mock-database";
+import {JOBS, PROS, CUSTOMERS, USERS, BIDS} from "./mock-data/mock-database";
 import {Pro} from "../entities/pro";
 import {Customer} from "../entities/customer";
 import {User} from "../entities/user";
+import {Bid} from "../entities/bids";
 
 @Injectable()
 export class DatabaseService {
@@ -14,6 +15,26 @@ export class DatabaseService {
   getJobById(id: number): Job {
     if (id > 0 && id <= JOBS.length) {
       return JOBS[id - 1];
+    }
+    return null;
+  }
+
+  getBidsByJobId(jobId: number): Promise<Bid[]> {
+    if (jobId > 0) {
+      let jobForBids;
+      let bids = [];
+      for (let job of JOBS) {
+        if (job.id === jobId) {
+          jobForBids = job;
+          break;
+        }
+      }
+      for (let bid of BIDS) {
+        if (bid.jobId === jobForBids.id) {
+          bids.push(bid);
+        }
+      }
+      return Promise.resolve(bids);
     }
     return null;
   }
