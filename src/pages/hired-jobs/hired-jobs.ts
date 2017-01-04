@@ -6,6 +6,7 @@ import {JobDetailsPage} from "../job-details/job-details";
 import {NavController} from "ionic-angular";
 import {LoginPage} from "../login/login";
 import {ErrorPage} from "../error/error";
+import {Customer} from "../../entities/customer";
 
 @Component({
   selector: 'page-hired-jobs',
@@ -16,12 +17,14 @@ import {ErrorPage} from "../error/error";
 export class HiredJobsPage implements OnInit {
 
   hiredJobs: Job[];
+  customer: Customer;
 
   constructor(private databaseService: DatabaseService, private navCtrl: NavController) {
+    this.customer = JSON.parse(localStorage.getItem('current_user'));
   }
 
   ngOnInit(): void {
-    this.hiredJobs = this.databaseService.getAllJobs();
+    this.hiredJobs = this.databaseService.getHiredJobsByUserId(this.customer.id);
   }
 
   private viewJobDetails(job: Job) {

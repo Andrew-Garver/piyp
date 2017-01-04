@@ -18,6 +18,42 @@ export class DatabaseService {
     return null;
   }
 
+  getOpenJobsByUserId(userId: number): Job[] {
+    if (userId > 0) {
+      let customer = this.getCustomerById(userId);
+      let jobs = this.getAllJobs();
+      if (customer && jobs)
+      {
+        let relevantJobs = [];
+        for (let job of jobs) {
+          if (job.customer && (job.pro === null || job.pro === undefined) && job.customer.id === customer.id) {
+            relevantJobs.push(job);
+          }
+        }
+        return relevantJobs;
+      }
+    }
+    return null;
+  }
+
+  getHiredJobsByUserId(userId: number): Job[] {
+    if (userId > 0) {
+      let customer = this.getCustomerById(userId);
+      let jobs = this.getAllJobs();
+      if (customer && jobs)
+      {
+        let relevantJobs = [];
+        for (let job of jobs) {
+          if (job.customer && job.pro && job.customer.id === customer.id) {
+            relevantJobs.push(job);
+          }
+        }
+        return relevantJobs;
+      }
+    }
+    return null;
+  }
+
   getAllPros(): Pro[] {
     return PROS;
   }

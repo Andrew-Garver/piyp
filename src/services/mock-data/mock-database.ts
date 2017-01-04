@@ -17,8 +17,12 @@ export const PROS: Pro[] = [
 
 export const JOBS: Job[] = [
   {id: 1, name: "Toilet Repair", category: "Bathroom", description: "Clean it please.", location: "La Grande", customer: CUSTOMERS[0], pro: PROS[0]},
-  {id: 2, name: "Cell Phone Repair", category: "Cellphone", description: "Fix it please.", location: "Nevada", customer: CUSTOMERS[0], pro: null},
-  {id: 3, name: "Internet Down", category: "Tech", description: "Make it work.", location: "Provo", customer: CUSTOMERS[0], pro: null}
+  {id: 2, name: "Cell Phone Repair", category: "Cellphone", description: "Fix it please.", location: "Nevada", customer: CUSTOMERS[0], pro: PROS[1]},
+  {id: 3, name: "Internet Down", category: "Tech", description: "Make it work.", location: "Provo", customer: CUSTOMERS[0], pro: null},
+  {id: 4, name: "Gardening Mayhem", category: "Garden", description: "Gnomes are everywhere!", location: "Provo", customer: CUSTOMERS[0], pro: null},
+  {id: 5, name: "Fuel Explosion", category: "Fuel", description: "I lit a match. Everything went boom.", location: "Provo", customer: CUSTOMERS[0], pro: null},
+  {id: 6, name: "Out of Gas", category: "Transportation", description: "What do I do if my car won't start?", location: "Provo", customer: CUSTOMERS[0], pro: null},
+  {id: 7, name: "Indigestion", category: "Food", description: "Jack in the Box...", location: "Rexburg", customer: CUSTOMERS[0], pro: null}
 ];
 
 export const USERS: User[] = [

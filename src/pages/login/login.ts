@@ -19,27 +19,10 @@ interface Credentials {
 export class LoginPage {
 
   credentials: Credentials;
-  tabsElement: any;
-
 
   constructor(public modalCtrl: ModalController, private authService: AuthService, private navCtrl: NavController) {
-    // this.tabsElement = document.querySelector('.tabbar');
 
   }
-
-  // ionViewWillEnter() {
-  //   if (this.tabsElement) {
-  //     console.log("hiding tabs");
-  //     this.tabsElement.style.display = 'none';
-  //   }
-  // }
-  //
-  // ionViewWillLeave() {
-  //   if (this.tabsElement) {
-  //     console.log("showing tabs");
-  //     this.tabsElement.style.display = '';
-  //   }
-  // }
 
   login(credentials): void {
     console.log('Logging in...');
