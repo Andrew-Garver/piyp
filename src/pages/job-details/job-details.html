@@ -13,10 +13,10 @@
     <button ion-item>Location: {{selectedJob.location}}</button>
     <button ion-item>Description: {{selectedJob.description}}</button>
     <div *ngIf="selectedJob.pro">
-      <button ion-item>Hired Pro: {{selectedJob.pro.name}}</button>
+      <button ion-item (click)="viewProDetails(selectedJob.pro)">Hired Pro: {{selectedJob.pro.name}}</button>
     </div>
     <div *ngIf="selectedJob.customer">
-      <button ion-item>Customer: {{selectedJob.customer.name}}</button>
+      <button ion-item (click)="viewCustomerDetails(selectedJob.customer)">Customer: {{selectedJob.customer.name}}</button>
     </div>
   </ion-list>
 </ion-content>

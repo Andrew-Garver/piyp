@@ -1,13 +1,14 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Hired Jobs
+      Pro Details
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
   <ion-list>
-    <button ion-item *ngFor="let job of hiredJobs" (click)="viewJobDetails(job)">{{job.name}}</button>
+    <button ion-item>Name: {{selectedPro.name}}</button>
+    <button ion-item>Location: {{selectedPro.location}}</button>
   </ion-list>
 </ion-content>

@@ -24,15 +24,12 @@ export class HiredJobsPage implements OnInit {
     this.hiredJobs = this.databaseService.getAllJobs();
   }
 
-  private viewJobDetails(jobId: number) {
-    if (jobId) {
-      let selectedJob = this.databaseService.getJobById(jobId);
-      if (!selectedJob) {
-        this.navCtrl.push(ErrorPage);
-      }
-      else {
-        this.navCtrl.push(JobDetailsPage, {job: selectedJob}).catch(() => this.navCtrl.push(LoginPage));
-      }
+  private viewJobDetails(job: Job) {
+    if (job) {
+      this.navCtrl.push(JobDetailsPage, {job: job}).catch(() => this.navCtrl.push(LoginPage));
+    }
+    else {
+      this.navCtrl.push(ErrorPage);
     }
   }
 

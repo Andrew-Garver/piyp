@@ -11,6 +11,8 @@ import {SignUpPage} from "../pages/signup/sign-up";
 import {HttpModule} from "@angular/http";
 import {JobDetailsPage} from "../pages/job-details/job-details";
 import {ErrorPage} from "../pages/error/error";
+import {CustomerDetailsPage} from "../pages/customer-details/customer-details";
+import {ProDetailsPage} from "../pages/pro-details/pro-details";
 
 @NgModule({
   declarations: [
@@ -23,6 +25,8 @@ import {ErrorPage} from "../pages/error/error";
     TabsPage,
     SignUpPage,
     JobDetailsPage,
+    CustomerDetailsPage,
+    ProDetailsPage,
     ErrorPage
   ],
   imports: [
@@ -40,6 +44,8 @@ import {ErrorPage} from "../pages/error/error";
     TabsPage,
     SignUpPage,
     JobDetailsPage,
+    CustomerDetailsPage,
+    ProDetailsPage,
     ErrorPage
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
