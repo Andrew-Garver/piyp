@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 
-import {NavController, NavParams} from 'ionic-angular';
+import {NavController, NavParams, App} from 'ionic-angular';
 import {Job} from "../../entities/job";
 import {AuthService} from "../../services/auth/auth.service";
 import {DatabaseService} from "../../services/database.service";
@@ -21,7 +21,7 @@ export class JobDetailsPage {
   selectedJob: Job;
 
   constructor(public navCtrl: NavController, private authService: AuthService,
-              private params: NavParams) {
+              private params: NavParams, private app: App) {
     this.selectedJob = params.get("job");
   }
 
@@ -34,7 +34,10 @@ export class JobDetailsPage {
 
   private viewCustomerDetails(customer: Customer) {
     if (customer) {
-        this.navCtrl.push(CustomerDetailsPage, {customer: customer}).catch(() => this.navCtrl.push(LoginPage));
+        this.navCtrl.push(CustomerDetailsPage, {customer: customer}).catch(() => {
+          this.authService.logout();
+          this.app.getRootNav().setRoot(LoginPage);
+        });
     }
     else {
       this.navCtrl.push(ErrorPage);
@@ -43,7 +46,11 @@ export class JobDetailsPage {
 
   private viewProDetails(pro: Pro) {
     if (pro) {
-      this.navCtrl.push(ProDetailsPage, {pro: pro}).catch(() => this.navCtrl.push(LoginPage));
+      this.navCtrl.push(ProDetailsPage, {pro: pro})
+        .catch(() => {
+          this.authService.logout();
+          this.app.getRootNav().setRoot(LoginPage);
+        });
     }
     else {
       this.navCtrl.push(ErrorPage);
