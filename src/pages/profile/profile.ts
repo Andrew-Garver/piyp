@@ -6,7 +6,7 @@ import {LoginPage} from "../login/login";
 
 @Component({
   selector: 'page-profile',
-  templateUrl: 'Profile.html',
+  templateUrl: 'profile.html',
   providers: [AuthService]
 })
 export class ProfilePage {

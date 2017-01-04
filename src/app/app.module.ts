@@ -3,8 +3,8 @@ import {IonicApp, IonicModule, IonicErrorHandler} from 'ionic-angular';
 import { MyApp } from './app.component';
 import { JobRequestsPage } from '../pages/job-requests/job-requests';
 import { HiredJobsPage } from '../pages/hired-jobs/hired-jobs';
-import { RequestJobsPage } from '../pages/RequestJobs/RequestJobs';
-import { ProfilePage } from '../pages/Profile/Profile';
+import { RequestJobsPage } from '../pages/request-jobs/request-jobs';
+import { ProfilePage } from '../pages/profile/profile';
 import { TabsPage } from '../pages/tabs/tabs';
 import { LoginPage } from '../pages/login/login'
 import {SignUpPage} from "../pages/signup/sign-up";
