@@ -18,7 +18,7 @@ export class DatabaseService {
     return null;
   }
 
-  getOpenJobsByUserId(userId: number): Job[] {
+  getOpenJobsByUserId(userId: number): Promise<Job[]> {
     if (userId > 0) {
       let customer = this.getCustomerById(userId);
       let jobs = this.getAllJobs();
@@ -30,13 +30,13 @@ export class DatabaseService {
             relevantJobs.push(job);
           }
         }
-        return relevantJobs;
+        return Promise.resolve(relevantJobs);
       }
     }
     return null;
   }
 
-  getHiredJobsByUserId(userId: number): Job[] {
+  getHiredJobsByUserId(userId: number): Promise<Job[]> {
     if (userId > 0) {
       let customer = this.getCustomerById(userId);
       let jobs = this.getAllJobs();
@@ -48,7 +48,7 @@ export class DatabaseService {
             relevantJobs.push(job);
           }
         }
-        return relevantJobs;
+        return Promise.resolve(relevantJobs);
       }
     }
     return null;

@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
-import { NavController } from 'ionic-angular';
+import {NavController} from 'ionic-angular';
 import {Job} from "../../entities/job";
 import {DatabaseService} from "../../services/database.service";
 import {Customer} from "../../entities/customer";
@@ -24,7 +24,8 @@ export class JobRequestsPage implements OnInit {
 
   ngOnInit() {
     if (this.customer) {
-      this.requestedJobs = this.databaseService.getOpenJobsByUserId(this.customer.id);
+      this.databaseService.getOpenJobsByUserId(this.customer.id)
+        .then((requestedJobs) => this.requestedJobs = requestedJobs);
     }
   }
 

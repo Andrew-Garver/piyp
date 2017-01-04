@@ -24,7 +24,8 @@ export class HiredJobsPage implements OnInit {
   }
 
   ngOnInit(): void {
-    this.hiredJobs = this.databaseService.getHiredJobsByUserId(this.customer.id);
+    this.databaseService.getHiredJobsByUserId(this.customer.id)
+      .then((hiredJobs) => this.hiredJobs = hiredJobs);
   }
 
   private viewJobDetails(job: Job) {
