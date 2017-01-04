@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { App } from 'ionic-angular';
 
 import { NavController } from 'ionic-angular';
 import {AuthService} from "../../services/auth/auth.service";
@@ -11,13 +12,13 @@ import {LoginPage} from "../login/login";
 })
 export class ProfilePage {
 
-  constructor(public navCtrl: NavController, private authService: AuthService) {
+  constructor(private app: App, public navCtrl: NavController, private authService: AuthService) {
 
   }
 
   logout() {
     this.authService.logout();
-    this.navCtrl.push(LoginPage);
+    this.app.getRootNav().setRoot(LoginPage);
   }
 
 }
