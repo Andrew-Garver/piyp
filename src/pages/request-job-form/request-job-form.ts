@@ -33,8 +33,9 @@ export class RequestJobFormPage {
   }
 
   submitJobRequest(formParams) {
-    console.log(formParams);
-    this.navCtrl.push(TabsPage);
+    console.log("Job Requested");
+    this.navCtrl.popToRoot();
+    this.navCtrl.parent.select(1);
   }
 
 }
