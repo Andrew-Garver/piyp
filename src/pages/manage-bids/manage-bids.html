@@ -1,0 +1,13 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Manage Bids
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <button ion-item *ngFor="let bid of bids" (click)="viewJobDetails(bid)">{{bid.job.name}}: {{bid.amount}}</button>
+  </ion-list>
+</ion-content>

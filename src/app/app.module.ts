@@ -16,6 +16,9 @@ import {ProDetailsPage} from "../pages/pro-details/pro-details";
 import {RequestJobFormPage} from "../pages/request-job-form/request-job-form";
 import {BidsPage} from "../pages/bids/bids";
 import {BidDetailsPage} from "../pages/bid-details/bid-details";
+import {FindJobsPage} from "../pages/find-jobs/find-jobs";
+import {ManageBidsPage} from "../pages/manage-bids/manage-bids";
+import {FindJobFormPage} from "../pages/find-job-form/find-job-form";
 
 @NgModule({
   declarations: [
@@ -33,6 +36,9 @@ import {BidDetailsPage} from "../pages/bid-details/bid-details";
     RequestJobFormPage,
     BidsPage,
     BidDetailsPage,
+    FindJobsPage,
+    ManageBidsPage,
+    FindJobFormPage,
     ErrorPage
   ],
   imports: [
@@ -55,6 +61,9 @@ import {BidDetailsPage} from "../pages/bid-details/bid-details";
     RequestJobFormPage,
     BidsPage,
     BidDetailsPage,
+    FindJobsPage,
+    ManageBidsPage,
+    FindJobFormPage,
     ErrorPage
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]

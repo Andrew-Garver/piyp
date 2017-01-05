@@ -5,4 +5,6 @@ export class Bid {
   pro: Pro;
   job: Job;
   amount: number;
+  open: boolean;
+  won: boolean;
 }

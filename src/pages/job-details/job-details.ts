@@ -11,6 +11,7 @@ import {CustomerDetailsPage} from "../customer-details/customer-details";
 import {Pro} from "../../entities/pro";
 import {ProDetailsPage} from "../pro-details/pro-details";
 import {BidsPage} from "../bids/bids";
+import {Bid} from "../../entities/bid";
 
 @Component({
   selector: 'page-job-details',
@@ -20,6 +21,7 @@ import {BidsPage} from "../bids/bids";
 export class JobDetailsPage {
 
   selectedJob: Job;
+  prosBid: Bid;
   currentTab: string;
 
   constructor(public navCtrl: NavController, private authService: AuthService,
@@ -28,6 +30,10 @@ export class JobDetailsPage {
     if (this.navCtrl.parent && this.navCtrl.parent.getSelected()) {
       this.currentTab = this.navCtrl.parent.getSelected().tabTitle;
     }
+
+    if (params.get("bid")) {
+      this.prosBid = params.get("bid");
+    }
   }
 
   ionViewCanEnter(): boolean {
@@ -35,6 +41,10 @@ export class JobDetailsPage {
       return true;
     }
     return false;
+  }
+
+  private editBid(bid: Bid) {
+    console.log("Editing bid");
   }
 
   private viewBids(jobId: number) {

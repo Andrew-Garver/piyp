@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 
 import {NavController, NavParams, App} from "ionic-angular";
 import {AuthService} from "../../services/auth/auth.service";
-import {Bid} from "../../entities/bids";
+import {Bid} from "../../entities/bid";
 import {DatabaseService} from "../../services/database.service";
 import {BidDetailsPage} from "../bid-details/bid-details";
 import {LoginPage} from "../login/login";
@@ -19,11 +19,18 @@ export class BidsPage implements OnInit {
   private openBids: Bid[];
   private numBids: number;
   private jobId: number;
+  private isPro: boolean;
 
   constructor(private navCtrl: NavController, private params: NavParams,
               private authService: AuthService, private databaseService: DatabaseService,
               private app: App) {
     this.jobId = this.params.get('jobId');
+    if (JSON.parse(localStorage.getItem("current_user")).isPro) {
+      this.isPro = true;
+    }
+    else {
+      this.isPro = false;
+    }
   }
 
   ngOnInit() {

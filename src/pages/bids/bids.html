@@ -8,9 +8,14 @@
 
 <ion-content padding>
   <div *ngIf="numBids">
-    <h1>You have bids!</h1>
+    <div *ngIf="isPro">
+      <h1>Your competition</h1>
+    </div>
+    <div *ngIf="!isPro">
+      <h1>You have bids!</h1>
+    </div>
     <ion-list>
-      <button ion-item *ngFor="let bid of openBids" (click)="viewBidDetails(bid.id)">{{bid.amount}}</button>
+      <button ion-item *ngFor="let bid of openBids" (click)="viewBidDetails(bid.id)">{{bid.pro.name}}: {{bid.amount}}</button>
     </ion-list>
   </div>
   <div *ngIf="!numBids">

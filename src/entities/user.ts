@@ -5,4 +5,6 @@ export class User {
   username: string;
   password: string;
   hiredJobs: Job[];
+  isCustomer: boolean;
+  isPro: boolean;
 }

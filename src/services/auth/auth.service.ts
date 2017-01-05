@@ -15,7 +15,9 @@ export class AuthService {
 
   // TODO: This is just dummy data
   login(credentials): boolean {
-    let mockToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6ImFuZHJldyJ9.OYrzpw8O_3z1oB11UFp6NaBQNbI0Jg10reIElVJBP1o";
+    let mockToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6ImFuZHJldyIsImlzQ3VzdG9tZXIiOnRydWUsImlzUHJvIjpmYWxzZX0.fHnNNMS5RGvEiHD4hGMsqHabiIwKqJhX-0DjR6Q0rlI"; // customer token
+    // let mockToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6ImFuZHJldyIsImlzQ3VzdG9tZXIiOmZhbHNlLCJpc1BybyI6dHJ1ZX0.RNOEpb2AQ0gi70YeFSm5oOvuUIo8HUPCMV1UPY362xg"; // pro token
+    // let mockToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6ImFuZHJldyIsImlzQ3VzdG9tZXIiOnRydWUsImlzUHJvIjp0cnVlfQ.imYgG_ds-kmDOGuFOggYjp_ozUzWXm8_XivXIw6Zm0w"; // customer/pro token
     localStorage.setItem('id_token', mockToken);
     localStorage.setItem('current_user', JSON.stringify(this.getUserFromJWT(mockToken)));
     // this.http.post('https://my-app.com/api/authenticate', credentials)
@@ -48,6 +50,8 @@ export class AuthService {
     this.user = new User();
     this.user.username = this.jwtHelper.decodeToken(mockToken).username;
     this.user.id = this.jwtHelper.decodeToken(mockToken).id;
+    this.user.isCustomer = this.jwtHelper.decodeToken(mockToken).isCustomer;
+    this.user.isPro = this.jwtHelper.decodeToken(mockToken).isPro;
 
     return this.user;
   }

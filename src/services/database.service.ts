@@ -4,7 +4,7 @@ import {JOBS, PROS, CUSTOMERS, USERS, BIDS} from "./mock-data/mock-database";
 import {Pro} from "../entities/pro";
 import {Customer} from "../entities/customer";
 import {User} from "../entities/user";
-import {Bid} from "../entities/bids";
+import {Bid} from "../entities/bid";
 
 @Injectable()
 export class DatabaseService {
@@ -17,6 +17,18 @@ export class DatabaseService {
       return JOBS[id - 1];
     }
     return null;
+  }
+
+  getOpenBidsByProId(proId: number): Promise<Bid[]> {
+    let bids = [];
+    for (let bid of BIDS) {
+      if (bid.pro.id == proId) {
+        if (bid.open) {
+          bids.push(bid);
+        }
+      }
+    }
+    return Promise.resolve(bids);
   }
 
   getBidById(bidId: number): Promise<Bid> {

@@ -2,7 +2,7 @@ import {Job} from "../../entities/job";
 import {Pro} from "../../entities/pro";
 import {Customer} from "../../entities/customer";
 import {User} from "../../entities/user";
-import {Bid} from "../../entities/bids";
+import {Bid} from "../../entities/bid";
 
 export const CUSTOMERS: Customer[] = [
   {id: 1, name: "Andrew", location: "La Grande"},
@@ -27,20 +27,20 @@ export const JOBS: Job[] = [
 ];
 
 export const BIDS: Bid[] = [
-  {id: 1, pro: PROS[0], job: JOBS[2], amount: 19.99},
-  {id: 2, pro: PROS[1], job: JOBS[2], amount: 14.99},
-  {id: 3, pro: PROS[2], job: JOBS[2], amount: 20},
-  {id: 4, pro: PROS[0], job: JOBS[3], amount: 4.99},
-  {id: 5, pro: PROS[1], job: JOBS[3], amount: 49.50},
-  {id: 6, pro: PROS[2], job: JOBS[3], amount: 10},
-  {id: 7, pro: PROS[0], job: JOBS[4], amount: 30},
-  {id: 8, pro: PROS[2], job: JOBS[4], amount: 30},
-  {id: 9, pro: PROS[1], job: JOBS[0], amount: .99},
-  {id: 10, pro: PROS[2], job: JOBS[1], amount: 0}
+  {id: 1, pro: PROS[0], job: JOBS[2], amount: 19.99, open: true, won: false},
+  {id: 2, pro: PROS[1], job: JOBS[2], amount: 14.99, open: true, won: false},
+  {id: 3, pro: PROS[2], job: JOBS[2], amount: 20, open: true, won: false},
+  {id: 4, pro: PROS[0], job: JOBS[3], amount: 4.99, open: true, won: false},
+  {id: 5, pro: PROS[1], job: JOBS[3], amount: 49.50, open: true, won: false},
+  {id: 6, pro: PROS[2], job: JOBS[3], amount: 10, open: true, won: false},
+  {id: 7, pro: PROS[0], job: JOBS[4], amount: 30, open: true, won: false},
+  {id: 8, pro: PROS[2], job: JOBS[4], amount: 30, open: true, won: false},
+  {id: 9, pro: PROS[1], job: JOBS[0], amount: .99, open: false, won: true},
+  {id: 10, pro: PROS[2], job: JOBS[1], amount: 0, open: false, won: true}
 ]
 
 export const USERS: User[] = [
-  {id: 1, username: "andrew", password: "password", hiredJobs: JOBS},
-  {id: 2, username: "justin", password: "password", hiredJobs: null},
-  {id: 3, username: "dylan", password: "password", hiredJobs: null}
+  {id: 1, username: "andrew", password: "password", isCustomer: true, isPro: false, hiredJobs: JOBS},
+  {id: 2, username: "justin", password: "password", isCustomer: false, isPro: true, hiredJobs: null},
+  {id: 3, username: "dylan", password: "password", isCustomer: true, isPro: true, hiredJobs: null}
 ];

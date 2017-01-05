@@ -16,7 +16,6 @@ export class RequestJobsPage {
 
   }
 
-  // TODO: It might be a bit tedious to duplicate these lines for each NavGuarded call
   requestJob() {
     this.navCtrl.push(RequestJobFormPage)
       .catch(() => {

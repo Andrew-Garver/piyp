@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Find a Job
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <form #f="ngForm" (ngSubmit)="searchForOpenJobs(f.value)">
+    <ion-item>
+      <ion-input type="text" name="job-name" placeholder="Name of Job" ngModel></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input type="text" name="job-category" placeholder="Job Category" ngModel required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-textarea name="job-keywords" placeholder="Keywords" ngModel></ion-textarea>
+    </ion-item>
+
+    <ion-item>
+      <ion-input type="text" name="job-location" placeholder="Job Location" ngModel></ion-input>
+    </ion-item>
+
+    <br>
+    <button type="submit" ion-button full>Search</button>
+  </form>
+</ion-content>

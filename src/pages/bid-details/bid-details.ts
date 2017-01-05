@@ -1,7 +1,6 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
-import {NavController, NavParams, App, Tabs} from 'ionic-angular';
-import {Job} from "../../entities/job";
+import {NavController, NavParams, App} from 'ionic-angular';
 import {AuthService} from "../../services/auth/auth.service";
 import {DatabaseService} from "../../services/database.service";
 import {ErrorPage} from "../error/error";
@@ -10,9 +9,7 @@ import {Customer} from "../../entities/customer";
 import {CustomerDetailsPage} from "../customer-details/customer-details";
 import {Pro} from "../../entities/pro";
 import {ProDetailsPage} from "../pro-details/pro-details";
-import {BidsPage} from "../bids/bids";
-import {Bid} from "../../entities/bids";
-import {HiredJobsPage} from "../hired-jobs/hired-jobs";
+import {Bid} from "../../entities/bid";
 
 @Component({
   selector: 'page-bid-details',
@@ -22,10 +19,17 @@ import {HiredJobsPage} from "../hired-jobs/hired-jobs";
 export class BidDetailsPage implements OnInit {
 
   selectedBid: Bid;
+  isCustomer: boolean;
 
   constructor(public navCtrl: NavController, private authService: AuthService,
               private params: NavParams, private app: App,
               private databaseService: DatabaseService) {
+    if (JSON.parse(localStorage.getItem("current_user")).isCustomer) {
+      this.isCustomer = true;
+    }
+    else {
+      this.isCustomer = false;
+    }
   }
 
   ngOnInit() {
