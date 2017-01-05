@@ -12,6 +12,7 @@ import {Pro} from "../../entities/pro";
 import {ProDetailsPage} from "../pro-details/pro-details";
 import {BidsPage} from "../bids/bids";
 import {Bid} from "../../entities/bids";
+import {HiredJobsPage} from "../hired-jobs/hired-jobs";
 
 @Component({
   selector: 'page-bid-details',
@@ -46,6 +47,8 @@ export class BidDetailsPage implements OnInit {
 
   private acceptBid(bid: Bid) {
     console.log("Accepting bid");
+    this.navCtrl.popToRoot();
+    this.navCtrl.parent.select(2);
   }
 
   private viewCustomerDetails(customer: Customer) {
