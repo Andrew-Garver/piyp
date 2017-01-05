@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Bid Details
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <div *ngIf="selectedBid">
+    <ion-list>
+      <button ion-item (click)="viewProDetails(selectedBid.pro)">Pro: {{selectedBid.pro.name}}</button>
+      <button ion-item>Pro Location: {{selectedBid.pro.location}}</button>
+      <button ion-item>Bid Amount: {{selectedBid.amount}}</button>
+    </ion-list>
+
+    <button ion-button full (click)="acceptBid(selectedBid)">Accept bid</button>
+  </div>
+</ion-content>

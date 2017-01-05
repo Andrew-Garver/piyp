@@ -19,6 +19,17 @@ export class DatabaseService {
     return null;
   }
 
+  getBidById(bidId: number): Promise<Bid> {
+    if (bidId > 0) {
+      for (let bid of BIDS) {
+        if (bid.id === bidId) {
+          return Promise.resolve(bid);
+        }
+      }
+    }
+    return null;
+  }
+
   getBidsByJobId(jobId: number): Promise<Bid[]> {
     if (jobId > 0) {
       let jobForBids;
@@ -30,7 +41,7 @@ export class DatabaseService {
         }
       }
       for (let bid of BIDS) {
-        if (bid.jobId === jobForBids.id) {
+        if (bid.job.id === jobForBids.id) {
           bids.push(bid);
         }
       }

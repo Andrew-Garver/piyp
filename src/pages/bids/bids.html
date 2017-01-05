@@ -10,7 +10,7 @@
   <div *ngIf="numBids">
     <h1>You have bids!</h1>
     <ion-list>
-      <button ion-item *ngFor="let bid of openBids" (click)="viewBidDetails(bid)">{{bid.amount}}</button>
+      <button ion-item *ngFor="let bid of openBids" (click)="viewBidDetails(bid.id)">{{bid.amount}}</button>
     </ion-list>
   </div>
   <div *ngIf="!numBids">

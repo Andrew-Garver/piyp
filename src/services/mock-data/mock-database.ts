@@ -16,19 +16,6 @@ export const PROS: Pro[] = [
   {id: 3, name: "Thomas", location: "Provo"}
 ];
 
-export const BIDS: Bid[] = [
-  {id: 1, proId: 1, jobId: 3, amount: 19.99},
-  {id: 2, proId: 2, jobId: 3, amount: 14.99},
-  {id: 3, proId: 3, jobId: 3, amount: 20},
-  {id: 4, proId: 1, jobId: 4, amount: 4.99},
-  {id: 5, proId: 2, jobId: 4, amount: 49.50},
-  {id: 6, proId: 3, jobId: 4, amount: 10},
-  {id: 7, proId: 1, jobId: 5, amount: 30},
-  {id: 8, proId: 3, jobId: 5, amount: 30},
-  {id: 9, proId: 2, jobId: 1, amount: .99},
-  {id: 10, proId: 3, jobId: 2, amount: 0}
-]
-
 export const JOBS: Job[] = [
   {id: 1, name: "Toilet Repair", category: "Bathroom", description: "Clean it please.", location: "La Grande", customer: CUSTOMERS[0], pro: PROS[0], acceptedBidId: 9},
   {id: 2, name: "Cell Phone Repair", category: "Cellphone", description: "Fix it please.", location: "Nevada", customer: CUSTOMERS[0], pro: PROS[1], acceptedBidId: 10},
@@ -38,6 +25,19 @@ export const JOBS: Job[] = [
   {id: 6, name: "Out of Gas", category: "Transportation", description: "What do I do if my car won't start?", location: "Provo", customer: CUSTOMERS[0], pro: null, acceptedBidId: null},
   {id: 7, name: "Indigestion", category: "Food", description: "Jack in the Box...", location: "Rexburg", customer: CUSTOMERS[0], pro: null, acceptedBidId: null}
 ];
+
+export const BIDS: Bid[] = [
+  {id: 1, pro: PROS[0], job: JOBS[2], amount: 19.99},
+  {id: 2, pro: PROS[1], job: JOBS[2], amount: 14.99},
+  {id: 3, pro: PROS[2], job: JOBS[2], amount: 20},
+  {id: 4, pro: PROS[0], job: JOBS[3], amount: 4.99},
+  {id: 5, pro: PROS[1], job: JOBS[3], amount: 49.50},
+  {id: 6, pro: PROS[2], job: JOBS[3], amount: 10},
+  {id: 7, pro: PROS[0], job: JOBS[4], amount: 30},
+  {id: 8, pro: PROS[2], job: JOBS[4], amount: 30},
+  {id: 9, pro: PROS[1], job: JOBS[0], amount: .99},
+  {id: 10, pro: PROS[2], job: JOBS[1], amount: 0}
+]
 
 export const USERS: User[] = [
   {id: 1, username: "andrew", password: "password", hiredJobs: JOBS},
