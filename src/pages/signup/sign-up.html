@@ -12,10 +12,10 @@
 </ion-header>
 
 <ion-content>
-  <ion-slides #signupSlider [options]="slideOptions">
+  <ion-slides #signupSlider>
 
     <ion-slide>
-      <div *ngIf="fieldsMissing">
+      <div *ngIf="accountFieldsMissing">
         <p class="invalid">Please fill out all form fields</p>
       </div>
 
@@ -60,7 +60,7 @@
     </ion-slide>
 
     <ion-slide>
-      <div *ngIf="fieldsMissing">
+      <div *ngIf="personalFieldsMissing">
         <p class="invalid">Please fill out all form fields</p>
       </div>
 
@@ -118,7 +118,7 @@
     </ion-slide>
 
     <ion-slide>
-      <div *ngIf="fieldsMissing">
+      <div *ngIf="loginFieldsMissing">
         <p class="invalid">Please fill out all form fields</p>
       </div>
 
@@ -135,8 +135,12 @@
           <p class="async">Checking email...</p>
         </div>
         <div *ngIf="!formLoginInformation.controls.email.valid && !formLoginInformation.controls.email.pending &&
-         formLoginInformation.controls.email.dirty && email.value.length > 0">
+         formLoginInformation.controls.email.dirty && email.value.length > 0 && formLoginInformation.controls.email.hasError('email taken')">
           <p class="invalid">That email has already been used</p>
+        </div>
+        <div *ngIf="!formLoginInformation.controls.email.valid && !formLoginInformation.controls.email.pending &&
+         formLoginInformation.controls.email.dirty && email.value.length > 0 && formLoginInformation.controls.email.hasError('invalid email')">
+          <p class="invalid">Invalid email address format</p>
         </div>
       </form>
 
@@ -145,6 +149,9 @@
           <ion-input type="password" placeholder="Password" name="password1"
                      [(ngModel)]="password1" (blur)="checkPasswords()"></ion-input>
         </ion-item>
+        <div *ngIf="invalidPassword">
+          <p class="invalid">Password must be at least 8 characters</p>
+        </div>
 
         <ion-item>
           <ion-input type="password" placeholder="Confirm Password" name="password2"

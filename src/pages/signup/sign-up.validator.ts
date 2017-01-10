@@ -24,7 +24,12 @@ export class SignUpValidator {
       setTimeout(() => {
         if (new DatabaseService().getCustomerByEmail(control.value)) {
           resolve({
-            "username taken": true
+            "email taken": true
+          });
+        }
+        else if (!/[A-z0-9._%+-]+@[A-z0-9.-]+\.[A-z]{2,}/.test(control.value)) {
+          resolve({
+            "invalid email": true
           });
         }
         else {

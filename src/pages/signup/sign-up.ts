@@ -12,14 +12,15 @@ import {SignUpValidator} from "./sign-up.validator";
 export class SignUpPage {
 
   @ViewChild('signupSlider') slider: Slides;
-  private slideOptions = {
-    pager: true
-  };
+
   private formAccountType: FormGroup;
   private formPersonalInformation: FormGroup;
   private formLoginInformation: FormGroup;
-  private fieldsMissing: boolean;
+  private accountFieldsMissing: boolean;
+  private personalFieldsMissing: boolean;
+  private loginFieldsMissing: boolean;
   private invalidZip: boolean;
+  private invalidPassword: boolean;
   private noAccountTypeSelected: boolean;
   private passwordsMatch: boolean;
   private checkboxPro: string;
@@ -39,10 +40,13 @@ export class SignUpPage {
 
   constructor(public navCtrl: NavController, public viewCtrl: ViewController,
               public formBuilder: FormBuilder, private toastCtrl: ToastController) {
-    this.fieldsMissing = false;
+    this.accountFieldsMissing = false;
+    this.personalFieldsMissing = false;
+    this.loginFieldsMissing = false;
     this.invalidZip = false;
     this.noAccountTypeSelected = false;
     this.passwordsMatch = true;
+    this.invalidPassword = false;
     this.country = "US";
 
     this.formAccountType = formBuilder.group({
@@ -61,7 +65,7 @@ export class SignUpPage {
     });
 
     this.formLoginInformation= formBuilder.group({
-      email: ['', null, SignUpValidator.validateEmail]
+      email: ['', Validators.compose([Validators.maxLength(45), Validators.pattern('[A-z0-9._%+-]+@[A-z0-9.-]+\.[A-z]{2,}')]), SignUpValidator.validateEmail]
     });
   }
 
@@ -88,6 +92,13 @@ export class SignUpPage {
     else {
       this.passwordsMatch = true;
     }
+
+    if (this.password1 && this.password1.length < 8) {
+      this.invalidPassword = true;
+    }
+    else {
+      this.invalidPassword = false;
+    }
   }
 
   checkZip(data) {
@@ -100,23 +111,31 @@ export class SignUpPage {
   }
 
   signUp() {
-    if (!this.formLoginInformation.valid) {
-      this.fieldsMissing = true;
+    this.checkPasswords();
+    if (this.invalidPassword) {
+      return;
+    }
+
+    if (!this.formLoginInformation.valid || !this.password1 || !this.password2) {
+      this.loginFieldsMissing = true;
     }
     else {
-      this.fieldsMissing = false;
+      this.loginFieldsMissing = false;
     }
 
     if (!this.formAccountType.valid || !this.checkIfAccountTypeSelected()) {
-      this.fieldsMissing = true;
+      this.accountFieldsMissing = true;
       this.slider.slideTo(0);
     }
     else if (!this.formPersonalInformation.valid) {
-      this.fieldsMissing = true;
+      this.personalFieldsMissing = true;
+      this.accountFieldsMissing = false;
       this.slider.slideTo(1);
     }
-    else if (this.passwordsMatch) {
-      this.fieldsMissing = false;
+    else if (this.formLoginInformation.valid && this.passwordsMatch) {
+      this.accountFieldsMissing = false;
+      this.personalFieldsMissing = false;
+      this.loginFieldsMissing = false;
       console.log("Full Name: " + this.formPersonalInformation.value.fullName);
       console.log("DOB: " + this.formPersonalInformation.value.DOB);
       console.log("Address 1: " + this.formPersonalInformation.value.addressLine1);
@@ -157,10 +176,10 @@ export class SignUpPage {
       }
     }
     else if (form === "formPersonalInformation" && !this.formPersonalInformation.valid) {
-      this.fieldsMissing = true;
+      this.personalFieldsMissing = true;
     }
     else {
-      this.fieldsMissing = false;
+      this.personalFieldsMissing = false;
       this.slider.slideNext();
     }
   }
