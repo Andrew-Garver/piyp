@@ -1,6 +1,6 @@
 import {Component, ViewChild} from '@angular/core';
 
-import {NavController, ViewController, Slides} from 'ionic-angular';
+import {NavController, ViewController, Slides, ToastController} from 'ionic-angular';
 import {FormBuilder, Validators, FormGroup} from "@angular/forms";
 import {SignUpValidator} from "./sign-up.validator";
 
@@ -38,7 +38,7 @@ export class SignUpPage {
   private password2: string;
 
   constructor(public navCtrl: NavController, public viewCtrl: ViewController,
-              public formBuilder: FormBuilder) {
+              public formBuilder: FormBuilder, private toastCtrl: ToastController) {
     this.fieldsMissing = false;
     this.invalidZip = false;
     this.noAccountTypeSelected = false;
@@ -131,8 +131,18 @@ export class SignUpPage {
       console.log("Email: " + this.formLoginInformation.value.email);
       console.log("Password: " + this.password1);
 
+      this.presentToast();
       this.dismiss();
     }
+  }
+
+  presentToast() {
+    let toast = this.toastCtrl.create({
+      message: 'Account created! Please login.',
+      duration: 4000,
+      position: "top"
+    });
+    toast.present();
   }
 
   dismiss() {
