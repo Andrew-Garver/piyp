@@ -12,23 +12,121 @@
 </ion-header>
 
 <ion-content>
-  <h1>Welcome!</h1>
+  <ion-slides #signupSlider [options]="slideOptions">
 
-  <form (ngSubmit)="signUp()">
-    <ion-item>
-      <ion-input type="text" placeholder="Username" [(ngModel)]="username" name="username" required></ion-input>
-    </ion-item>
+    <ion-slide>
+      <form #f="ngForm" [formGroup]="formAccountType" (ngSubmit)="slideNext()">
+        <ion-list-header>
+          Account Type
+        </ion-list-header>
 
-    <ion-item>
-      <ion-input type="password" placeholder="Password" [(ngModel)]="password" name="password" required></ion-input>
-    </ion-item>
+        <!--TODO: Initialize these to unselected. Also, check to make sure they are valid before submitting form-->
+        <ion-item>
+          <ion-label>Pro</ion-label>
+          <ion-checkbox id="checkbox_pro" formControlName="checkboxPro"></ion-checkbox>
+        </ion-item>
 
-    <ion-item>
-      <ion-input type="password" placeholder="Confirm Password" [(ngModel)]="confirmPassword" name="confirmPassword" required></ion-input>
-    </ion-item>
+        <ion-item>
+          <ion-label>Consumer</ion-label>
+          <ion-checkbox id="checkbox_consumer" formControlName="checkboxConsumer"></ion-checkbox>
+        </ion-item>
+        <br>
+        <ion-list radio-group formControlName="businessType">
+          <ion-item>
+            <ion-label>Individual</ion-label>
+            <ion-radio value="individual"></ion-radio>
+          </ion-item>
 
-    <br>
-    <button type="submit" ion-button full>Sign Up</button>
-  </form>
+          <ion-item>
+            <ion-label>Business</ion-label>
+            <ion-radio value="business"></ion-radio>
+          </ion-item>
+        </ion-list>
+
+        <br>
+        <button type="submit" ion-button full>Next</button>
+      </form>
+    </ion-slide>
+
+    <ion-slide>
+      <form #f="ngForm" [formGroup]="formPersonalInformation" (ngSubmit)="slideNext()">
+        <ion-list-header>
+          Personal Information
+        </ion-list-header>
+
+        <ion-item>
+          <ion-input type="text" placeholder="Full Name" formControlName="fullName" required></ion-input>
+        </ion-item>
+
+        <!--TODO: Above 18?-->
+        <ion-item>
+          <ion-label>Date of Birth</ion-label>
+          <ion-datetime displayFormat="MMM D, YYYY" pickerFormat="MMM D YYYY" formControlName="DOB"
+                        required></ion-datetime>
+        </ion-item>
+
+        <ion-item>
+          <ion-input type="text" placeholder="Address Line 1" formControlName="addressLine1" required></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input type="text" placeholder="Address Line 2" formControlName="addressLine2"></ion-input>
+        </ion-item>
+
+        <!--TODO: state and city need to be required. Its not working.-->
+        <ion-item>
+          <ion-label>State</ion-label>
+          <ion-select formControlName="state" required>
+            <ion-option value="AZ">Arizona</ion-option>
+          </ion-select>
+        </ion-item>
+
+        <!--TODO: Make this dynamic, based on the state selected-->
+        <ion-item>
+          <ion-label>City</ion-label>
+          <ion-select formControlName="city" required>
+            <ion-option value="mesa">Mesa</ion-option>
+          </ion-select>
+        </ion-item>
+
+        <!--TODO: Needs to be 5 numbers-->
+        <ion-item>
+          <ion-input type="number" placeholder="Zip Code" formControlName="zipCode" required></ion-input>
+        </ion-item>
+
+        <br>
+        <button type="submit" ion-button full>Next</button>
+      </form>
+    </ion-slide>
+
+    <ion-slide>
+      <form #f="ngForm" [formGroup]="formLoginInformation" (ngSubmit)="signUp(f.value)">
+
+        <ion-list-header>
+          Login Information
+        </ion-list-header>
+
+        <!--TODO: Check to make sure this email is available. If not, prompt if forgot password?-->
+        <ion-item>
+          <ion-input type="email" placeholder="Email" name="email" required></ion-input>
+        </ion-item>
+
+        <!--TODO: Make sure these two passwords are the same-->
+        <ion-item>
+          <ion-input type="password" placeholder="Password" name="password" required></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input type="password" placeholder="Confirm Password" name="confirmPassword" required></ion-input>
+        </ion-item>
+
+        <br>
+        <button type="submit" ion-button full>Sign Up</button>
+      </form>
+    </ion-slide>
+
+
+  </ion-slides>
+
 
 </ion-content>

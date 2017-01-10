@@ -15,8 +15,8 @@ export class AuthService {
 
   // TODO: This is just dummy data
   login(credentials): boolean {
-    let mockToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6ImFuZHJldyIsImlzQ3VzdG9tZXIiOnRydWUsImlzUHJvIjpmYWxzZX0.fHnNNMS5RGvEiHD4hGMsqHabiIwKqJhX-0DjR6Q0rlI"; // customer token
-    // let mockToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6ImFuZHJldyIsImlzQ3VzdG9tZXIiOmZhbHNlLCJpc1BybyI6dHJ1ZX0.RNOEpb2AQ0gi70YeFSm5oOvuUIo8HUPCMV1UPY362xg"; // pro token
+    // let mockToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6ImFuZHJldyIsImlzQ3VzdG9tZXIiOnRydWUsImlzUHJvIjpmYWxzZX0.fHnNNMS5RGvEiHD4hGMsqHabiIwKqJhX-0DjR6Q0rlI"; // customer token
+    let mockToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6ImFuZHJldyIsImlzQ3VzdG9tZXIiOmZhbHNlLCJpc1BybyI6dHJ1ZX0.RNOEpb2AQ0gi70YeFSm5oOvuUIo8HUPCMV1UPY362xg"; // pro token
     // let mockToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6ImFuZHJldyIsImlzQ3VzdG9tZXIiOnRydWUsImlzUHJvIjp0cnVlfQ.imYgG_ds-kmDOGuFOggYjp_ozUzWXm8_XivXIw6Zm0w"; // customer/pro token
     localStorage.setItem('id_token', mockToken);
     localStorage.setItem('current_user', JSON.stringify(this.getUserFromJWT(mockToken)));
