@@ -4,10 +4,16 @@ page-sign-up {
     font-style: normal;
     font-weight: 400;
     font-size: 80%;
+    position: relative;
+    top: -17px;
   }
 
   .invalid {
     background: #FF4949;
     color: white;
+  }
+
+  .async {
+    background: #FFFF5C;
   }
 }

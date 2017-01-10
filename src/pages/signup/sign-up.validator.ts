@@ -1,4 +1,5 @@
 import {FormControl} from '@angular/forms';
+import {DatabaseService} from "../../services/database.service";
 
 export class SignUpValidator {
 
@@ -18,10 +19,18 @@ export class SignUpValidator {
     }
   }
 
-  // validateEmail(control: FormControl): any {
-  //   if (this.databaseService.getCustomerByEmail(control.value) !== null) {
-  //     return {"email already exists": true};
-  //   }
-  //   return null;
-  // }
+  static validateEmail(control: FormControl): any {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        if (new DatabaseService().getCustomerByEmail(control.value)) {
+          resolve({
+            "username taken": true
+          });
+        }
+        else {
+          resolve(null);
+        }
+      }, 2000);
+    });
+  }
 }

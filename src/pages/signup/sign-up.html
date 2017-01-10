@@ -124,8 +124,15 @@
       <!--TODO: Check to make sure this email is available. If not, prompt if forgot password?-->
       <form #f="ngForm" [formGroup]="formLoginInformation">
         <ion-item>
-          <ion-input type="email" placeholder="Email" formControlName="email"></ion-input>
+          <ion-input #email type="email" placeholder="Email" formControlName="email"></ion-input>
         </ion-item>
+        <div *ngIf="formLoginInformation.controls.email.pending">
+          <p class="async">Checking email...</p>
+        </div>
+        <div *ngIf="!formLoginInformation.controls.email.valid && !formLoginInformation.controls.email.pending &&
+         formLoginInformation.controls.email.dirty && email.value.length > 0">
+          <p class="invalid">That email has already been used</p>
+        </div>
       </form>
 
       <form #f="ngForm" (ngSubmit)="signUp()">

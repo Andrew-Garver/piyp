@@ -6,7 +6,7 @@ import {SignUpValidator} from "./sign-up.validator";
 
 @Component({
   selector: 'page-sign-up',
-  templateUrl: 'sign-up.html',
+  templateUrl: 'sign-up.html'
 })
 
 export class SignUpPage {
@@ -32,6 +32,7 @@ export class SignUpPage {
   private state: string;
   private city: string;
   private zipCode: number;
+  private country: string;
   private email: string;
   private password1: string;
   private password2: string;
@@ -42,6 +43,7 @@ export class SignUpPage {
     this.invalidZip = false;
     this.noAccountTypeSelected = false;
     this.passwordsMatch = true;
+    this.country = "US";
 
     this.formAccountType = formBuilder.group({
       businessType: ['individual']
@@ -59,7 +61,7 @@ export class SignUpPage {
     });
 
     this.formLoginInformation= formBuilder.group({
-      email: [''/*, null, signupValidator.validateEmail*/]
+      email: ['', null, SignUpValidator.validateEmail]
     });
   }
 
@@ -113,8 +115,22 @@ export class SignUpPage {
       this.fieldsMissing = true;
       this.slider.slideTo(1);
     }
-    else {
+    else if (this.passwordsMatch) {
       this.fieldsMissing = false;
+      console.log("Full Name: " + this.formPersonalInformation.value.fullName);
+      console.log("DOB: " + this.formPersonalInformation.value.DOB);
+      console.log("Address 1: " + this.formPersonalInformation.value.addressLine1);
+      console.log("Address 2: " + this.formPersonalInformation.value.addressLine2);
+      console.log("State: " + this.formPersonalInformation.value.state);
+      console.log("City: " + this.formPersonalInformation.value.city);
+      console.log("Zip: " + this.formPersonalInformation.value.zipCode);
+      console.log("Country: " + this.country);
+      console.log("Pro: " + this.checkboxPro);
+      console.log("Customer: " + this.checkboxConsumer);
+      console.log("Business Type: " + this.formAccountType.value.businessType);
+      console.log("Email: " + this.formLoginInformation.value.email);
+      console.log("Password: " + this.password1);
+
       this.dismiss();
     }
   }
