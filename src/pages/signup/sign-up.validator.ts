@@ -11,10 +11,17 @@ export class SignUpValidator {
       let eighteenYearsAgo = new Date().setFullYear(currentDate.getUTCFullYear() - 18);
 
       if (new Date(givenDate).getTime() > new Date(eighteenYearsAgo).getTime()) {
-        return {"under 18": true}
+        return {"under 18": true};
       }
 
       return null;
     }
   }
+
+  // validateEmail(control: FormControl): any {
+  //   if (this.databaseService.getCustomerByEmail(control.value) !== null) {
+  //     return {"email already exists": true};
+  //   }
+  //   return null;
+  // }
 }

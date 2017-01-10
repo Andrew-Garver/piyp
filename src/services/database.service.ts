@@ -120,6 +120,15 @@ export class DatabaseService {
     return null;
   }
 
+  getCustomerByEmail(email: string): Promise<User> {
+    for (let user of USERS) {
+      if (user.username === email) {
+        return Promise.resolve(user);
+      }
+    }
+    return null;
+  }
+
   getAllUsers(): User[] {
     return USERS;
   }

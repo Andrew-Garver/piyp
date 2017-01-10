@@ -1,9 +1,13 @@
 page-sign-up {
-  h1 {
-   text-align: center;
+  p {
+   font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 80%;
   }
-  .slide-zoom {
-    position: absolute;
-    top: 0px;
+
+  .invalid {
+    background: #FF4949;
+    color: white;
   }
 }

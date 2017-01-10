@@ -15,22 +15,28 @@
   <ion-slides #signupSlider [options]="slideOptions">
 
     <ion-slide>
-      <form #f="ngForm" [formGroup]="formAccountType" (ngSubmit)="slideNext()">
-        <ion-list-header>
-          Account Type
-        </ion-list-header>
+      <div *ngIf="fieldsMissing">
+        <p class="invalid">Please fill out all form fields</p>
+      </div>
 
-        <!--TODO: Initialize these to unselected. Also, check to make sure they are valid before submitting form-->
-        <ion-item>
-          <ion-label>Pro</ion-label>
-          <ion-checkbox id="checkbox_pro" formControlName="checkboxPro"></ion-checkbox>
-        </ion-item>
+      <ion-list-header>
+        Account Type
+      </ion-list-header>
 
-        <ion-item>
-          <ion-label>Consumer</ion-label>
-          <ion-checkbox id="checkbox_consumer" formControlName="checkboxConsumer"></ion-checkbox>
-        </ion-item>
-        <br>
+      <ion-item>
+        <ion-label>Pro</ion-label>
+        <ion-checkbox id="checkbox_pro" name="checkboxPro" [(ngModel)]="checkboxPro"></ion-checkbox>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Consumer</ion-label>
+        <ion-checkbox id="checkbox_consumer" name="checkboxConsumer" [(ngModel)]="checkboxConsumer"></ion-checkbox>
+      </ion-item>
+      <div *ngIf="noAccountTypeSelected">
+        <p class="invalid">Must select an account type</p>
+      </div>
+      <br>
+      <form #f="ngForm" [formGroup]="formAccountType" (ngSubmit)="slideNext('formAccountType')">
         <ion-list radio-group formControlName="businessType">
           <ion-item>
             <ion-label>Individual</ion-label>
@@ -49,34 +55,38 @@
     </ion-slide>
 
     <ion-slide>
-      <form #f="ngForm" [formGroup]="formPersonalInformation" (ngSubmit)="slideNext()">
+      <div *ngIf="fieldsMissing">
+        <p class="invalid">Please fill out all form fields</p>
+      </div>
+
+      <form #f="ngForm" [formGroup]="formPersonalInformation" (ngSubmit)="slideNext('formPersonalInformation')">
         <ion-list-header>
           Personal Information
         </ion-list-header>
 
         <ion-item>
-          <ion-input type="text" placeholder="Full Name" formControlName="fullName" required></ion-input>
+          <ion-input type="text" placeholder="Full Name" formControlName="fullName"></ion-input>
         </ion-item>
 
-        <!--TODO: Above 18?-->
         <ion-item>
           <ion-label>Date of Birth</ion-label>
-          <ion-datetime displayFormat="MMM D, YYYY" pickerFormat="MMM D YYYY" formControlName="DOB"
-                        required></ion-datetime>
+          <ion-datetime displayFormat="MMM D, YYYY" pickerFormat="MMM D YYYY" formControlName="DOB"></ion-datetime>
         </ion-item>
+        <div *ngIf="!formPersonalInformation.controls.DOB.valid && formPersonalInformation.controls.DOB.dirty">
+          <p class="invalid">Must be 18 years or older</p>
+        </div>
 
         <ion-item>
-          <ion-input type="text" placeholder="Address Line 1" formControlName="addressLine1" required></ion-input>
+          <ion-input type="text" placeholder="Address Line 1" formControlName="addressLine1"></ion-input>
         </ion-item>
 
         <ion-item>
           <ion-input type="text" placeholder="Address Line 2" formControlName="addressLine2"></ion-input>
         </ion-item>
 
-        <!--TODO: state and city need to be required. Its not working.-->
         <ion-item>
           <ion-label>State</ion-label>
-          <ion-select formControlName="state" required>
+          <ion-select formControlName="state">
             <ion-option value="AZ">Arizona</ion-option>
           </ion-select>
         </ion-item>
@@ -84,15 +94,18 @@
         <!--TODO: Make this dynamic, based on the state selected-->
         <ion-item>
           <ion-label>City</ion-label>
-          <ion-select formControlName="city" required>
+          <ion-select formControlName="city">
             <ion-option value="mesa">Mesa</ion-option>
           </ion-select>
         </ion-item>
 
-        <!--TODO: Needs to be 5 numbers-->
         <ion-item>
-          <ion-input type="number" placeholder="Zip Code" formControlName="zipCode" required></ion-input>
+          <ion-input #zip id="zipcode" type="number" placeholder="Zip Code" formControlName="zipCode"
+                     (blur)="checkZip(zip.value)"></ion-input>
         </ion-item>
+        <div *ngIf="invalidZip">
+          <p class="invalid">Zip code must be 5 numbers long</p>
+        </div>
 
         <br>
         <button type="submit" ion-button full>Next</button>
@@ -100,25 +113,34 @@
     </ion-slide>
 
     <ion-slide>
-      <form #f="ngForm" [formGroup]="formLoginInformation" (ngSubmit)="signUp(f.value)">
+      <div *ngIf="fieldsMissing">
+        <p class="invalid">Please fill out all form fields</p>
+      </div>
 
-        <ion-list-header>
-          Login Information
-        </ion-list-header>
+      <ion-list-header>
+        Login Information
+      </ion-list-header>
 
-        <!--TODO: Check to make sure this email is available. If not, prompt if forgot password?-->
+      <!--TODO: Check to make sure this email is available. If not, prompt if forgot password?-->
+      <form #f="ngForm" [formGroup]="formLoginInformation">
         <ion-item>
-          <ion-input type="email" placeholder="Email" name="email" required></ion-input>
+          <ion-input type="email" placeholder="Email" formControlName="email"></ion-input>
+        </ion-item>
+      </form>
+
+      <form #f="ngForm" (ngSubmit)="signUp()">
+        <ion-item>
+          <ion-input type="password" placeholder="Password" name="password1"
+                     [(ngModel)]="password1" (blur)="checkPasswords()"></ion-input>
         </ion-item>
 
-        <!--TODO: Make sure these two passwords are the same-->
         <ion-item>
-          <ion-input type="password" placeholder="Password" name="password" required></ion-input>
+          <ion-input type="password" placeholder="Confirm Password" name="password2"
+                     [(ngModel)]="password2" (blur)="checkPasswords()"></ion-input>
         </ion-item>
-
-        <ion-item>
-          <ion-input type="password" placeholder="Confirm Password" name="confirmPassword" required></ion-input>
-        </ion-item>
+        <div *ngIf="!passwordsMatch">
+          <p class="invalid">Passwords must match</p>
+        </div>
 
         <br>
         <button type="submit" ion-button full>Sign Up</button>
