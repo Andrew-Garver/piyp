@@ -34,9 +34,8 @@ export class LoginPage {
     }
   }
 
-  presentModal() {
-    let modal = this.modalCtrl.create(SignUpPage);
-    modal.present();
+  launchSignUp() {
+    this.navCtrl.push(SignUpPage);
   };
 
 }

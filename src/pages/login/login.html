@@ -5,7 +5,7 @@
 
   <form #f="ngForm" (ngSubmit)="login(f.value)">
     <ion-item>
-      <ion-input type="text" name="username" placeholder="Username" ngModel required></ion-input>
+      <ion-input type="text" name="email" placeholder="Email" ngModel required></ion-input>
     </ion-item>
 
     <ion-item>
@@ -17,7 +17,7 @@
   </form>
 
   <div class="center">
-    <a (click)="presentModal()">
+    <a (click)="launchSignUp()">
       No Account? Sign Up!
     </a>
   </div>

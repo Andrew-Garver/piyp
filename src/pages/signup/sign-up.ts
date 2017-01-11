@@ -1,24 +1,30 @@
 import {Component, ViewChild} from '@angular/core';
 
-import {NavController, ViewController, Slides, ToastController} from 'ionic-angular';
+import {NavController, Slides, ToastController, Checkbox, App} from 'ionic-angular';
 import {FormBuilder, Validators, FormGroup} from "@angular/forms";
 import {SignUpValidator} from "./sign-up.validator";
+import {AuthService} from "../../services/auth/auth.service";
+import {TabsPage} from "../tabs/tabs";
+import {LoginPage} from "../login/login";
 
 @Component({
   selector: 'page-sign-up',
-  templateUrl: 'sign-up.html'
+  templateUrl: 'sign-up.html',
+  providers: [AuthService]
 })
 
 export class SignUpPage {
 
   @ViewChild('signupSlider') slider: Slides;
+  @ViewChild('individual') individual: Checkbox;
+  @ViewChild('business') business: Checkbox;
 
-  private formAccountType: FormGroup;
   private formPersonalInformation: FormGroup;
   private formLoginInformation: FormGroup;
-  private accountFieldsMissing: boolean;
+  private formCreditCardInformation: FormGroup;
   private personalFieldsMissing: boolean;
   private loginFieldsMissing: boolean;
+  private paymentFieldsMissing: boolean;
   private invalidZip: boolean;
   private invalidPassword: boolean;
   private noAccountTypeSelected: boolean;
@@ -38,19 +44,24 @@ export class SignUpPage {
   private password1: string;
   private password2: string;
 
-  constructor(public navCtrl: NavController, public viewCtrl: ViewController,
-              public formBuilder: FormBuilder, private toastCtrl: ToastController) {
-    this.accountFieldsMissing = false;
+  constructor(public navCtrl: NavController, private authService: AuthService,
+              public formBuilder: FormBuilder, private toastCtrl: ToastController,
+              private app: App) {
     this.personalFieldsMissing = false;
     this.loginFieldsMissing = false;
+    this.paymentFieldsMissing = false;
     this.invalidZip = false;
     this.noAccountTypeSelected = false;
     this.passwordsMatch = true;
     this.invalidPassword = false;
     this.country = "US";
 
-    this.formAccountType = formBuilder.group({
-      businessType: ['individual']
+    this.formLoginInformation = formBuilder.group({
+      email: ['', Validators.compose([Validators.maxLength(45), Validators.pattern('[A-z0-9._%+-]+@[A-z0-9.-]+\.[A-z]{2,}')]), SignUpValidator.validateEmail],
+      password1: ['', Validators.required],
+      password2: ['', Validators.required],
+      checkboxPro: [null],
+      checkboxConsumer: [null]
     });
 
     this.formPersonalInformation = formBuilder.group({
@@ -61,16 +72,20 @@ export class SignUpPage {
       state: ['', Validators.required],
       city: ['', Validators.required],
       zipCode: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(5),
-        Validators.pattern('[0-9]*'), Validators.required]), null]
+        Validators.pattern('[0-9]*'), Validators.required]), null],
+      businessType: ["individual"]
     });
 
-    this.formLoginInformation= formBuilder.group({
-      email: ['', Validators.compose([Validators.maxLength(45), Validators.pattern('[A-z0-9._%+-]+@[A-z0-9.-]+\.[A-z]{2,}')]), SignUpValidator.validateEmail]
+    this.formCreditCardInformation = formBuilder.group({
+      creditCardNumber: ['', Validators.compose([SignUpValidator.validateCreditCard, Validators.required])],
+      cvc: ['', Validators.required],
+      expirationDate: [''],
+      billingZipCode: ['', Validators.required]
     });
   }
 
   checkIfAccountTypeSelected(): boolean {
-    if (!this.checkboxPro && !this.checkboxConsumer) {
+    if (!this.formLoginInformation.value.checkboxPro && !this.formLoginInformation.value.checkboxConsumer) {
       this.noAccountTypeSelected = true;
       return false;
     }
@@ -81,8 +96,8 @@ export class SignUpPage {
   }
 
   checkPasswords() {
-    if (this.password2) {
-      if (this.password1 === this.password2) {
+    if (this.formLoginInformation.value.password2.length > 0) {
+      if (this.formLoginInformation.value.password1 === this.formLoginInformation.value.password2) {
         this.passwordsMatch = true;
       }
       else {
@@ -93,7 +108,7 @@ export class SignUpPage {
       this.passwordsMatch = true;
     }
 
-    if (this.password1 && this.password1.length < 8) {
+    if (this.formLoginInformation.value.password1.length > 0 && this.formLoginInformation.value.password1.length < 8) {
       this.invalidPassword = true;
     }
     else {
@@ -111,29 +126,15 @@ export class SignUpPage {
   }
 
   signUp() {
-    this.checkPasswords();
-    if (this.invalidPassword) {
-      return;
-    }
-
-    if (!this.formLoginInformation.valid || !this.password1 || !this.password2) {
+    if (!this.formLoginInformation.valid) {
       this.loginFieldsMissing = true;
-    }
-    else {
-      this.loginFieldsMissing = false;
-    }
-
-    if (!this.formAccountType.valid || !this.checkIfAccountTypeSelected()) {
-      this.accountFieldsMissing = true;
       this.slider.slideTo(0);
     }
     else if (!this.formPersonalInformation.valid) {
       this.personalFieldsMissing = true;
-      this.accountFieldsMissing = false;
       this.slider.slideTo(1);
     }
     else if (this.formLoginInformation.valid && this.passwordsMatch) {
-      this.accountFieldsMissing = false;
       this.personalFieldsMissing = false;
       this.loginFieldsMissing = false;
       console.log("Full Name: " + this.formPersonalInformation.value.fullName);
@@ -144,38 +145,57 @@ export class SignUpPage {
       console.log("City: " + this.formPersonalInformation.value.city);
       console.log("Zip: " + this.formPersonalInformation.value.zipCode);
       console.log("Country: " + this.country);
-      console.log("Pro: " + this.checkboxPro);
-      console.log("Customer: " + this.checkboxConsumer);
-      console.log("Business Type: " + this.formAccountType.value.businessType);
+      console.log("Pro: " + this.formLoginInformation.value.checkboxPro);
+      console.log("Customer: " + this.formLoginInformation.value.checkboxConsumer);
+      console.log("Business Type: " + this.individual.checked ? "individual" : "business");
       console.log("Email: " + this.formLoginInformation.value.email);
-      console.log("Password: " + this.password1);
+      console.log("Password: " + this.formLoginInformation.value.password1);
 
-      this.presentToast();
-      this.dismiss();
+      let credentials = {
+        email: this.formLoginInformation.value.email,
+        password: this.formLoginInformation.value.password1
+      };
+      if (this.authService.login(credentials)) {
+        this.navCtrl.push(TabsPage)
+          .catch(() => {
+            this.authService.logout();
+            this.app.getRootNav().setRoot(LoginPage);
+          });
+        this.presentToast();
+      }
     }
   }
 
   presentToast() {
     let toast = this.toastCtrl.create({
-      message: 'Account created! Please login.',
-      duration: 4000,
+      message: 'Account created!',
+      duration: 3000,
       position: "top"
     });
     toast.present();
   }
 
   dismiss() {
-    this.viewCtrl.dismiss();
+    this.navCtrl.pop();
   }
 
-  slideNext(form: string) {
-    if (form === "formAccountType") {
+  slideNext(form) {
+    if (form === this.formLoginInformation) {
       this.checkIfAccountTypeSelected();
-      if (!this.noAccountTypeSelected) {
+      this.checkPasswords();
+      if (!this.noAccountTypeSelected && !this.invalidPassword && this.passwordsMatch &&
+        this.formLoginInformation.valid) {
+        this.loginFieldsMissing = false;
         this.slider.slideNext();
       }
+      else if (this.formLoginInformation.valid && this.formLoginInformation.value.password1 && this.formLoginInformation.value.password2) {
+        this.loginFieldsMissing = false;
+      }
+      else {
+        this.loginFieldsMissing = true;
+      }
     }
-    else if (form === "formPersonalInformation" && !this.formPersonalInformation.valid) {
+    else if (form === this.formPersonalInformation && !this.formPersonalInformation.valid) {
       this.personalFieldsMissing = true;
     }
     else {
