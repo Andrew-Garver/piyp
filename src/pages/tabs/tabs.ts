@@ -24,7 +24,7 @@ export class TabsPage {
     console.log("constructing tabs");
     this.user = JSON.parse(localStorage.getItem("current_user"));
     if (this.user) {
-      if (this.user.isCustomer) {
+      if (this.user.isConsumer) {
         this.tab1Root = RequestJobsPage;
         this.tab2Root = JobRequestsPage;
         this.tab3Root = HiredJobsPage;

@@ -14,7 +14,7 @@
       <button ion-item>Bid Amount: {{selectedBid.amount}}</button>
     </ion-list>
 
-    <div *ngIf="isCustomer">
+    <div *ngIf="isConsumer">
       <button ion-button full (click)="acceptBid(selectedBid)">Accept bid</button>
     </div>
   </div>

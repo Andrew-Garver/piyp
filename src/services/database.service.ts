@@ -122,7 +122,7 @@ export class DatabaseService {
 
   getCustomerByEmail(email: string): Promise<User> {
     for (let user of USERS) {
-      if (user.username === email) {
+      if (user.email === email) {
         return Promise.resolve(user);
       }
     }
@@ -135,7 +135,7 @@ export class DatabaseService {
 
   getUserByUsername(username: string): User {
     for (let user of USERS) {
-      if (username === user.username) {
+      if (username === user.email) {
         return user;
       }
     }

@@ -19,16 +19,16 @@ import {Bid} from "../../entities/bid";
 export class BidDetailsPage implements OnInit {
 
   selectedBid: Bid;
-  isCustomer: boolean;
+  isConsumer: boolean;
 
   constructor(public navCtrl: NavController, private authService: AuthService,
               private params: NavParams, private app: App,
               private databaseService: DatabaseService) {
-    if (JSON.parse(localStorage.getItem("current_user")).isCustomer) {
-      this.isCustomer = true;
+    if (JSON.parse(localStorage.getItem("current_user")).isConsumer) {
+      this.isConsumer = true;
     }
     else {
-      this.isCustomer = false;
+      this.isConsumer = false;
     }
   }
 

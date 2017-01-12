@@ -5,13 +5,14 @@ import {FormBuilder, Validators, FormGroup} from "@angular/forms";
 import {SignUpValidator} from "./sign-up.validator";
 import {AuthService} from "../../services/auth.service";
 import {TabsPage} from "../tabs/tabs";
-import {LoginPage} from "../login/login";
-import {AccountCreationService} from "../../services/account-creation.service";
+import {Http} from "@angular/http";
+
+declare var Stripe: any;
 
 @Component({
   selector: 'page-sign-up',
   templateUrl: 'sign-up.html',
-  providers: [AuthService, AccountCreationService]
+  providers: [AuthService]
 })
 
 export class SignUpPage {
@@ -23,9 +24,11 @@ export class SignUpPage {
   private formPersonalInformation: FormGroup;
   private formLoginInformation: FormGroup;
   private formCreditCardInformation: FormGroup;
+
   private personalFieldsMissing: boolean;
   private loginFieldsMissing: boolean;
   private paymentFieldsMissing: boolean;
+
   private invalidZip: boolean;
   private invalidPassword: boolean;
   private invalidCvc: boolean;
@@ -33,6 +36,8 @@ export class SignUpPage {
   private showCreditCardError: boolean;
   private noAccountTypeSelected: boolean;
   private passwordsMatch: boolean;
+  private creditCardRejected: boolean;
+
   private checkboxPro: string;
   private checkboxConsumer: string;
   private businessType: string;
@@ -47,11 +52,13 @@ export class SignUpPage {
   private email: string;
   private password1: string;
   private password2: string;
-  private creditCardRejected: boolean;
+
+  private accountInfo: any;
+  private paymentInfo: any;
 
   constructor(public navCtrl: NavController, private authService: AuthService,
               public formBuilder: FormBuilder, private toastCtrl: ToastController,
-              private app: App, private accountCreationService: AccountCreationService) {
+              private app: App, private http: Http) {
     this.personalFieldsMissing = false;
     this.loginFieldsMissing = false;
     this.paymentFieldsMissing = false;
@@ -177,8 +184,7 @@ export class SignUpPage {
     console.log(this.noAccountTypeSelected);
     console.log(this.passwordsMatch);
 
-    if (this.formLoginInformation.valid && this.formPersonalInformation.valid && this.formCreditCardInformation.valid && !this.invalidZip && !this.invalidPassword && !this.invalidCvc && !this.invalidBillingZip && !this.showCreditCardError && !this.noAccountTypeSelected &&
-      this.passwordsMatch) {
+    if (this.formLoginInformation.valid && this.formPersonalInformation.valid && this.formCreditCardInformation.valid && !this.invalidZip && !this.invalidPassword && !this.invalidCvc && !this.invalidBillingZip && !this.showCreditCardError && !this.noAccountTypeSelected && this.passwordsMatch) {
       return true;
     }
     else {
@@ -212,62 +218,83 @@ export class SignUpPage {
       this.passwordsMatch = false;
       this.creditCardRejected = false;
 
-      console.log("Full Name: " + this.formPersonalInformation.value.fullName);
-      console.log("DOB: " + this.formPersonalInformation.value.DOB);
-      console.log("Address 1: " + this.formPersonalInformation.value.addressLine1);
-      console.log("Address 2: " + this.formPersonalInformation.value.addressLine2);
-      console.log("State: " + this.formPersonalInformation.value.state);
-      console.log("City: " + this.formPersonalInformation.value.city);
-      console.log("Zip: " + this.formPersonalInformation.value.zipCode);
-      console.log("Country: " + this.country);
-      console.log("Pro: " + this.formLoginInformation.value.checkboxPro);
-      console.log("Customer: " + this.formLoginInformation.value.checkboxConsumer);
-      console.log("Business Type: " + this.individual.checked ? "individual" : "business");
-      console.log("Email: " + this.formLoginInformation.value.email);
-      console.log("Password: " + this.formLoginInformation.value.password1);
-
-      let accountInfo = {
+      this.accountInfo = {
+        fullName: this.formPersonalInformation.value.fullName,
+        dob: this.formPersonalInformation.value.DOB,
+        address1: this.formPersonalInformation.value.addressLine1,
+        address2: this.formPersonalInformation.value.addressLine2,
+        state: this.formPersonalInformation.value.state,
+        city: this.formPersonalInformation.value.city,
+        zip: this.formPersonalInformation.value.zipCode,
+        country: this.country,
+        isPro: this.formLoginInformation.value.checkboxPro,
+        isConsumer: this.formLoginInformation.value.checkboxConsumer,
+        customer: this.formLoginInformation.value.checkboxConsumer,
+        businessType: (this.individual && this.individual.checked) ? "individual" : "business",
         email: this.formLoginInformation.value.email,
-        password: this.formLoginInformation.value.password1
+        password: this.formLoginInformation.value.password1,
+        paymentToken: ''
       };
 
-      let paymentInfo = {
+      this.paymentInfo = {
         creditCardNumber: this.formCreditCardInformation.value.creditCardNumber,
         cvc: this.formCreditCardInformation.value.cvc,
         expDate: this.formCreditCardInformation.value.expirationDate,
         billingZip: this.formCreditCardInformation.value.billingZipCode
       };
 
-      this.accountCreationService.testPaymentInfo(paymentInfo)
-        .then((res) => { //TODO: Can res be reused as a param name?
-          let tokenData = JSON.parse(res);
-          if (tokenData.success) {
-            this.accountCreationService.createAccount(accountInfo, tokenData.token)
-              .then((res) => {
-                let jwtData = JSON.parse(res);
-                if (jwtData.success) {
-                  this.authService.storeToken({user: accountInfo, jwt: jwtData.jwt});
-                  this.navCtrl.push(TabsPage)
-                    .catch(() => {
-                      this.authService.logout();
-                      this.app.getRootNav().setRoot(LoginPage);
-                    });
-                  this.presentToast("Account created!");
-                }
-                else {
-                  this.authService.logout();
-                  this.presentToast("Error 1000: Could not create account")
-                  this.app.getRootNav().setRoot(LoginPage);
-                }
-              })
-          }
-          else {
-            this.creditCardRejected = true;
-            return;
-          }
-        });
-
+      this.registerAccount();
     }
+  }
+
+  registerAccount() {
+    Stripe.setPublishableKey('pk_test_FZHQgh9n93qAURvTBJXGwAF8');
+    console.log(this);
+    Stripe.card.createToken({
+      number: this.paymentInfo.creditCardNumber,
+      cvc: this.paymentInfo.cvc,
+      exp_month: new Date(this.paymentInfo.expDate).getMonth() + 1,
+      exp_year: new Date(this.paymentInfo.expDate).getFullYear(),
+      address_zip: this.paymentInfo.billingZip
+    }, this.stripeResponseHandler.bind(this));
+  }
+
+  stripeResponseHandler(status, response) {
+    if (response.error) {
+      this.presentToast("Could not validate card! Please try again.");
+    }
+    else {
+      console.log("token retrieved successfully!");
+      this.createAccount(response.id);
+    }
+  }
+
+  createAccount(token) {
+    this.accountInfo.paymentToken = token;
+    let mockToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6ImFuZHJldyIsImlzQ3VzdG9tZXIiOmZhbHNlLCJpc1BybyI6dHJ1ZX0.RNOEpb2AQ0gi70YeFSm5oOvuUIo8HUPCMV1UPY362xg"; // pro token
+    let data = {
+      user: this.accountInfo,
+      jwt: mockToken
+    };
+    this.authService.storeToken(data);
+
+
+    // this.accountInfo.paymentToken = token;
+    // this.http.post('createUserAccount', this.accountInfo)
+    //   .map(res => res.json())
+    //   .subscribe(
+    //     data => {
+    //       localStorage.setItem('id_token', data.id_token);
+    //       localStorage.setItem('current_user', data.userInfo);
+    this.presentToast("Account created successfully!");
+    this.navCtrl.push(TabsPage);
+    //     },
+    //     error => {
+    //       console.log(error);
+    //       this.authService.logout();
+    //       this.app.getRootNav().setRoot(LoginPage);
+    //     }
+    //   );
   }
 
   presentToast(message) {

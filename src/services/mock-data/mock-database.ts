@@ -40,7 +40,7 @@ export const BIDS: Bid[] = [
 ]
 
 export const USERS: User[] = [
-  {id: 1, username: "andrew@gmail.com", password: "password", isCustomer: true, isPro: false, hiredJobs: JOBS},
-  {id: 2, username: "justin@gmail.com", password: "password", isCustomer: false, isPro: true, hiredJobs: null},
-  {id: 3, username: "dylan@gmail.com", password: "password", isCustomer: true, isPro: true, hiredJobs: null}
+  {id: 1, email: "andrew@gmail.com", password: "password", isConsumer: true, isPro: false, hiredJobs: JOBS},
+  {id: 2, email: "justin@gmail.com", password: "password", isConsumer: false, isPro: true, hiredJobs: null},
+  {id: 3, email: "dylan@gmail.com", password: "password", isConsumer: true, isPro: true, hiredJobs: null}
 ];

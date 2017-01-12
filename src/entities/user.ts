@@ -2,9 +2,9 @@ import {Job} from "./job";
 
 export class User {
   id: number;
-  username: string;
+  email: string;
   password: string;
   hiredJobs: Job[];
-  isCustomer: boolean;
+  isConsumer: boolean;
   isPro: boolean;
 }

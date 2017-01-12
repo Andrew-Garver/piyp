@@ -61,9 +61,9 @@ export class AuthService {
 
   private getUserFromJWT(mockToken: string): User {
     this.user = new User();
-    this.user.username = this.jwtHelper.decodeToken(mockToken).username;
+    this.user.email = this.jwtHelper.decodeToken(mockToken).username;
     this.user.id = this.jwtHelper.decodeToken(mockToken).id;
-    this.user.isCustomer = this.jwtHelper.decodeToken(mockToken).isCustomer;
+    this.user.isConsumer = this.jwtHelper.decodeToken(mockToken).isConsumer;
     this.user.isPro = this.jwtHelper.decodeToken(mockToken).isPro;
 
     return this.user;
