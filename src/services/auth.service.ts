@@ -21,8 +21,8 @@ export class AuthService {
     let data = {
       user: this.getUserFromJWT(mockToken),
       jwt: mockToken
-    }
-    this.storeToken(data)
+    };
+    this.storeToken(data);
     // this.http.post('https://my-app.com/api/authenticate', credentials)
     //   .map(res => res.json())
     //   .subscribe(
@@ -42,8 +42,8 @@ export class AuthService {
 
   storeToken(data) {
     if (data.user && data.jwt) {
-      localStorage.setItem('id_token', JSON.stringify(data.user));
-      localStorage.setItem('current_user', data.jwt);
+      localStorage.setItem('id_token', data.jwt);
+      localStorage.setItem('current_user', JSON.stringify(data.user));
     }
     else {
       console.log("data is malformed: either the token or the user info is missing!");
