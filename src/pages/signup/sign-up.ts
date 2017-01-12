@@ -141,14 +141,14 @@ export class SignUpPage {
     }
   }
 
-  toggleCreditCardError(group: FormGroup) {
-    // if (group.controls['creditCardNumber'].hasError('invalid credit card')) {
-    //   this.showCreditCardError = true;
-    // }
-    // else {
-    //   this.showCreditCardError = false;
-    // }
-    console.log(this.formCreditCardInformation.controls['creditCardNumber'].hasError('inv'));
+  // hide the error message on focus and show it on blur if there is an error
+  toggleCreditCardError(toggle) {
+    if (!toggle && this.formCreditCardInformation.controls['creditCardNumber'].hasError('invalid credit card')) {
+      this.showCreditCardError = true;
+    }
+    else {
+      this.showCreditCardError = false;
+    }
   }
 
   checkCvc() {
@@ -166,7 +166,6 @@ export class SignUpPage {
   }
 
   formIsSubmittable(): boolean {
-
     console.log(this.invalidZip);
     console.log(this.invalidPassword);
     console.log(this.invalidCvc);
