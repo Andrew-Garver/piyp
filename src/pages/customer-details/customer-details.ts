@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 
 import {NavController, NavParams} from "ionic-angular";
 import {Customer} from "../../entities/customer";
-import {AuthService} from "../../services/auth/auth.service";
+import {AuthService} from "../../services/auth.service";
 
 @Component({
   selector: 'page-customer-details',

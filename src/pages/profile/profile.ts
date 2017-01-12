@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { App } from 'ionic-angular';
 
 import { NavController } from 'ionic-angular';
-import {AuthService} from "../../services/auth/auth.service";
+import {AuthService} from "../../services/auth.service";
 import {LoginPage} from "../login/login";
 
 @Component({

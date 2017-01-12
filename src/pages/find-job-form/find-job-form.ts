@@ -8,7 +8,7 @@ import {JobDetailsPage} from "../job-details/job-details";
 import {LoginPage} from "../login/login";
 import {ErrorPage} from "../error/error";
 import {NgForm} from "@angular/forms";
-import {AuthService} from "../../services/auth/auth.service";
+import {AuthService} from "../../services/auth.service";
 import {TabsPage} from "../tabs/tabs";
 
 @Component({

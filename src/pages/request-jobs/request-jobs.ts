@@ -3,7 +3,7 @@ import {Component} from '@angular/core';
 import {NavController, App} from 'ionic-angular';
 import {RequestJobFormPage} from "../request-job-form/request-job-form";
 import {LoginPage} from "../login/login";
-import {AuthService} from "../../services/auth/auth.service";
+import {AuthService} from "../../services/auth.service";
 
 @Component({
   selector: 'page-request-jobs',

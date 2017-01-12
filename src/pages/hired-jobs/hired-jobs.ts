@@ -7,7 +7,7 @@ import {NavController, App} from "ionic-angular";
 import {LoginPage} from "../login/login";
 import {ErrorPage} from "../error/error";
 import {Customer} from "../../entities/customer";
-import {AuthService} from "../../services/auth/auth.service";
+import {AuthService} from "../../services/auth.service";
 
 @Component({
   selector: 'page-hired-jobs',

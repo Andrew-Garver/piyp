@@ -3,14 +3,15 @@ import {Component, ViewChild} from '@angular/core';
 import {NavController, Slides, ToastController, Checkbox, App} from 'ionic-angular';
 import {FormBuilder, Validators, FormGroup} from "@angular/forms";
 import {SignUpValidator} from "./sign-up.validator";
-import {AuthService} from "../../services/auth/auth.service";
+import {AuthService} from "../../services/auth.service";
 import {TabsPage} from "../tabs/tabs";
 import {LoginPage} from "../login/login";
+import {AccountCreationService} from "../../services/account-creation.service";
 
 @Component({
   selector: 'page-sign-up',
   templateUrl: 'sign-up.html',
-  providers: [AuthService]
+  providers: [AuthService, AccountCreationService]
 })
 
 export class SignUpPage {
@@ -46,10 +47,11 @@ export class SignUpPage {
   private email: string;
   private password1: string;
   private password2: string;
+  private creditCardRejected: boolean;
 
   constructor(public navCtrl: NavController, private authService: AuthService,
               public formBuilder: FormBuilder, private toastCtrl: ToastController,
-              private app: App) {
+              private app: App, private accountCreationService: AccountCreationService) {
     this.personalFieldsMissing = false;
     this.loginFieldsMissing = false;
     this.paymentFieldsMissing = false;
@@ -61,6 +63,7 @@ export class SignUpPage {
     this.invalidPassword = false;
     this.showCreditCardError = false;
     this.country = "US";
+    this.creditCardRejected = false;
 
     this.formLoginInformation = formBuilder.group({
       email: ['', Validators.compose([Validators.maxLength(45), Validators.pattern('[A-z0-9._%+-]+@[A-z0-9.-]+\.[A-z]{2,}')]), SignUpValidator.validateEmail],
@@ -174,9 +177,8 @@ export class SignUpPage {
     console.log(this.noAccountTypeSelected);
     console.log(this.passwordsMatch);
 
-    if (this.formLoginInformation.valid && this.formPersonalInformation.valid && this.formCreditCardInformation.valid && !this.invalidZip &&
-    !this.invalidPassword && !this.invalidCvc && !this.invalidBillingZip && !this.showCreditCardError && !this.noAccountTypeSelected &&
-    this.passwordsMatch) {
+    if (this.formLoginInformation.valid && this.formPersonalInformation.valid && this.formCreditCardInformation.valid && !this.invalidZip && !this.invalidPassword && !this.invalidCvc && !this.invalidBillingZip && !this.showCreditCardError && !this.noAccountTypeSelected &&
+      this.passwordsMatch) {
       return true;
     }
     else {
@@ -198,16 +200,17 @@ export class SignUpPage {
       this.slider.slideTo(2);
     }
     else if (this.formIsSubmittable()) {
-    this.personalFieldsMissing = false;
-    this.loginFieldsMissing = false;
-    this.paymentFieldsMissing = false;
-    this.invalidZip = false;
-    this.invalidPassword = false;
-    this.invalidCvc = false;
-    this.invalidBillingZip = false;
-    this.showCreditCardError = false;
-    this.noAccountTypeSelected = false;
-    this.passwordsMatch = false;
+      this.personalFieldsMissing = false;
+      this.loginFieldsMissing = false;
+      this.paymentFieldsMissing = false;
+      this.invalidZip = false;
+      this.invalidPassword = false;
+      this.invalidCvc = false;
+      this.invalidBillingZip = false;
+      this.showCreditCardError = false;
+      this.noAccountTypeSelected = false;
+      this.passwordsMatch = false;
+      this.creditCardRejected = false;
 
       console.log("Full Name: " + this.formPersonalInformation.value.fullName);
       console.log("DOB: " + this.formPersonalInformation.value.DOB);
@@ -223,24 +226,53 @@ export class SignUpPage {
       console.log("Email: " + this.formLoginInformation.value.email);
       console.log("Password: " + this.formLoginInformation.value.password1);
 
-      let credentials = {
+      let accountInfo = {
         email: this.formLoginInformation.value.email,
         password: this.formLoginInformation.value.password1
       };
-      if (this.authService.login(credentials)) {
-        this.navCtrl.push(TabsPage)
-          .catch(() => {
-            this.authService.logout();
-            this.app.getRootNav().setRoot(LoginPage);
-          });
-        this.presentToast();
-      }
+
+      let paymentInfo = {
+        creditCardNumber: this.formCreditCardInformation.value.creditCardNumber,
+        cvc: this.formCreditCardInformation.value.cvc,
+        expDate: this.formCreditCardInformation.value.expirationDate,
+        billingZip: this.formCreditCardInformation.value.billingZipCode
+      };
+
+      this.accountCreationService.testPaymentInfo(paymentInfo)
+        .then((res) => { //TODO: Can res be reused as a param name?
+          let tokenData = JSON.parse(res);
+          if (tokenData.success) {
+            this.accountCreationService.createAccount(accountInfo, tokenData.token)
+              .then((res) => {
+                let jwtData = JSON.parse(res);
+                if (jwtData.success) {
+                  this.authService.storeToken({user: accountInfo, jwt: jwtData.jwt});
+                  this.navCtrl.push(TabsPage)
+                    .catch(() => {
+                      this.authService.logout();
+                      this.app.getRootNav().setRoot(LoginPage);
+                    });
+                  this.presentToast("Account created!");
+                }
+                else {
+                  this.authService.logout();
+                  this.presentToast("Error 1000: Could not create account")
+                  this.app.getRootNav().setRoot(LoginPage);
+                }
+              })
+          }
+          else {
+            this.creditCardRejected = true;
+            return;
+          }
+        });
+
     }
   }
 
-  presentToast() {
+  presentToast(message) {
     let toast = this.toastCtrl.create({
-      message: 'Account created!',
+      message: message,
       duration: 3000,
       position: "top"
     });

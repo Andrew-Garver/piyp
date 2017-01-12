@@ -164,6 +164,9 @@
       <div *ngIf="paymentFieldsMissing">
         <p class="invalid">Please fill out all form fields carefully</p>
       </div>
+      <div *ngIf="creditCardRejected">
+        <p class="invalid">Credit card rejected! Please try again.</p>
+      </div>
 
       <form #f="ngForm" [formGroup]="formCreditCardInformation" (ngSubmit)="signUp()">
         <ion-list-header>

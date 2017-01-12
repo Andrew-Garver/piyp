@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 
 import {DatabaseService} from "../../services/database.service";
 import {NavController, App} from "ionic-angular";
-import {AuthService} from "../../services/auth/auth.service";
+import {AuthService} from "../../services/auth.service";
 import {LoginPage} from "../login/login";
 import {FindJobFormPage} from "../find-job-form/find-job-form";
 

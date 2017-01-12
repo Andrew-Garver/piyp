@@ -7,7 +7,7 @@ import {Customer} from "../../entities/customer";
 import {JobDetailsPage} from "../job-details/job-details";
 import {LoginPage} from "../login/login";
 import {ErrorPage} from "../error/error";
-import {AuthService} from "../../services/auth/auth.service";
+import {AuthService} from "../../services/auth.service";
 
 @Component({
   selector: 'page-job-requests',

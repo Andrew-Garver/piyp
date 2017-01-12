@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 
 import {NavController, NavParams, App} from "ionic-angular";
-import {AuthService} from "../../services/auth/auth.service";
+import {AuthService} from "../../services/auth.service";
 import {Bid} from "../../entities/bid";
 import {DatabaseService} from "../../services/database.service";
 import {BidDetailsPage} from "../bid-details/bid-details";

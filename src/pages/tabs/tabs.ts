@@ -4,7 +4,7 @@ import { RequestJobsPage } from '../request-jobs/request-jobs';
 import { JobRequestsPage} from '../job-requests/job-requests';
 import { HiredJobsPage } from '../hired-jobs/hired-jobs';
 import { ProfilePage } from "../profile/profile";
-import {AuthService} from "../../services/auth/auth.service";
+import {AuthService} from "../../services/auth.service";
 import {User} from "../../entities/user";
 import {FindJobsPage} from "../find-jobs/find-jobs";
 import {ManageBidsPage} from "../manage-bids/manage-bids";

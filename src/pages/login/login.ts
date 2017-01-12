@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 
 import {ModalController, NavController} from 'ionic-angular';
 import {SignUpPage} from "../signup/sign-up";
-import {AuthService} from "../../services/auth/auth.service";
+import {AuthService} from "../../services/auth.service";
 import {TabsPage} from "../tabs/tabs";
 
 interface Credentials {
