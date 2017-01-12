@@ -27,6 +27,9 @@ export class SignUpPage {
   private paymentFieldsMissing: boolean;
   private invalidZip: boolean;
   private invalidPassword: boolean;
+  private invalidCvc: boolean;
+  private invalidBillingZip: boolean;
+  private showCreditCardError: boolean;
   private noAccountTypeSelected: boolean;
   private passwordsMatch: boolean;
   private checkboxPro: string;
@@ -52,8 +55,11 @@ export class SignUpPage {
     this.paymentFieldsMissing = false;
     this.invalidZip = false;
     this.noAccountTypeSelected = false;
+    this.invalidBillingZip = false;
+    this.invalidCvc = false;
     this.passwordsMatch = true;
     this.invalidPassword = false;
+    this.showCreditCardError = false;
     this.country = "US";
 
     this.formLoginInformation = formBuilder.group({
@@ -78,8 +84,8 @@ export class SignUpPage {
 
     this.formCreditCardInformation = formBuilder.group({
       creditCardNumber: ['', Validators.compose([SignUpValidator.validateCreditCard, Validators.required])],
-      cvc: ['', Validators.required],
-      expirationDate: [''],
+      cvc: ['', Validators.compose([Validators.pattern('[0-9]{3,4}'), Validators.required])],
+      expirationDate: [new Date().toISOString(), Validators.required],
       billingZipCode: ['', Validators.required]
     });
   }
@@ -116,12 +122,66 @@ export class SignUpPage {
     }
   }
 
-  checkZip(data) {
-    if (data != undefined && data.length != 5) {
-      this.invalidZip = true;
+  checkZip(form, zip) {
+    if (form === this.formPersonalInformation) {
+      if (zip != undefined && zip.length != 5) {
+        this.invalidZip = true;
+      }
+      else {
+        this.invalidZip = false;
+      }
     }
     else {
-      this.invalidZip = false;
+      if (zip != undefined && zip.length != 5) {
+        this.invalidBillingZip = true;
+      }
+      else {
+        this.invalidBillingZip = false;
+      }
+    }
+  }
+
+  toggleCreditCardError(group: FormGroup) {
+    // if (group.controls['creditCardNumber'].hasError('invalid credit card')) {
+    //   this.showCreditCardError = true;
+    // }
+    // else {
+    //   this.showCreditCardError = false;
+    // }
+    console.log(this.formCreditCardInformation.controls['creditCardNumber'].hasError('inv'));
+  }
+
+  checkCvc() {
+    if (this.formCreditCardInformation.value.cvc && (this.formCreditCardInformation.value.cvc.length < 3 ||
+      this.formCreditCardInformation.value.cvc.length > 4)) {
+      this.invalidCvc = true;
+    }
+    else {
+      this.invalidCvc = false;
+    }
+  }
+
+  clearBillingZipError() {
+    this.invalidBillingZip = false;
+  }
+
+  formIsSubmittable(): boolean {
+
+    console.log(this.invalidZip);
+    console.log(this.invalidPassword);
+    console.log(this.invalidCvc);
+    console.log(this.invalidBillingZip);
+    console.log(this.showCreditCardError);
+    console.log(this.noAccountTypeSelected);
+    console.log(this.passwordsMatch);
+
+    if (this.formLoginInformation.valid && this.formPersonalInformation.valid && this.formCreditCardInformation.valid && !this.invalidZip &&
+    !this.invalidPassword && !this.invalidCvc && !this.invalidBillingZip && !this.showCreditCardError && !this.noAccountTypeSelected &&
+    this.passwordsMatch) {
+      return true;
+    }
+    else {
+      return false;
     }
   }
 
@@ -134,9 +194,22 @@ export class SignUpPage {
       this.personalFieldsMissing = true;
       this.slider.slideTo(1);
     }
-    else if (this.formLoginInformation.valid && this.passwordsMatch) {
-      this.personalFieldsMissing = false;
-      this.loginFieldsMissing = false;
+    else if (!this.formCreditCardInformation.valid) {
+      this.paymentFieldsMissing = true;
+      this.slider.slideTo(2);
+    }
+    else if (this.formIsSubmittable()) {
+    this.personalFieldsMissing = false;
+    this.loginFieldsMissing = false;
+    this.paymentFieldsMissing = false;
+    this.invalidZip = false;
+    this.invalidPassword = false;
+    this.invalidCvc = false;
+    this.invalidBillingZip = false;
+    this.showCreditCardError = false;
+    this.noAccountTypeSelected = false;
+    this.passwordsMatch = false;
+
       console.log("Full Name: " + this.formPersonalInformation.value.fullName);
       console.log("DOB: " + this.formPersonalInformation.value.DOB);
       console.log("Address 1: " + this.formPersonalInformation.value.addressLine1);
