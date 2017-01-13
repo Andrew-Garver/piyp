@@ -4,15 +4,12 @@ import {NavController, Slides, ToastController, Checkbox, App} from 'ionic-angul
 import {FormBuilder, Validators, FormGroup} from "@angular/forms";
 import {SignUpValidator} from "./sign-up.validator";
 import {AuthService} from "../../services/auth.service";
-import {TabsPage} from "../tabs/tabs";
-import {Http} from "@angular/http";
-
-declare var Stripe: any;
+import {AccountCreationService} from "../../services/account-creation.service";
 
 @Component({
   selector: 'page-sign-up',
   templateUrl: 'sign-up.html',
-  providers: [AuthService]
+  providers: [AuthService, AccountCreationService]
 })
 
 export class SignUpPage {
@@ -53,12 +50,9 @@ export class SignUpPage {
   private password1: string;
   private password2: string;
 
-  private accountInfo: any;
-  private paymentInfo: any;
-
   constructor(public navCtrl: NavController, private authService: AuthService,
               public formBuilder: FormBuilder, private toastCtrl: ToastController,
-              private app: App, private http: Http) {
+              private app: App, private accountCretionService: AccountCreationService) {
     this.personalFieldsMissing = false;
     this.loginFieldsMissing = false;
     this.paymentFieldsMissing = false;
@@ -176,14 +170,6 @@ export class SignUpPage {
   }
 
   formIsSubmittable(): boolean {
-    console.log(this.invalidZip);
-    console.log(this.invalidPassword);
-    console.log(this.invalidCvc);
-    console.log(this.invalidBillingZip);
-    console.log(this.showCreditCardError);
-    console.log(this.noAccountTypeSelected);
-    console.log(this.passwordsMatch);
-
     if (this.formLoginInformation.valid && this.formPersonalInformation.valid && this.formCreditCardInformation.valid && !this.invalidZip && !this.invalidPassword && !this.invalidCvc && !this.invalidBillingZip && !this.showCreditCardError && !this.noAccountTypeSelected && this.passwordsMatch) {
       return true;
     }
@@ -218,7 +204,7 @@ export class SignUpPage {
       this.passwordsMatch = false;
       this.creditCardRejected = false;
 
-      this.accountInfo = {
+      let accountInfo = {
         fullName: this.formPersonalInformation.value.fullName,
         dob: this.formPersonalInformation.value.DOB,
         address1: this.formPersonalInformation.value.addressLine1,
@@ -236,65 +222,31 @@ export class SignUpPage {
         paymentToken: ''
       };
 
-      this.paymentInfo = {
+      let paymentInfo = {
         creditCardNumber: this.formCreditCardInformation.value.creditCardNumber,
         cvc: this.formCreditCardInformation.value.cvc,
         expDate: this.formCreditCardInformation.value.expirationDate,
         billingZip: this.formCreditCardInformation.value.billingZipCode
       };
 
-      this.registerAccount();
+      this.accountCretionService.testPaymentInfo(paymentInfo)
+        .then((result) => {
+          console.log("Payment token acquired! Creating account now.");
+          console.log(result);
+          this.accountCretionService.createAccount(accountInfo, result)
+            .then ((result) => {
+              console.log("JWT fetched successfully from server!");
+              console.log(result);
+            }, (err) => {
+              console.log("Failed to create account!");
+              console.log(err);
+            });
+        }, (err) => {
+          console.log("Failed to gen payment token!");
+          console.log(err);
+        });
+
     }
-  }
-
-  registerAccount() {
-    Stripe.setPublishableKey('pk_test_FZHQgh9n93qAURvTBJXGwAF8');
-    console.log(this);
-    Stripe.card.createToken({
-      number: this.paymentInfo.creditCardNumber,
-      cvc: this.paymentInfo.cvc,
-      exp_month: new Date(this.paymentInfo.expDate).getMonth() + 1,
-      exp_year: new Date(this.paymentInfo.expDate).getFullYear(),
-      address_zip: this.paymentInfo.billingZip
-    }, this.stripeResponseHandler.bind(this));
-  }
-
-  stripeResponseHandler(status, response) {
-    if (response.error) {
-      this.presentToast("Could not validate card! Please try again.");
-    }
-    else {
-      console.log("token retrieved successfully!");
-      this.createAccount(response.id);
-    }
-  }
-
-  createAccount(token) {
-    this.accountInfo.paymentToken = token;
-    let mockToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6ImFuZHJldyIsImlzQ3VzdG9tZXIiOmZhbHNlLCJpc1BybyI6dHJ1ZX0.RNOEpb2AQ0gi70YeFSm5oOvuUIo8HUPCMV1UPY362xg"; // pro token
-    let data = {
-      user: this.accountInfo,
-      jwt: mockToken
-    };
-    this.authService.storeToken(data);
-
-
-    // this.accountInfo.paymentToken = token;
-    // this.http.post('createUserAccount', this.accountInfo)
-    //   .map(res => res.json())
-    //   .subscribe(
-    //     data => {
-    //       localStorage.setItem('id_token', data.id_token);
-    //       localStorage.setItem('current_user', data.userInfo);
-    this.presentToast("Account created successfully!");
-    this.navCtrl.push(TabsPage);
-    //     },
-    //     error => {
-    //       console.log(error);
-    //       this.authService.logout();
-    //       this.app.getRootNav().setRoot(LoginPage);
-    //     }
-    //   );
   }
 
   presentToast(message) {
