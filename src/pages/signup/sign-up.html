@@ -33,7 +33,7 @@
           <p class="async">Checking email...</p>
         </div>
         <div *ngIf="!formLoginInformation.controls.email.valid && !formLoginInformation.controls.email.pending &&
-                      formLoginInformation.controls.email.dirty && email.value.length > 0 && formLoginInformation.controls.email.hasError('email taken')">
+                      formLoginInformation.controls.email.dirty && email.value.length > 0 && formLoginInformation.controls.email.hasError('email in use')">
           <p class="invalid">That email has already been used</p>
         </div>
         <div *ngIf="!formLoginInformation.controls.email.valid && !formLoginInformation.controls.email.pending &&

@@ -1,9 +1,16 @@
 import {FormControl} from '@angular/forms';
 import {DatabaseService} from "../../services/database.service";
+import {Http} from "@angular/http";
+import {Injectable} from "@angular/core";
 
+@Injectable()
 export class SignUpValidator {
 
-  static validateDOB(control: FormControl): any {
+  constructor(private http: Http) {
+
+  }
+
+  validateDOB(control: FormControl): any {
     if (control.value != '') {
       let givenDate = new Date(control.value);
       givenDate.setMinutes(givenDate.getMinutes() + givenDate.getTimezoneOffset());
@@ -19,12 +26,12 @@ export class SignUpValidator {
     }
   }
 
-  static validateEmail(control: FormControl): any {
+  validateEmail(control: FormControl): any {
     return new Promise(resolve => {
       setTimeout(() => {
         if (new DatabaseService().getCustomerByEmail(control.value)) {
           resolve({
-            "email taken": true
+            "email in use": true
           });
         }
         else if (!/[A-z0-9._%+-]+@[A-z0-9.-]+\.[A-z]{2,}/.test(control.value)) {
@@ -37,9 +44,36 @@ export class SignUpValidator {
         }
       }, 2000);
     });
+
+    // return new Promise((resolve, reject) => {
+    //   if (!/[A-z0-9._%+-]+@[A-z0-9.-]+\.[A-z]{2,}/.test(control.value)) {
+    //     resolve({
+    //       "invalid email": true
+    //     });
+    //   }
+    //
+    //   this.http.post('localhost:3000/api/registration/checkemail', {email: control.value})
+    //     .map(res => res.json())
+    //     .subscribe(
+    //       data => {
+    //         if (data.emailInUse) {
+    //           resolve({
+    //             "email in use": true
+    //           });
+    //         }
+    //         else {
+    //           resolve(null);
+    //         }
+    //       },
+    //       error => {
+    //         console.log(error);
+    //         reject(error);
+    //       }
+    //     );
+    // });
   }
 
-  static validateCreditCard(control: FormControl): any {
+  validateCreditCard(control: FormControl): any {
     let luhnChk = (function (arr) {
       return function (ccNum) {
         var

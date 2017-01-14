@@ -26,12 +26,14 @@ export class LoginPage {
 
   login(credentials): void {
     console.log('Logging in...');
-    if (this.authService.login(credentials)) {
-      this.navCtrl.push(TabsPage)
-    }
-    else {
-      // TODO
-    }
+    this.authService.login(credentials)
+      .then((result) => {
+        console.log(result);
+        this.navCtrl.push(TabsPage)
+      }, (err) => {
+        console.log("Error");
+        console.log(err);
+      });
   }
 
   launchSignUp() {

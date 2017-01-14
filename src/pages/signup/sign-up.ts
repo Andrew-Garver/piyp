@@ -9,7 +9,7 @@ import {AccountCreationService} from "../../services/account-creation.service";
 @Component({
   selector: 'page-sign-up',
   templateUrl: 'sign-up.html',
-  providers: [AuthService, AccountCreationService]
+  providers: [AuthService, AccountCreationService, SignUpValidator]
 })
 
 export class SignUpPage {
@@ -52,7 +52,8 @@ export class SignUpPage {
 
   constructor(public navCtrl: NavController, private authService: AuthService,
               public formBuilder: FormBuilder, private toastCtrl: ToastController,
-              private app: App, private accountCretionService: AccountCreationService) {
+              private app: App, private accountCretionService: AccountCreationService,
+              private signUpValidator: SignUpValidator) {
     this.personalFieldsMissing = false;
     this.loginFieldsMissing = false;
     this.paymentFieldsMissing = false;
@@ -67,7 +68,7 @@ export class SignUpPage {
     this.creditCardRejected = false;
 
     this.formLoginInformation = formBuilder.group({
-      email: ['', Validators.compose([Validators.maxLength(45), Validators.pattern('[A-z0-9._%+-]+@[A-z0-9.-]+\.[A-z]{2,}')]), SignUpValidator.validateEmail],
+      email: ['', Validators.compose([Validators.maxLength(45), Validators.pattern('[A-z0-9._%+-]+@[A-z0-9.-]+\.[A-z]{2,}')]), signUpValidator.validateEmail],
       password1: ['', Validators.required],
       password2: ['', Validators.required],
       checkboxPro: [null],
@@ -76,7 +77,7 @@ export class SignUpPage {
 
     this.formPersonalInformation = formBuilder.group({
       fullName: ['', Validators.compose([Validators.maxLength(60), Validators.pattern('[a-zA-Z ]*'), Validators.required]), null],
-      DOB: ['', Validators.compose([SignUpValidator.validateDOB, Validators.required])],
+      DOB: ['', Validators.compose([signUpValidator.validateDOB, Validators.required])],
       addressLine1: ['', Validators.compose([Validators.maxLength(60), Validators.pattern('[a-zA-Z0-9. ]*'), Validators.required]), null],
       addressLine2: ['', Validators.compose([Validators.maxLength(60), Validators.pattern('[a-zA-Z0-9. ]*')]), null],
       state: ['', Validators.required],
@@ -87,7 +88,7 @@ export class SignUpPage {
     });
 
     this.formCreditCardInformation = formBuilder.group({
-      creditCardNumber: ['', Validators.compose([SignUpValidator.validateCreditCard, Validators.required])],
+      creditCardNumber: ['', Validators.compose([signUpValidator.validateCreditCard, Validators.required])],
       cvc: ['', Validators.compose([Validators.pattern('[0-9]{3,4}'), Validators.required])],
       expirationDate: [new Date().toISOString(), Validators.required],
       billingZipCode: ['', Validators.required]
@@ -233,8 +234,9 @@ export class SignUpPage {
         .then((result) => {
           console.log("Payment token acquired! Creating account now.");
           console.log(result);
-          this.accountCretionService.createAccount(accountInfo, result)
-            .then ((result) => {
+          accountInfo.paymentToken = result;
+          this.accountCretionService.createAccount(accountInfo)
+            .then((result) => {
               console.log("JWT fetched successfully from server!");
               console.log(result);
             }, (err) => {

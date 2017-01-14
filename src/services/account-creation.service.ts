@@ -7,24 +7,26 @@ declare var Stripe: any;
 @Injectable()
 export class AccountCreationService {
 
-  private paymentToken: string;
-
   constructor(private http: Http) {}
 
-  createAccount(userInfo, token): Promise<string> {
-    // let success = false;
-    // this.http.post('https://my-app.com/api/authenticate', {userInfo: userInfo, token: token})
-    //   .map(res => res.json())
-    //   .subscribe(
-    //     data => {
-    //       localStorage.setItem('id_token', data.id_token);
-    //       success = true;
-    //     },
-    //         error => console.log(error)
-    //   );
-    let mockToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6ImFuZHJldyIsImlzQ3VzdG9tZXIiOmZhbHNlLCJpc1BybyI6dHJ1ZX0.RNOEpb2AQ0gi70YeFSm5oOvuUIo8HUPCMV1UPY362xg"; // pro token
-
-    return Promise.resolve(JSON.stringify(mockToken));
+  //TODO: Verify this endpoint
+  createAccount(accountInfo): Promise<string> {
+    return Promise.resolve("imatokenyo");
+    // return new Promise((resolve, reject) => {
+    //   this.http.post('localhost:3000/api/registration/register', {accountInfo: JSON.stringify(userInfo)})
+    //     .map(res => res.json())
+    //     .subscribe(
+    //       data => {
+    //         localStorage.setItem('access_token', data.access_token);
+    //         localStorage.setItem('refresh_token', data.refresh_token);
+    //         resolve(data.refresh_token);
+    //       },
+    //       error => {
+    //         console.log(error);
+    //         reject(error);
+    //       }
+    //     );
+    // });
   }
 
   testPaymentInfo(paymentInfo): Promise<string> {
