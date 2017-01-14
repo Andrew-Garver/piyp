@@ -1,11 +1,11 @@
 <ion-tabs #tabs>
-  <div *ngIf="user.isConsumer">
+  <div *ngIf="user && user.isConsumer">
     <ion-tab [root]="tab1Root" id="tab-find-a-pro" tabTitle="Find a Pro" tabIcon="ios-people"></ion-tab>
     <ion-tab [root]="tab2Root" id="tab-job-requests" tabTitle="Job Requests" tabIcon="ios-archive"></ion-tab>
     <ion-tab [root]="tab3Root" id="tab-hired-jobs" tabTitle="Hired Jobs" tabIcon="ios-briefcase"></ion-tab>
     <ion-tab [root]="tab4Root" id="tab-profile" tabTitle="Profile" tabIcon="ios-person"></ion-tab>
   </div>
-  <div *ngIf="user.isPro && !user.isConsumer">
+  <div *ngIf="user && user.isPro && !user.isConsumer">
     <ion-tab [root]="tab1Root" id="tab-hired-jobs" tabTitle="Hired Jobs" tabIcon="ios-briefcase"></ion-tab>
     <ion-tab [root]="tab2Root" id="tab-find-jobs" tabTitle="Find Jobs" tabIcon="ios-archive"></ion-tab>
     <ion-tab [root]="tab3Root" id="tab-manage-bids" tabTitle="Manage Bids" tabIcon="ios-filing"></ion-tab>

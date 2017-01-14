@@ -8,7 +8,7 @@ import { ProfilePage } from '../pages/profile/profile';
 import { TabsPage } from '../pages/tabs/tabs';
 import { LoginPage } from '../pages/login/login'
 import {SignUpPage} from "../pages/signup/sign-up";
-import {HttpModule} from "@angular/http";
+import {HttpModule, Http} from "@angular/http";
 import {JobDetailsPage} from "../pages/job-details/job-details";
 import {ErrorPage} from "../pages/error/error";
 import {CustomerDetailsPage} from "../pages/customer-details/customer-details";
@@ -19,6 +19,16 @@ import {BidDetailsPage} from "../pages/bid-details/bid-details";
 import {FindJobsPage} from "../pages/find-jobs/find-jobs";
 import {ManageBidsPage} from "../pages/manage-bids/manage-bids";
 import {FindJobFormPage} from "../pages/find-job-form/find-job-form";
+import {AuthConfig, AuthHttp} from "angular2-jwt";
+
+export function getAuthHttp(http) {
+  return new AuthHttp(new AuthConfig({
+    headerPrefix: localStorage.getItem('access_token'),
+    noJwtError: true,
+    globalHeaders: [{'Accept': 'application/json'}],
+    tokenGetter: (() => localStorage.getItem('access_token')),
+  }), http);
+}
 
 @NgModule({
   declarations: [
@@ -66,6 +76,9 @@ import {FindJobFormPage} from "../pages/find-job-form/find-job-form";
     FindJobFormPage,
     ErrorPage
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
+  providers: [
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    {provide: AuthHttp, useFactory: getAuthHttp, deps: [Http]}
+    ]
 })
 export class AppModule {}

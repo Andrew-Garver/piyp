@@ -3,14 +3,15 @@ import {Http} from '@angular/http';
 import 'rxjs/add/operator/map';
 import {User} from "../entities/user";
 import {NavController} from "ionic-angular";
-import {tokenNotExpired, JwtHelper} from "angular2-jwt";
+import {tokenNotExpired, JwtHelper, AuthHttp} from "angular2-jwt";
 
 @Injectable()
 export class AuthService {
 
   private jwtHelper: JwtHelper = new JwtHelper();
 
-  constructor(private http: Http, private navCtrl: NavController) {
+  constructor(private http: Http, private navCtrl: NavController,
+              private authHttp: AuthHttp) {
   }
 
   login(credentials): Promise<string> {
@@ -62,9 +63,9 @@ export class AuthService {
   }
 
   destroyToken(userId): Promise<any> {
-    return Promise.resolve("Token destroyed");
+    return Promise.resolve("token destroyed");
     // return new Promise((resolve, reject) => {
-    //   this.http.get('localhost:3000/api/authentication/logout?id=' + userId)
+    //   this.authHttp.get('localhost:3000/api/authentication/logout?id=' + userId)
     //     .map(res => res.json())
     //     .subscribe(
     //       data => {
@@ -83,13 +84,29 @@ export class AuthService {
     // });
   }
 
+  getTokenExpiry(token) {
+    if (token) {
+      return this.jwtHelper.getTokenExpirationDate(token);
+    }
+    else {
+      return null;
+    }
+  }
+
   loggedIn() {
-    //TODO: Is this the right place to refresh the token?
-    if(!tokenNotExpired()) {
-      // refresh the token
+    let accessToken = localStorage.getItem("access_token");
+    let refreshToken = localStorage.getItem("refresh_token");
+
+    if (refreshToken) {
+      // TODO: Check if refresh token is about to expire and get a new one if it is
     }
 
-    return tokenNotExpired();
+    if (accessToken) {
+      return this.jwtHelper.isTokenExpired(accessToken);
+    }
+    else {
+      return false;
+    }
   }
 
   private getUserFromJWT(mockToken: string): User {

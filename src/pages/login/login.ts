@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 import {ModalController, NavController} from 'ionic-angular';
 import {SignUpPage} from "../signup/sign-up";
@@ -16,11 +16,24 @@ interface Credentials {
   providers: [AuthService]
 })
 
-export class LoginPage {
+export class LoginPage implements OnInit {
 
   credentials: Credentials;
 
   constructor(public modalCtrl: ModalController, private authService: AuthService, private navCtrl: NavController) {
+
+  }
+
+  ngOnInit() {
+    let refreshToken = localStorage.getItem("refresh_token");
+
+    let tokenExpiry = this.authService.getTokenExpiry(refreshToken);
+
+    console.log(tokenExpiry);
+
+    if (this.authService.loggedIn()) {
+      this.navCtrl.push(TabsPage);
+    }
 
   }
 
