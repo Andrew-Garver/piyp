@@ -1,5 +1,4 @@
 import {FormControl} from '@angular/forms';
-import {DatabaseService} from "../../services/database.service";
 import {Http} from "@angular/http";
 import {Injectable} from "@angular/core";
 
@@ -27,50 +26,33 @@ export class SignUpValidator {
   }
 
   validateEmail(control: FormControl): any {
-    return new Promise(resolve => {
-      setTimeout(() => {
-        if (new DatabaseService().getCustomerByEmail(control.value)) {
-          resolve({
-            "email in use": true
-          });
-        }
-        else if (!/[A-z0-9._%+-]+@[A-z0-9.-]+\.[A-z]{2,}/.test(control.value)) {
-          resolve({
-            "invalid email": true
-          });
-        }
-        else {
-          resolve(null);
-        }
-      }, 2000);
+    return new Promise((resolve, reject) => {
+      if (!/[A-z0-9._%+-]+@[A-z0-9.-]+\.[A-z]{2,}/.test(control.value)) {
+        resolve({
+          "invalid email": true
+        });
+      }
+      else {
+        this.http.post('http://localhost:3000/api/registration/checkemail', {email: control.value})
+          .map(res => res.json())
+          .subscribe(
+            data => {
+              if (data.emailInUse) {
+                resolve({
+                  "email in use": true
+                });
+              }
+              else {
+                resolve(null);
+              }
+            },
+            error => {
+              console.log(error);
+              reject(error);
+            }
+          );
+      }
     });
-
-    // return new Promise((resolve, reject) => {
-    //   if (!/[A-z0-9._%+-]+@[A-z0-9.-]+\.[A-z]{2,}/.test(control.value)) {
-    //     resolve({
-    //       "invalid email": true
-    //     });
-    //   }
-    //
-    //   this.http.post('localhost:3000/api/registration/checkemail', {email: control.value})
-    //     .map(res => res.json())
-    //     .subscribe(
-    //       data => {
-    //         if (data.emailInUse) {
-    //           resolve({
-    //             "email in use": true
-    //           });
-    //         }
-    //         else {
-    //           resolve(null);
-    //         }
-    //       },
-    //       error => {
-    //         console.log(error);
-    //         reject(error);
-    //       }
-    //     );
-    // });
   }
 
   validateCreditCard(control: FormControl): any {

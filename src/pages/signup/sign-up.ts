@@ -67,8 +67,20 @@ export class SignUpPage {
     this.country = "US";
     this.creditCardRejected = false;
 
+    let emailValidator = (control) => {
+      return this.signUpValidator.validateEmail(control);
+    };
+
+    let creditCardValidator = (control) => {
+      return this.signUpValidator.validateCreditCard(control);
+    };
+
+    let dobValidator = (control) => {
+      return this.signUpValidator.validateDOB(control);
+    };
+
     this.formLoginInformation = formBuilder.group({
-      email: ['', Validators.compose([Validators.maxLength(45), Validators.pattern('[A-z0-9._%+-]+@[A-z0-9.-]+\.[A-z]{2,}')]), signUpValidator.validateEmail],
+      email: ['', Validators.compose([Validators.maxLength(45), Validators.pattern('[A-z0-9._%+-]+@[A-z0-9.-]+\.[A-z]{2,}')]), emailValidator],
       password1: ['', Validators.required],
       password2: ['', Validators.required],
       checkboxPro: [null],
@@ -77,7 +89,7 @@ export class SignUpPage {
 
     this.formPersonalInformation = formBuilder.group({
       fullName: ['', Validators.compose([Validators.maxLength(60), Validators.pattern('[a-zA-Z ]*'), Validators.required]), null],
-      DOB: ['', Validators.compose([signUpValidator.validateDOB, Validators.required])],
+      DOB: ['', Validators.compose([dobValidator, Validators.required])],
       addressLine1: ['', Validators.compose([Validators.maxLength(60), Validators.pattern('[a-zA-Z0-9. ]*'), Validators.required]), null],
       addressLine2: ['', Validators.compose([Validators.maxLength(60), Validators.pattern('[a-zA-Z0-9. ]*')]), null],
       state: ['', Validators.required],
@@ -88,7 +100,7 @@ export class SignUpPage {
     });
 
     this.formCreditCardInformation = formBuilder.group({
-      creditCardNumber: ['', Validators.compose([signUpValidator.validateCreditCard, Validators.required])],
+      creditCardNumber: ['', Validators.compose([creditCardValidator, Validators.required])],
       cvc: ['', Validators.compose([Validators.pattern('[0-9]{3,4}'), Validators.required])],
       expirationDate: [new Date().toISOString(), Validators.required],
       billingZipCode: ['', Validators.required]
