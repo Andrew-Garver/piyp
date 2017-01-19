@@ -14,7 +14,7 @@ import {ManageBidsPage} from "../manage-bids/manage-bids";
   providers: [AuthService]
 })
 export class TabsPage {
-  user: User;
+  profile: any;
   tab1Root: any;
   tab2Root: any;
   tab3Root: any;
@@ -22,27 +22,22 @@ export class TabsPage {
 
   constructor(private authService: AuthService) {
     console.log("constructing tabs");
-    this.user = JSON.parse(localStorage.getItem("current_profile"));
-    if (this.user) {
-      if (this.user.isConsumer) {
+    this.profile = JSON.parse(localStorage.getItem("current_profile"));
+    if (this.profile) {
+      if (this.profile.type === "consumer") {
+        console.log("launching consumer");
         this.tab1Root = RequestJobsPage;
         this.tab2Root = JobRequestsPage;
         this.tab3Root = HiredJobsPage;
         this.tab4Root = ProfilePage;
       }
-      else if (this.user.isPro) {
+      else if (this.profile.type === "pro") {
+        console.log("launching pro");
         this.tab1Root = HiredJobsPage;
         this.tab2Root = FindJobsPage;
         this.tab3Root = ManageBidsPage;
         this.tab4Root = ProfilePage;
       }
-    }
-  }
-
-  ionViewWillEnter() {
-    let user = JSON.parse(localStorage.getItem("current_user"));
-    if (user.profiles && user.profiles.length > 1) {
-      // TODO: Show select page
     }
   }
 }

@@ -53,8 +53,8 @@ export class BidsPage implements OnInit {
   viewBidDetails(bidId: number) {
     if (bidId > 0) {
       this.navCtrl.push(BidDetailsPage, {bidId: bidId}).catch(() => {
-        this.authService.logout();
-        this.app.getRootNav().setRoot(LoginPage);
+        this.authService.logout()
+          .then(() => this.app.getRootNav().setRoot(LoginPage));
       });
     }
     else {

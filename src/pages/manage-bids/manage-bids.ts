@@ -26,15 +26,16 @@ export class ManageBidsPage implements OnInit{
   }
 
   ngOnInit() {
-    this.databaseService.getOpenBidsByProId(this.userId).then((bids) => this.bids = bids);
+    this.databaseService.getOpenBidsByProId(this.userId)
+      .then((bids) => this.bids = bids);
   }
 
   private viewJobDetails(bid: Bid) {
     if (bid) {
       this.navCtrl.push(JobDetailsPage, {job: bid.job, bid: bid})
         .catch(() => {
-          this.authService.logout();
-          this.app.getRootNav().setRoot(LoginPage);
+          this.authService.logout()
+            .then(() => this.app.getRootNav().setRoot(LoginPage));
         });
     }
     else {

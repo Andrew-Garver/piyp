@@ -19,8 +19,8 @@ export class RequestJobsPage {
   requestJob() {
     this.navCtrl.push(RequestJobFormPage)
       .catch(() => {
-        this.authService.logout();
-        this.app.getRootNav().setRoot(LoginPage);
+        this.authService.logout()
+          .then(() => this.app.getRootNav().setRoot(LoginPage));
       });
   }
 

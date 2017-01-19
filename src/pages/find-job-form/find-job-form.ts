@@ -23,6 +23,19 @@ export class FindJobFormPage {
   }
 
   ionViewCanEnter(): boolean {
+    // this.authService.loggedIn()
+    //   .then((data) => {
+    //     if (data) {
+    //       return true;
+    //     }
+    //     else {
+    //       return false;
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     return false;
+    //   });
+
     if (this.authService.loggedIn()) {
       return true;
     }

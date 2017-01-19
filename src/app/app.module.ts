@@ -23,7 +23,7 @@ import {AuthConfig, AuthHttp} from "angular2-jwt";
 
 export function getAuthHttp(http) {
   return new AuthHttp(new AuthConfig({
-    headerPrefix: "X-",
+    headerPrefix: "",
     noJwtError: true,
     globalHeaders: [
       {'Accept': 'application/json'},

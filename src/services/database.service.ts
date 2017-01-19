@@ -80,7 +80,7 @@ export class DatabaseService {
     return null;
   }
 
-  getHiredJobsByUserId(userId: number): Promise<Job[]> {
+  getHiredJobsByUserId(userId): Promise<Job[]> {
     if (userId > 0) {
       let customer = this.getCustomerById(userId);
       let jobs = this.getAllJobs();
@@ -113,7 +113,7 @@ export class DatabaseService {
     return CUSTOMERS;
   }
 
-  getCustomerById(id: number): Customer {
+  getCustomerById(id): Customer {
     if (id > 0 && id <= CUSTOMERS.length) {
       return CUSTOMERS[id - 1];
     }

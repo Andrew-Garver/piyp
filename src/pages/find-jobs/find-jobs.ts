@@ -21,8 +21,8 @@ export class FindJobsPage {
   findJob() {
     this.navCtrl.push(FindJobFormPage)
       .catch(() => {
-        this.authService.logout();
-        this.app.getRootNav().setRoot(LoginPage);
+        this.authService.logout()
+          .then(() => this.app.getRootNav().setRoot(LoginPage));
       });
   }
 }

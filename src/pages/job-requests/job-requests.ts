@@ -17,26 +17,23 @@ import {AuthService} from "../../services/auth.service";
 export class JobRequestsPage implements OnInit {
 
   requestedJobs: Job[];
-  customer: Customer;
+  profile: any;
 
   constructor(public navCtrl: NavController, private databaseService: DatabaseService,
               private app: App, private authService: AuthService) {
-    this.customer = JSON.parse(localStorage.getItem('current_user'));
+    this.profile = JSON.parse(localStorage.getItem('current_profile'));
   }
 
   ngOnInit() {
-    if (this.customer) {
-      this.databaseService.getOpenJobsByUserId(this.customer.id)
-        .then((requestedJobs) => this.requestedJobs = requestedJobs);
-    }
+    console.log(this.profile._id);
   }
 
   private viewJobDetails(job: Job) {
     if (job) {
       this.navCtrl.push(JobDetailsPage, {job: job})
         .catch(() => {
-          this.authService.logout();
-          this.app.getRootNav().setRoot(LoginPage);
+          this.authService.logout()
+            .then(() => this.app.getRootNav().setRoot(LoginPage));
         });
     }
     else {

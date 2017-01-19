@@ -1,11 +1,12 @@
 import {Component, ViewChild} from '@angular/core';
 
-import {NavController, Slides, ToastController, Checkbox, App} from 'ionic-angular';
+import {NavController, Slides, ToastController, Checkbox, App, ActionSheetController} from 'ionic-angular';
 import {FormBuilder, Validators, FormGroup} from "@angular/forms";
 import {SignUpValidator} from "./sign-up.validator";
 import {AuthService} from "../../services/auth.service";
 import {AccountCreationService} from "../../services/account-creation.service";
 import {TabsPage} from "../tabs/tabs";
+import {SelectProfilePage} from "../select-profile/select-profile";
 
 @Component({
   selector: 'page-sign-up',
@@ -52,7 +53,7 @@ export class SignUpPage {
   constructor(public navCtrl: NavController, private authService: AuthService,
               public formBuilder: FormBuilder, private toastCtrl: ToastController,
               private app: App, private accountCreationService: AccountCreationService,
-              private signUpValidator: SignUpValidator) {
+              private signUpValidator: SignUpValidator, private actionSheetCtrl: ActionSheetController) {
     // this.personalFieldsMissing = false;
     this.loginFieldsMissing = false;
     // this.paymentFieldsMissing = false;
@@ -250,7 +251,12 @@ export class SignUpPage {
         .then((result) => {
           console.log("getUser success");
           if (result) {
-            this.navCtrl.push(TabsPage);
+            if (this.authService.getUserProfile() === 1) {
+              this.navCtrl.push(TabsPage)
+            }
+            else {
+              this.selectProfile();
+            }
           }
         })
         .catch((err) => {
@@ -264,6 +270,38 @@ export class SignUpPage {
       // });
 
     }
+  }
+
+  selectProfile() {
+    let user = JSON.parse(localStorage.getItem('current_user'));
+    let actionSheet = this.actionSheetCtrl.create({
+      title: 'Which profile would you like to explore first?',
+      buttons: [
+        {
+          text: 'Pro',
+          handler: () => {
+            let navTransition = actionSheet.dismiss();
+            localStorage.setItem('current_profile', JSON.stringify(user.profiles[0]));
+            navTransition.then(() => {
+              this.app.getRootNav().setRoot(TabsPage);
+            });
+            return false;
+          }
+        },
+        {
+          text: 'Consumer',
+          handler: () => {
+            let navTransition = actionSheet.dismiss();
+            localStorage.setItem('current_profile', JSON.stringify(user.profiles[1]));
+            navTransition.then(() => {
+              this.app.getRootNav().push(TabsPage);
+            });
+            return false;
+          }
+        }
+      ]
+    });
+    actionSheet.present();
   }
 
   presentToast(message) {

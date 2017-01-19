@@ -50,8 +50,8 @@ export class JobDetailsPage {
   private viewBids(jobId: number) {
     if (jobId) {
       this.navCtrl.push(BidsPage, {jobId: jobId}).catch(() => {
-        this.authService.logout();
-        this.app.getRootNav().setRoot(LoginPage);
+        this.authService.logout()
+          .then(() => this.app.getRootNav().setRoot(LoginPage));
       });
     }
     else {
@@ -66,8 +66,8 @@ export class JobDetailsPage {
   private viewCustomerDetails(customer: Customer) {
     if (customer) {
         this.navCtrl.push(CustomerDetailsPage, {customer: customer}).catch(() => {
-          this.authService.logout();
-          this.app.getRootNav().setRoot(LoginPage);
+          this.authService.logout()
+            .then(() => this.app.getRootNav().setRoot(LoginPage));
         });
     }
     else {
@@ -79,8 +79,8 @@ export class JobDetailsPage {
     if (pro) {
       this.navCtrl.push(ProDetailsPage, {pro: pro})
         .catch(() => {
-          this.authService.logout();
-          this.app.getRootNav().setRoot(LoginPage);
+          this.authService.logout()
+            .then(() => this.app.getRootNav().setRoot(LoginPage));
         });
     }
     else {

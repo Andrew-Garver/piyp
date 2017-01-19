@@ -58,8 +58,8 @@ export class BidDetailsPage implements OnInit {
   private viewCustomerDetails(customer: Customer) {
     if (customer) {
       this.navCtrl.push(CustomerDetailsPage, {customer: customer}).catch(() => {
-        this.authService.logout();
-        this.app.getRootNav().setRoot(LoginPage);
+        this.authService.logout()
+          .then(() => this.app.getRootNav().setRoot(LoginPage));
       });
     }
     else {
@@ -71,8 +71,8 @@ export class BidDetailsPage implements OnInit {
     if (pro) {
       this.navCtrl.push(ProDetailsPage, {pro: pro})
         .catch(() => {
-          this.authService.logout();
-          this.app.getRootNav().setRoot(LoginPage);
+          this.authService.logout()
+            .then(() => this.app.getRootNav().setRoot(LoginPage));
         });
     }
     else {

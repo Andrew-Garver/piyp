@@ -32,19 +32,19 @@ export class AuthService {
     });
   }
 
-  logout() {
-    this.destroyToken(JSON.parse(localStorage.getItem('current_user')).id)
-      .then((data) => {
-        if (data === "token destroyed") {
-          localStorage.removeItem('access_token');
-          localStorage.removeItem('refresh_token');
-          localStorage.removeItem('current_user');
-          localStorage.removeItem('current_profile');
-        }
-        else {
-          console.log(data);
-        }
-      });
+  logout(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.destroyToken(JSON.parse(localStorage.getItem('current_user')).id)
+        .then((data) => {
+          console.log("clearing storage");
+          localStorage.clear();
+          resolve(true);
+        })
+        .catch((err) => {
+          console.log(err);
+          reject(err);
+        });
+    })
   }
 
   destroyToken(userId): Promise<any> {
@@ -76,8 +76,7 @@ export class AuthService {
         .subscribe(
           data => {
             if (data.success) {
-              localStorage.setItem('current_user', data.user);
-              console.log(data.user);
+              localStorage.setItem('current_user', JSON.stringify(data.user));
               resolve(true);
             }
             else {
@@ -92,6 +91,22 @@ export class AuthService {
     });
   }
 
+  getUserProfile(): number {
+    if (!localStorage.getItem('current_user')) {
+      return null;
+    }
+    let user = JSON.parse(localStorage.getItem('current_user'));
+    let profiles = user.profiles;
+
+    if (profiles.length === 1) {
+      localStorage.setItem('current_profile', JSON.stringify(profiles[0]));
+      return 1;
+    }
+    else {
+      return 2;
+    }
+  }
+
   getTokenExpiry(token) {
     if (token) {
       return this.jwtHelper.getTokenExpirationDate(token);
@@ -101,20 +116,60 @@ export class AuthService {
     }
   }
 
-  loggedIn() {
-    let accessToken = localStorage.getItem("access_token");
-    let refreshToken = localStorage.getItem("refresh_token");
+  loggedIn(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      let accessToken = localStorage.getItem("access_token");
+      let refreshToken = localStorage.getItem("refresh_token");
 
-    if (refreshToken) {
-      // TODO: Check if refresh token is about to expire and get a new one if it is
-    }
+      if (refreshToken && accessToken) {
+        let accessTokenExpiry = this.jwtHelper.getTokenExpirationDate(accessToken);
+        let timeNow = new Date();
 
-    if (accessToken) {
-      return this.jwtHelper.isTokenExpired(accessToken);
-    }
-    else {
-      return false;
-    }
+        console.log(accessTokenExpiry);
+        console.log(timeNow);
+        console.log("-------");
+        console.log(accessTokenExpiry.getTime());
+        console.log(timeNow.getTime());
+
+        if (accessTokenExpiry.getTime() - timeNow.getTime() < 60000) {
+          console.log("getting new access token");
+          this.renewAccessToken(refreshToken)
+            .then((data) => {
+              resolve(!this.jwtHelper.isTokenExpired(refreshToken));
+            })
+            .catch((err) => {
+              console.log(err);
+              reject(err);
+            })
+        }
+        else {
+          console.log("accessToken is still good");
+          resolve(!this.jwtHelper.isTokenExpired(refreshToken));
+        }
+      }
+      else {
+        resolve(false);
+      }
+    });
+  }
+
+  private renewAccessToken(refreshToken): Promise<any> {
+    let userEmail = JSON.parse(localStorage.getItem('current_user')).email;
+
+    return new Promise((resolve, reject) => {
+      this.http.post('http://localhost:3000/api/auth/refresh', {email: userEmail, refreshToken: refreshToken})
+        .map(res => res.json())
+        .subscribe(
+          data => {
+            localStorage.setItem('access_token', data.accessToken);
+            resolve(true);
+          },
+          err => {
+            console.log(err);
+            reject(err);
+          }
+        );
+    });
   }
 
   private getUserFromJWT(mockToken: string): User {
