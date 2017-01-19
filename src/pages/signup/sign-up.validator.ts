@@ -33,6 +33,7 @@ export class SignUpValidator {
         });
       }
       else {
+        console.log("Testing email: " + control.value);
         this.http.post('http://localhost:3000/api/registration/checkemail', {email: control.value})
           .map(res => res.json())
           .subscribe(

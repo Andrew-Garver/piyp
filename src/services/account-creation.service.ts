@@ -1,32 +1,32 @@
 import {Injectable} from '@angular/core';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
+import {AuthHttp} from "angular2-jwt";
 
 declare var Stripe: any;
 
 @Injectable()
 export class AccountCreationService {
 
-  constructor(private http: Http) {}
+  constructor(private http: Http, private authHttp: AuthHttp) {}
 
-  //TODO: Verify this endpoint
-  createAccount(accountInfo): Promise<string> {
-    return Promise.resolve("imatokenyo");
-    // return new Promise((resolve, reject) => {
-    //   this.http.post('localhost:3000/api/registration/register', {accountInfo: JSON.stringify(userInfo)})
-    //     .map(res => res.json())
-    //     .subscribe(
-    //       data => {
-    //         localStorage.setItem('access_token', data.access_token);
-    //         localStorage.setItem('refresh_token', data.refresh_token);
-    //         resolve(data.refresh_token);
-    //       },
-    //       error => {
-    //         console.log(error);
-    //         reject(error);
-    //       }
-    //     );
-    // });
+  createAccount(body): Promise<string> {
+    return new Promise((resolve, reject) => {
+      this.http.post('http://localhost:3000/api/registration/register', body)
+        .map(res => res.json())
+        .subscribe(
+          data => {
+            localStorage.setItem('access_token', data.accessToken);
+            localStorage.setItem('refresh_token', data.refreshToken);
+            resolve(true);
+          },
+          error => {
+            console.log("createAccount Failed");
+            console.log(error);
+            reject(error);
+          }
+        );
+    });
   }
 
   testPaymentInfo(paymentInfo): Promise<string> {
@@ -50,7 +50,7 @@ export class AccountCreationService {
       reject(response.error);
     }
     else {
-      console.log("token retrieved successfully!")
+      console.log("token retrieved successfully!");
       resolve(response.id);
     }
   }

@@ -22,7 +22,7 @@ export class TabsPage {
 
   constructor(private authService: AuthService) {
     console.log("constructing tabs");
-    this.user = JSON.parse(localStorage.getItem("current_user"));
+    this.user = JSON.parse(localStorage.getItem("current_profile"));
     if (this.user) {
       if (this.user.isConsumer) {
         this.tab1Root = RequestJobsPage;
@@ -36,6 +36,13 @@ export class TabsPage {
         this.tab3Root = ManageBidsPage;
         this.tab4Root = ProfilePage;
       }
+    }
+  }
+
+  ionViewWillEnter() {
+    let user = JSON.parse(localStorage.getItem("current_user"));
+    if (user.profiles && user.profiles.length > 1) {
+      // TODO: Show select page
     }
   }
 }

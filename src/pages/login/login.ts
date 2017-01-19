@@ -41,10 +41,14 @@ export class LoginPage implements OnInit {
     console.log('Logging in...');
     this.authService.login(credentials)
       .then((result) => {
-        console.log(result);
+        console.log("logged in");
+        return this.authService.getUser();
+      })
+      .then((result) => {
+        console.log("User gotten");
         this.navCtrl.push(TabsPage)
-      }, (err) => {
-        console.log("Error");
+      })
+      .catch((err) => {
         console.log(err);
       });
   }

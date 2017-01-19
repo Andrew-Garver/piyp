@@ -23,9 +23,13 @@ import {AuthConfig, AuthHttp} from "angular2-jwt";
 
 export function getAuthHttp(http) {
   return new AuthHttp(new AuthConfig({
-    headerPrefix: localStorage.getItem('access_token'),
+    headerPrefix: "X-",
     noJwtError: true,
-    globalHeaders: [{'Accept': 'application/json'}],
+    globalHeaders: [
+      {'Accept': 'application/json'},
+      {'Authorization': localStorage.getItem('access_token')},
+      {'Content-Type': 'application/json'}
+      ],
     tokenGetter: (() => localStorage.getItem('access_token')),
   }), http);
 }
