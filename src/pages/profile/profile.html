@@ -1,5 +1,8 @@
 <ion-header>
   <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
     <ion-title>
       Settings
     </ion-title>
@@ -7,14 +10,12 @@
 </ion-header>
 
 <ion-content padding>
+  <ion-img width="80" height="80" src="assets/img/piyp_logo.png"></ion-img>
+
   <ion-list>
-    <!--TODO: Switch Profile button-->
-    <button ion-item>Linked Devices</button>
-    <button ion-item>Credit Cards</button>
-    <button ion-item>Address</button>
-    <button ion-item>Email</button>
-    <button ion-item>Password</button>
-    <button ion-item (click)="logout()">Log out</button>
-    <button ion-item>Close Account</button>
+    <button ion-item>Accept Terms of Service</button>
+    <button ion-item>Provide Personal Info</button>
+    <button ion-item>Provider Business Info</button>
+    <button ion-item>Link Bank Account</button>
   </ion-list>
 </ion-content>

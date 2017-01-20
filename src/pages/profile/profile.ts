@@ -1,24 +1,21 @@
 import {Component} from '@angular/core';
-import {App} from 'ionic-angular';
-
-import {NavController} from 'ionic-angular';
-import {AuthService} from "../../services/auth.service";
-import {LoginPage} from "../login/login";
+import {MenuController} from 'ionic-angular';
 
 @Component({
   selector: 'page-profile',
-  templateUrl: 'profile.html',
-  providers: [AuthService]
+  templateUrl: 'profile.html'
 })
 export class ProfilePage {
 
-  constructor(private app: App, public navCtrl: NavController, private authService: AuthService) {
+  private profilePage: any;
 
+  constructor(private menuCtrl: MenuController) {
+    this.profilePage = ProfilePage;
   }
 
-  logout() {
-    this.authService.logout()
-      .then(() => this.app.getRootNav().setRoot(LoginPage));
+  openMenu() {
+    console.log("Opening menu");
+    this.menuCtrl.open();
   }
 
 }

@@ -1,22 +1,19 @@
 import {Injectable} from '@angular/core';
 import {Http} from '@angular/http';
 import 'rxjs/add/operator/map';
-import {User} from "../entities/user";
-import {NavController, ToastController} from "ionic-angular";
-import {tokenNotExpired, JwtHelper, AuthHttp} from "angular2-jwt";
+import {JwtHelper, AuthHttp} from "angular2-jwt";
 
 @Injectable()
 export class AuthService {
 
   private jwtHelper: JwtHelper = new JwtHelper();
 
-  constructor(private http: Http, private navCtrl: NavController,
-              private authHttp: AuthHttp, private toastCtrl: ToastController) {
+  constructor(private http: Http, private authHttp: AuthHttp) {
   }
 
   login(credentials): Promise<string> {
     return new Promise((resolve, reject) => {
-      this.http.post('http://localhost:3000/api/auth/authenticate', credentials)
+      this.http.post('http://localhost:3000/api/authentication/authenticate', credentials)
         .map(res => res.json())
         .subscribe(
           data => {
@@ -34,7 +31,7 @@ export class AuthService {
 
   logout(): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.destroyToken(JSON.parse(localStorage.getItem('current_user')).id)
+      this.destroyToken()
         .then((data) => {
           console.log("clearing storage");
           localStorage.clear();
@@ -47,26 +44,25 @@ export class AuthService {
     })
   }
 
-  destroyToken(userId): Promise<any> {
-    return Promise.resolve("token destroyed");
-    // return new Promise((resolve, reject) => {
-    //   this.authHttp.get('localhost:3000/api/authentication/logout?id=' + userId)
-    //     .map(res => res.json())
-    //     .subscribe(
-    //       data => {
-    //         if (data.success) {
-    //           resolve("Token destroyed");
-    //         }
-    //         else {
-    //           reject("Unable to destroy token");
-    //         }
-    //       },
-    //       err => {
-    //         console.log(err);
-    //         reject(err);
-    //       }
-    //     );
-    // });
+  destroyToken(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.authHttp.get('http://localhost:3000/api/authentication/logout')
+        .map(res => res.json())
+        .subscribe(
+          data => {
+            if (data.success) {
+              resolve("Token destroyed");
+            }
+            else {
+              reject("Unable to destroy token");
+            }
+          },
+          err => {
+            console.log(err);
+            reject(err);
+          }
+        );
+    });
   }
 
   getUser(): Promise<any> {
@@ -125,12 +121,6 @@ export class AuthService {
         let accessTokenExpiry = this.jwtHelper.getTokenExpirationDate(accessToken);
         let timeNow = new Date();
 
-        console.log(accessTokenExpiry);
-        console.log(timeNow);
-        console.log("-------");
-        console.log(accessTokenExpiry.getTime());
-        console.log(timeNow.getTime());
-
         if (accessTokenExpiry.getTime() - timeNow.getTime() < 60000) {
           console.log("getting new access token");
           this.renewAccessToken(refreshToken)
@@ -143,7 +133,6 @@ export class AuthService {
             })
         }
         else {
-          console.log("accessToken is still good");
           resolve(!this.jwtHelper.isTokenExpired(accessToken));
         }
       }
@@ -157,7 +146,7 @@ export class AuthService {
     let userEmail = JSON.parse(localStorage.getItem('current_user')).email;
 
     return new Promise((resolve, reject) => {
-      this.http.post('http://localhost:3000/api/auth/refresh', {email: userEmail, refreshToken: refreshToken})
+      this.http.post('http://localhost:3000/api/authentication/refresh', {email: userEmail, refreshToken: refreshToken})
         .map(res => res.json())
         .subscribe(
           data => {
@@ -170,15 +159,5 @@ export class AuthService {
           }
         );
     });
-  }
-
-  private getUserFromJWT(mockToken: string): User {
-    let user = new User();
-    user.email = this.jwtHelper.decodeToken(mockToken).username;
-    user.id = this.jwtHelper.decodeToken(mockToken).id;
-    user.isConsumer = this.jwtHelper.decodeToken(mockToken).isConsumer;
-    user.isPro = this.jwtHelper.decodeToken(mockToken).isPro;
-
-    return user;
   }
 }

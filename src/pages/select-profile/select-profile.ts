@@ -18,13 +18,13 @@ export class SelectProfilePage {
   setProProfile() {
     console.log("setting Pro");
     localStorage.setItem('current_profile', JSON.stringify(this.user.profiles[0]));
-    this.navCtrl.push(TabsPage);
+    this.navCtrl.setRoot(TabsPage);
   }
 
   setConsumerProfile() {
     console.log("setting consumer");
     localStorage.setItem('current_profile', JSON.stringify(this.user.profiles[1]));
-    this.navCtrl.push(TabsPage);
+    this.navCtrl.setRoot(TabsPage);
   }
 
 }
