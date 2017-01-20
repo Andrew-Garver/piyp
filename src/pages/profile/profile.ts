@@ -13,9 +13,4 @@ export class ProfilePage {
     this.profilePage = ProfilePage;
   }
 
-  openMenu() {
-    console.log("Opening menu");
-    this.menuCtrl.open();
-  }
-
 }
