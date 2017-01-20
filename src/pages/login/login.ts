@@ -50,44 +50,12 @@ export class LoginPage implements OnInit {
           this.navCtrl.push(TabsPage);
         }
         else {
-          this.selectProfile();
+          this.navCtrl.push(SelectProfilePage);
         }
       })
       .catch((err) => {
         console.log(err);
       });
-  }
-
-  selectProfile() {
-    let user = JSON.parse(localStorage.getItem('current_user'));
-    let actionSheet = this.actionSheetCtrl.create({
-      title: 'Which profile would you like to explore first?',
-      buttons: [
-        {
-          text: 'Pro',
-          handler: () => {
-            let navTransition = actionSheet.dismiss();
-            localStorage.setItem('current_profile', JSON.stringify(user.profiles[0]));
-            navTransition.then(() => {
-              this.app.getRootNav().push(TabsPage);
-            });
-            return false;
-          }
-        },
-        {
-          text: 'Consumer',
-          handler: () => {
-            let navTransition = actionSheet.dismiss();
-            localStorage.setItem('current_profile', JSON.stringify(user.profiles[1]));
-            navTransition.then(() => {
-              this.app.getRootNav().push(TabsPage);
-            });
-            return false;
-          }
-        }
-      ]
-    });
-    actionSheet.present();
   }
 
   launchSignUp() {

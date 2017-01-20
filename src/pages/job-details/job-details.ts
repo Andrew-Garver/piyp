@@ -36,11 +36,22 @@ export class JobDetailsPage {
     }
   }
 
-  ionViewCanEnter(): boolean {
-    if (this.authService.loggedIn()) {
-      return true;
-    }
-    return false;
+  ionViewCanEnter(): Promise<boolean> {
+    return new  Promise((resolve, reject) => {
+      this.authService.loggedIn()
+        .then((data) => {
+          if (data) {
+            resolve(true);
+          }
+          else {
+            resolve(false);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          reject(err);
+        });
+    });
   }
 
   private editBid(bid: Bid) {

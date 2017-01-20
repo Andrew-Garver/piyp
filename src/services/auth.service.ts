@@ -135,7 +135,7 @@ export class AuthService {
           console.log("getting new access token");
           this.renewAccessToken(refreshToken)
             .then((data) => {
-              resolve(!this.jwtHelper.isTokenExpired(refreshToken));
+              resolve(!this.jwtHelper.isTokenExpired(localStorage.getItem("access_token")));
             })
             .catch((err) => {
               console.log(err);
@@ -144,7 +144,7 @@ export class AuthService {
         }
         else {
           console.log("accessToken is still good");
-          resolve(!this.jwtHelper.isTokenExpired(refreshToken));
+          resolve(!this.jwtHelper.isTokenExpired(accessToken));
         }
       }
       else {

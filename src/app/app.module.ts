@@ -20,6 +20,7 @@ import {FindJobsPage} from "../pages/find-jobs/find-jobs";
 import {ManageBidsPage} from "../pages/manage-bids/manage-bids";
 import {FindJobFormPage} from "../pages/find-job-form/find-job-form";
 import {AuthConfig, AuthHttp} from "angular2-jwt";
+import {SelectProfilePage} from "../pages/select-profile/select-profile";
 
 export function getAuthHttp(http) {
   return new AuthHttp(new AuthConfig({
@@ -53,6 +54,7 @@ export function getAuthHttp(http) {
     FindJobsPage,
     ManageBidsPage,
     FindJobFormPage,
+    SelectProfilePage,
     ErrorPage
   ],
   imports: [
@@ -78,6 +80,7 @@ export function getAuthHttp(http) {
     FindJobsPage,
     ManageBidsPage,
     FindJobFormPage,
+    SelectProfilePage,
     ErrorPage
   ],
   providers: [

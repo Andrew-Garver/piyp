@@ -255,7 +255,7 @@ export class SignUpPage {
               this.navCtrl.push(TabsPage)
             }
             else {
-              this.selectProfile();
+              this.navCtrl.push(SelectProfilePage);
             }
           }
         })
@@ -270,38 +270,6 @@ export class SignUpPage {
       // });
 
     }
-  }
-
-  selectProfile() {
-    let user = JSON.parse(localStorage.getItem('current_user'));
-    let actionSheet = this.actionSheetCtrl.create({
-      title: 'Which profile would you like to explore first?',
-      buttons: [
-        {
-          text: 'Pro',
-          handler: () => {
-            let navTransition = actionSheet.dismiss();
-            localStorage.setItem('current_profile', JSON.stringify(user.profiles[0]));
-            navTransition.then(() => {
-              this.app.getRootNav().setRoot(TabsPage);
-            });
-            return false;
-          }
-        },
-        {
-          text: 'Consumer',
-          handler: () => {
-            let navTransition = actionSheet.dismiss();
-            localStorage.setItem('current_profile', JSON.stringify(user.profiles[1]));
-            navTransition.then(() => {
-              this.app.getRootNav().push(TabsPage);
-            });
-            return false;
-          }
-        }
-      ]
-    });
-    actionSheet.present();
   }
 
   presentToast(message) {
