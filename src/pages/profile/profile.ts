@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {NavController} from "ionic-angular";
-import {ProfileDOBForm} from "../profile-personal-info/dob/dob";
+import {ProfileDOBForm} from "../profile-personal-info-forms/dob/dob";
 
 @Component({
   selector: 'page-profile',
