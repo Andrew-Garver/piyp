@@ -19,18 +19,18 @@
 
   <ion-list no-lines>
     <ion-item>
-      <ion-icon name="checkmark-circle" class="complete" item-left></ion-icon>
-      <button ion-item disabled>Accept Terms of Service</button>
+      <!--<ion-icon name="checkmark-circle" class="complete" item-left></ion-icon>-->
+      <button ion-item (click)="displayTOSPage()">Accept Terms of Service</button>
     </ion-item>
     <ion-item>
       <!--<ion-icon name="code-working" class="in-progress" item-left></ion-icon>-->
-      <button ion-item>Provide Personal Info</button>
+      <button ion-item (click)="displayPersonalInfoPage()">Provide Personal Info</button>
     </ion-item>
     <ion-item>
-      <button ion-item disabled>Provide Business Info</button>
+      <button ion-item (click)="displayBusinessInfoPage()">Provide Business Info</button>
     </ion-item>
     <ion-item>
-      <button ion-item disabled>Link Bank Account</button>
+      <button ion-item (click)="displayBankInfoPage()">Link Bank Account</button>
     </ion-item>
   </ion-list>
 </ion-content>

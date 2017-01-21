@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
-import {MenuController} from 'ionic-angular';
+import {NavController} from "ionic-angular";
+import {ProfileDOBForm} from "../profile-personal-info/dob/dob";
 
 @Component({
   selector: 'page-profile',
@@ -10,9 +11,25 @@ export class ProfilePage {
   private profilePage: any;
   private loadProgress: number;
 
-  constructor(private menuCtrl: MenuController) {
+  constructor(private navCtrl: NavController) {
     this.profilePage = ProfilePage;
     this.loadProgress = 25;
+  }
+
+  displayTOSPage() {
+    console.log("TOS");
+  }
+
+  displayPersonalInfoPage() {
+    this.navCtrl.push(ProfileDOBForm);
+  }
+
+  displayBusinessInfoPage() {
+    console.log("BUSINESS");
+  }
+
+  displayBankInfoPage() {
+    console.log("BANK");
   }
 
 }

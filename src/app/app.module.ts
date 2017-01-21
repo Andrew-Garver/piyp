@@ -22,6 +22,8 @@ import {FindJobFormPage} from "../pages/find-job-form/find-job-form";
 import {AuthConfig, AuthHttp} from "angular2-jwt";
 import {SelectProfilePage} from "../pages/select-profile/select-profile";
 import {ProgressBarComponent} from "../components/progress-bar/progress-bar";
+import {ProfilePersonalAddressForm} from "../pages/profile-personal-info/address/address";
+import {ProfileDOBForm} from "../pages/profile-personal-info/dob/dob";
 
 export function getAuthHttp(http) {
   return new AuthHttp(new AuthConfig({
@@ -57,7 +59,9 @@ export function getAuthHttp(http) {
     FindJobFormPage,
     SelectProfilePage,
     ErrorPage,
-    ProgressBarComponent
+    ProgressBarComponent,
+    ProfilePersonalAddressForm,
+    ProfileDOBForm
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -83,7 +87,9 @@ export function getAuthHttp(http) {
     ManageBidsPage,
     FindJobFormPage,
     SelectProfilePage,
-    ErrorPage
+    ErrorPage,
+    ProfilePersonalAddressForm,
+    ProfileDOBForm
   ],
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},
