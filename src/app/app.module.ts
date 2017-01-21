@@ -21,6 +21,7 @@ import {ManageBidsPage} from "../pages/manage-bids/manage-bids";
 import {FindJobFormPage} from "../pages/find-job-form/find-job-form";
 import {AuthConfig, AuthHttp} from "angular2-jwt";
 import {SelectProfilePage} from "../pages/select-profile/select-profile";
+import {ProgressBarComponent} from "../components/progress-bar/progress-bar";
 
 export function getAuthHttp(http) {
   return new AuthHttp(new AuthConfig({
@@ -55,7 +56,8 @@ export function getAuthHttp(http) {
     ManageBidsPage,
     FindJobFormPage,
     SelectProfilePage,
-    ErrorPage
+    ErrorPage,
+    ProgressBarComponent
   ],
   imports: [
     IonicModule.forRoot(MyApp),

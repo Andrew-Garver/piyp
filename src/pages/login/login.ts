@@ -41,21 +41,21 @@ export class LoginPage implements OnInit {
   }
 
   login(credentials): void {
-    // this.authService.login(credentials)
-    //   .then((result) => {
-    //     return this.authService.getUser();
-    //   })
-    //   .then((result) => {
-    //     if (this.authService.getUserProfile() === 1) {
-    //       this.navCtrl.push(TabsPage);
-    //     }
-    //     else {
+    this.authService.login(credentials)
+      .then((result) => {
+        return this.authService.getUser();
+      })
+      .then((result) => {
+        if (this.authService.getUserProfile() === 1) {
+          this.navCtrl.push(TabsPage);
+        }
+        else {
           this.navCtrl.push(SelectProfilePage);
-      //   }
-      // })
-      // .catch((err) => {
-      //   console.log(err);
-      // });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   launchSignUp() {
