@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Services</ion-title>
+    <ion-buttons end>
+      <div class="nav-button-right">
+        <button ion-button (click)="saveAndQuit()">
+          Save
+        </button>
+      </div>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <h5>Last but not least, what services do you offer?</h5>
+
+  <div *ngIf="noServicesSelected">
+    <p class="invalid">You need to select at least one service</p>
+  </div>
+
+    <ion-list>
+      <ion-item *ngFor="let service of services">
+        <ion-label>{{service.category}}</ion-label>
+        <ion-checkbox [(ngModel)]="service.checked"></ion-checkbox>
+      </ion-item>
+    </ion-list>
+
+    <div class="bottom-button">
+      <button ion-button full (click)="finishForms()">Finish</button>
+    </div>
+</ion-content>

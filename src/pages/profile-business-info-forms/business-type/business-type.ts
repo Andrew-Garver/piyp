@@ -4,6 +4,7 @@ import {NavController} from 'ionic-angular';
 import {Validators, FormBuilder, FormGroup} from "@angular/forms";
 import {ProfilePage} from "../../profile/profile";
 import {BusinessAddressForm} from "../business-address/business-address";
+import {BusinessServicesForm} from "../business-services/business-services";
 
 @Component({
   selector: 'page-business-type-form',
@@ -21,7 +22,7 @@ export class BusinessTypeForm {
     this.businessTypeForm = formBuilder.group({
       businessType: ['', Validators.required],
       authorizedRep: [null],
-      ssnLast4: [''],
+      ssnLast4: ['', Validators.pattern('^[0-9]*$')],
       businessName: ['']
     });
   }
@@ -46,10 +47,9 @@ export class BusinessTypeForm {
           this.navCtrl.push(BusinessAddressForm);
         }
         else {
-          // this.navCtrl.push(BusinessCategoryForm);
+          this.navCtrl.push(BusinessServicesForm);
         }
         });
-      console.log("next");
     }
   }
 

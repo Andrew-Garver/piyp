@@ -28,6 +28,7 @@ import {PiypTosPage} from "../pages/profile-tos-forms/piyp-tos/piyp-tos";
 import {StripeTosPage} from "../pages/profile-tos-forms/stripe-tos/stripe-tos";
 import {BusinessTypeForm} from "../pages/profile-business-info-forms/business-type/business-type";
 import {BusinessAddressForm} from "../pages/profile-business-info-forms/business-address/business-address";
+import {BusinessServicesForm} from "../pages/profile-business-info-forms/business-services/business-services";
 
 export function getAuthHttp(http) {
   return new AuthHttp(new AuthConfig({
@@ -69,7 +70,8 @@ export function getAuthHttp(http) {
     PiypTosPage,
     StripeTosPage,
     BusinessTypeForm,
-    BusinessAddressForm
+    BusinessAddressForm,
+    BusinessServicesForm
   ],
   imports: [
     IonicModule.forRoot(MyApp, {tabsHideOnSubPages:"true"}),
@@ -101,7 +103,8 @@ export function getAuthHttp(http) {
     PiypTosPage,
     StripeTosPage,
     BusinessTypeForm,
-    BusinessAddressForm
+    BusinessAddressForm,
+    BusinessServicesForm
   ],
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},

@@ -4,6 +4,7 @@ import {NavController} from 'ionic-angular';
 import {TabsPage} from "../../tabs/tabs";
 import {Validators, FormBuilder, FormGroup} from "@angular/forms";
 import {ProfilePage} from "../../profile/profile";
+import {BusinessServicesForm} from "../business-services/business-services";
 
 @Component({
   selector: 'page-business-address-form',
@@ -29,12 +30,12 @@ export class BusinessAddressForm {
     });
   }
 
-  finishForm() {
+  nextForm() {
     if (this.businessAddressForm.valid) {
       this.formFieldsMissing = false;
       this.postData()
         .then(() => {
-          this.navCtrl.setRoot(ProfilePage);
+          this.navCtrl.push(BusinessServicesForm);
         });
     }
     else {

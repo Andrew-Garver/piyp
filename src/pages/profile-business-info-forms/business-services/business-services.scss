@@ -1,0 +1,27 @@
+page-business-services {
+  p {
+    font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 80%;
+    position: relative;
+    text-align: center;
+  }
+
+  .invalid {
+    background: #FF4949;
+    color: white;
+  }
+
+  .bottom-button {
+    padding: $content-padding;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+
+  .nav-button-right {
+    padding-right: 10%;
+  }
+}

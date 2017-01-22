@@ -17,7 +17,7 @@
     <p class="invalid">Please fill out all form fields carefully</p>
   </div>
 
-  <form #f="ngForm" [formGroup]="businessAddressForm" (ngSubmit)="finishForm()">
+  <form #f="ngForm" [formGroup]="businessAddressForm" (ngSubmit)="nextForm()">
     <div class="form-body">
 
       <h5>Next, we need your business address and tax id number.</h5>
@@ -60,7 +60,7 @@
     </div>
 
     <div class="bottom-button">
-      <button type="submit" ion-button full>Finish</button>
+      <button type="submit" ion-button full>Next: Services</button>
     </div>
   </form>
 
