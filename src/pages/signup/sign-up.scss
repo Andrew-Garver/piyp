@@ -22,4 +22,10 @@ page-sign-up {
     background: #FFFF5C;
   }
 
+  @media (max-width: 340px) {
+    form {
+      font-size: 100%;
+    }
+  }
+
 }

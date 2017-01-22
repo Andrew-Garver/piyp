@@ -7,8 +7,17 @@ page-stripe-tos {
     right: 0;
   }
 
-  .page-content {
-    overflow-y: scroll;
-    height: 77%;
+  @media (max-width: 340px) {
+    .page-content {
+      overflow-y: scroll;
+      height: 70%;
+    }
+  }
+
+  @media (min-width: 341px) {
+    .page-content {
+      overflow-y: scroll;
+      height: 75%;
+    }
   }
 }

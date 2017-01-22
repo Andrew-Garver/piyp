@@ -12,6 +12,17 @@ $font-path: "../assets/fonts";
 // To view all the possible Ionic variables, see:
 // http://ionicframework.com/docs/v2/theming/overriding-ionic-variables/
 
+.denim-background {
+  background: url('../assets/img/denim-med-dark.jpg');
+  background-repeat: no-repeat;
+  background-size:cover;
+}
+
+@media (max-width: 340px) {
+  ion-content {
+    font-size: 70%;
+  }
+}
 
 
 

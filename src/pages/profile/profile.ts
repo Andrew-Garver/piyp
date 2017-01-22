@@ -4,6 +4,7 @@ import {ProfileDOBForm} from "../profile-personal-info-forms/dob/dob";
 import {StripeTosPage} from "../profile-tos-forms/stripe-tos/stripe-tos";
 import {PiypTosPage} from "../profile-tos-forms/piyp-tos/piyp-tos";
 import {BusinessTypeForm} from "../profile-business-info-forms/business-type/business-type";
+import {BankInfoForm} from "../profile-bank-info-forms/bank-info/bank-info";
 
 @Component({
   selector: 'page-profile',
@@ -39,7 +40,7 @@ export class ProfilePage {
   }
 
   displayBankInfoForms() {
-    console.log("BANK");
+    this.navCtrl.push(BankInfoForm);
   }
 
 }

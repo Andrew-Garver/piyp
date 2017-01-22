@@ -1,13 +1,13 @@
-<ion-content padding>
+<ion-content padding class="denim-background">
 
 
-  <img class="logo-img" src="assets/img/piyp_logo.png">
+  <img class="logo-img" src="assets/img/piyp_logo_good.png">
 
   <form #f="ngForm" (ngSubmit)="login(f.value)">
-    <ion-item>
+    <ion-item style="position: relative; top: 10px">
       <ion-input type="text" name="email" placeholder="Email" ngModel></ion-input>
     </ion-item>
-
+<br>
     <ion-item>
       <ion-input type="password" name="password" placeholder="Password" ngModel></ion-input>
     </ion-item>
@@ -17,7 +17,7 @@
   </form>
 
   <div class="center">
-    <a (click)="launchSignUp()">
+    <a class="link" (click)="launchSignUp()">
       No Account? Sign Up!
     </a>
   </div>
