@@ -13,6 +13,11 @@ page-business-services {
     color: white;
   }
 
+  .page-content {
+    overflow-y: scroll;
+    height: 80%;
+  }
+
   .bottom-button {
     padding: $content-padding;
     position: fixed;

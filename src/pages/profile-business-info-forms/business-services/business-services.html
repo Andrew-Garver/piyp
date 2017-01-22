@@ -18,14 +18,16 @@
     <p class="invalid">You need to select at least one service</p>
   </div>
 
+  <div class="page-content">
     <ion-list>
       <ion-item *ngFor="let service of services">
         <ion-label>{{service.category}}</ion-label>
         <ion-checkbox [(ngModel)]="service.checked"></ion-checkbox>
       </ion-item>
     </ion-list>
+  </div>
 
-    <div class="bottom-button">
-      <button ion-button full (click)="finishForms()">Finish</button>
-    </div>
+  <div class="bottom-button">
+    <button ion-button full (click)="finishForms()">Finish</button>
+  </div>
 </ion-content>
