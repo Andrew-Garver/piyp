@@ -24,6 +24,8 @@ import {SelectProfilePage} from "../pages/select-profile/select-profile";
 import {ProgressBarComponent} from "../components/progress-bar/progress-bar";
 import {ProfilePersonalAddressForm} from "../pages/profile-personal-info-forms/address/address";
 import {ProfileDOBForm} from "../pages/profile-personal-info-forms/dob/dob";
+import {PiypTosPage} from "../pages/profile-tos-forms/piyp-tos/piyp-tos";
+import {StripeTosPage} from "../pages/profile-tos-forms/stripe-tos/stripe-tos";
 
 export function getAuthHttp(http) {
   return new AuthHttp(new AuthConfig({
@@ -61,10 +63,12 @@ export function getAuthHttp(http) {
     ErrorPage,
     ProgressBarComponent,
     ProfilePersonalAddressForm,
-    ProfileDOBForm
+    ProfileDOBForm,
+    PiypTosPage,
+    StripeTosPage
   ],
   imports: [
-    IonicModule.forRoot(MyApp),
+    IonicModule.forRoot(MyApp, {tabsHideOnSubPages:"true"}),
     HttpModule
   ],
   bootstrap: [IonicApp],
@@ -89,7 +93,9 @@ export function getAuthHttp(http) {
     SelectProfilePage,
     ErrorPage,
     ProfilePersonalAddressForm,
-    ProfileDOBForm
+    ProfileDOBForm,
+    PiypTosPage,
+    StripeTosPage
   ],
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},

@@ -22,26 +22,30 @@
   <form #f="ngForm" [formGroup]="addressForm" (ngSubmit)="finishForm()">
 
     <ion-item>
-    <ion-input type="text" placeholder="Address Line 1" formControlName="addressLine1"></ion-input>
+      <ion-label floating>Address Line 1</ion-label>
+    <ion-input type="text" formControlName="addressLine1"></ion-input>
     </ion-item>
 
     <ion-item>
-    <ion-input type="text" placeholder="Address Line 2" formControlName="addressLine2"></ion-input>
+      <ion-label floating>Address Line 2</ion-label>
+      <ion-input type="text" formControlName="addressLine2"></ion-input>
     </ion-item>
 
     <ion-item>
-    <ion-input type="text" placeholder="City" formControlName="city"></ion-input>
+      <ion-label floating>City</ion-label>
+      <ion-input type="text" formControlName="city"></ion-input>
     </ion-item>
 
     <ion-item>
-    <ion-label>State</ion-label>
+    <ion-label floating>State</ion-label>
     <ion-select formControlName="state">
     <ion-option value="AZ">Arizona</ion-option>
     </ion-select>
     </ion-item>
 
     <ion-item>
-    <ion-input #zip id="zipcode" type="number" placeholder="Zip Code" formControlName="zipCode"
+      <ion-label floating>Zip Code</ion-label>
+      <ion-input #zip id="zipcode" type="number" formControlName="zipCode"
     (blur)="checkZip(zip.value)"></ion-input>
     </ion-item>
     <div *ngIf="!zipCodeIsValid">

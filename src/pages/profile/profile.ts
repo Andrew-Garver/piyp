@@ -2,6 +2,8 @@ import {Component} from '@angular/core';
 import {NavController} from "ionic-angular";
 import {ProfileDOBForm} from "../profile-personal-info-forms/dob/dob";
 import {ProfilePersonalAddressForm} from "../profile-personal-info-forms/address/address";
+import {StripeTosPage} from "../profile-tos-forms/stripe-tos/stripe-tos";
+import {PiypTosPage} from "../profile-tos-forms/piyp-tos/piyp-tos";
 
 @Component({
   selector: 'page-profile',
@@ -21,19 +23,22 @@ export class ProfilePage {
     this.loadProgress = 25;
   }
 
-  displayTOSPage() {
-    console.log("TOS");
+  displayTOSForms() {
+    //TODO: if (this.user.piypTosAccepted)
+    // this.navCtrl.push(StripeTosPage);
+    //TODO: else
+    this.navCtrl.push(PiypTosPage);
   }
 
-  displayPersonalInfoPage() {
+  displayPersonalInfoForms() {
     this.navCtrl.push(ProfileDOBForm);
   }
 
-  displayBusinessInfoPage() {
+  displayBusinessInfoForms() {
     console.log("BUSINESS");
   }
 
-  displayBankInfoPage() {
+  displayBankInfoForms() {
     console.log("BANK");
   }
 

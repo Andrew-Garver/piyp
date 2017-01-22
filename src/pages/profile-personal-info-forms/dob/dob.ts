@@ -4,13 +4,13 @@ import {NavController} from 'ionic-angular';
 import {ProfilePersonalAddressForm} from "../address/address";
 import {Validators, FormBuilder, FormGroup} from "@angular/forms";
 import {TabsPage} from "../../tabs/tabs";
+import {ProfilePage} from "../../profile/profile";
 
 @Component({
   selector: 'page-profile-dob-form',
   templateUrl: 'dob.html'
 })
 export class ProfileDOBForm {
-
   private dobForm: FormGroup;
   private formIsValid: boolean;
 
@@ -38,7 +38,7 @@ export class ProfileDOBForm {
   saveAndQuit() {
     this.postData()
       .then(() => {
-        this.navCtrl.setRoot(TabsPage);
+        this.navCtrl.setRoot(ProfilePage);
       });
   }
 

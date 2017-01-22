@@ -3,13 +3,13 @@ import {Component} from '@angular/core';
 import {NavController} from 'ionic-angular';
 import {TabsPage} from "../../tabs/tabs";
 import {Validators, FormBuilder, FormGroup} from "@angular/forms";
+import {ProfilePage} from "../../profile/profile";
 
 @Component({
   selector: 'page-profile-personal-address-form',
   templateUrl: 'address.html'
 })
 export class ProfilePersonalAddressForm {
-
   private addressForm: FormGroup;
 
   private zipCodeIsValid: boolean;
@@ -33,7 +33,7 @@ export class ProfilePersonalAddressForm {
       this.formFieldsMissing = false;
       this.postData()
         .then(() => {
-          this.navCtrl.setRoot(TabsPage);
+          this.navCtrl.setRoot(ProfilePage);
         });
     }
     else {
@@ -53,7 +53,7 @@ export class ProfilePersonalAddressForm {
   saveAndQuit() {
     this.postData()
       .then(() => {
-        this.navCtrl.setRoot(TabsPage);
+        this.navCtrl.setRoot(ProfilePage);
       });
   }
 
