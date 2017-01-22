@@ -75,10 +75,6 @@ export class SignUpPage {
     //   return this.signUpValidator.validateCreditCard(control);
     // };
 
-    // let dobValidator = (control) => {
-    //   return this.signUpValidator.validateDOB(control);
-    // };
-
     this.formLoginInformation = formBuilder.group({
       firstName: ['', Validators.compose([Validators.maxLength(60), Validators.pattern('[a-zA-Z ]*'), Validators.required]), null],
       lastName: ['', Validators.compose([Validators.maxLength(60), Validators.pattern('[a-zA-Z ]*'), Validators.required]), null],

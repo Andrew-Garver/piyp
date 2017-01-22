@@ -1,10 +1,31 @@
 <ion-header>
   <ion-navbar>
     <ion-title>Date of Birth</ion-title>
+    <ion-buttons end>
+      <div class="nav-button-right">
+        <button ion-button (click)="saveAndQuit()">
+          Save
+        </button>
+      </div>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <h1>DOB</h1>
-  <button ion-button full (click)="nextPage()">Next: Address Info</button>
+  <h5>First things first! When where you born?</h5>
+
+  <form #f="ngForm" [formGroup]="dobForm" (ngSubmit)="nextPage()">
+    <ion-item>
+      <ion-label>Date of Birth</ion-label>
+      <ion-datetime displayFormat="MMM D, YYYY" pickerFormat="MMM D YYYY" formControlName="dob"></ion-datetime>
+    </ion-item>
+    <div *ngIf="!formIsValid">
+      <p class="invalid">Please select your date of birth</p>
+    </div>
+
+    <div class="bottom-button">
+      <button type="submit" ion-button full>Next: Address Info</button>
+    </div>
+  </form>
+
 </ion-content>
