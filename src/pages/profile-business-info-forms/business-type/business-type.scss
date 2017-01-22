@@ -1,0 +1,28 @@
+page-business-type-form {
+  p {
+    font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+    font-style: normal;
+    font-weight: 300;
+  }
+
+  .invalid {
+    background: #FF4949;
+    color: white;
+    font-size: 80%;
+    position: relative;
+    top: -17px;
+    text-align: center;
+  }
+
+  .bottom-button {
+    padding: $content-padding;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+
+  .nav-button-right {
+    padding-right: 10%;
+  }
+}

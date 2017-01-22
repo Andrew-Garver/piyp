@@ -1,0 +1,66 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Business Type</ion-title>
+    <ion-buttons end>
+      <div class="nav-button-right">
+        <button ion-button (click)="saveAndQuit()">
+          Save
+        </button>
+      </div>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <div *ngIf="formFieldsMissing">
+    <br>
+    <p class="invalid">Please select a business type</p>
+  </div>
+
+  <h5>Do you represent a business or do you work alone?</h5>
+
+  <form #f="ngForm" [formGroup]="businessTypeForm" (ngSubmit)="nextForm()">
+
+    <ion-list radio-group formControlName="businessType">
+      <ion-item>
+        <ion-label>Individual</ion-label>
+        <ion-radio #individual value="individual"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Business</ion-label>
+        <ion-radio #business value="business"></ion-radio>
+      </ion-item>
+    </ion-list>
+
+    <div *ngIf="f.value.businessType === 'business'">
+      <p>Are you an authorized representative of your company?</p>
+      <ion-item>
+        <ion-label>I am</ion-label>
+        <ion-checkbox color="primary" formControlName="authorizedRep" (click)="checkAuthority()"></ion-checkbox>
+      </ion-item>
+
+      <div *ngIf="!authorizedRep">
+        <br>
+        <p class="invalid">You need to be an authorized representative</p>
+      </div>
+    </div>
+
+    <div *ngIf="(f.value.businessType === 'business' && f.value.authorizedRep) || f.value.businessType === 'individual'">
+      <ion-item>
+        <ion-label floating>Last 4 digits of SSN</ion-label>
+        <ion-input #ssn type="number" formControlName="ssnLast4"
+                   (blur)="checkSSN(ssn.value)"></ion-input>
+      </ion-item>
+      <div *ngIf="!ssnIsValid">
+        <p class="invalid">We just need 4 digits</p>
+      </div>
+    </div>
+
+
+
+    <div class="bottom-button">
+      <button type="submit" ion-button full>Next: Business info</button>
+    </div>
+  </form>
+</ion-content>
