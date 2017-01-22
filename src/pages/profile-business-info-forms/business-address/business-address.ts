@@ -7,7 +7,7 @@ import {ProfilePage} from "../../profile/profile";
 
 @Component({
   selector: 'page-business-address-form',
-  templateUrl: 'business-business-address.html'
+  templateUrl: 'business-address.html'
 })
 export class BusinessAddressForm {
   private businessAddressForm: FormGroup;
@@ -24,7 +24,8 @@ export class BusinessAddressForm {
       state: ['', Validators.required],
       city: ['', Validators.required],
       zipCode: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(5),
-        Validators.pattern('[0-9]*'), Validators.required]), null]
+        Validators.pattern('[0-9]*'), Validators.required]), null],
+      businessTaxId: ['', Validators.required]
     });
   }
 

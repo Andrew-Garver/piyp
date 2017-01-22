@@ -15,16 +15,21 @@ export class BusinessTypeForm {
   private formFieldsMissing: boolean = false;
   private authorizedRep: boolean = true;
   private ssnIsValid: boolean = true;
+  private missingBusinessName: boolean = false;
 
   constructor(public navCtrl: NavController, private formBuilder: FormBuilder) {
     this.businessTypeForm = formBuilder.group({
       businessType: ['', Validators.required],
       authorizedRep: [null],
-      ssnLast4: ['', Validators.required]
+      ssnLast4: [''],
+      businessName: ['']
     });
   }
 
   nextForm() {
+    this.checkAuthority();
+    this.checkSSN();
+    this.checkBusinessName();
     if (!this.businessTypeForm.valid) {
       this.formFieldsMissing = true;
     }
@@ -32,12 +37,17 @@ export class BusinessTypeForm {
       this.formFieldsMissing = false;
       this.authorizedRep = false;
     }
-    else {
+    else if (this.ssnIsValid && !this.missingBusinessName) {
       this.formFieldsMissing = false;
       this.authorizedRep = true;
       this.postData()
         .then(() => {
+        if (this.businessTypeForm.value.businessType === "business") {
           this.navCtrl.push(BusinessAddressForm);
+        }
+        else {
+          // this.navCtrl.push(BusinessCategoryForm);
+        }
         });
       console.log("next");
     }
@@ -47,8 +57,13 @@ export class BusinessTypeForm {
     this.authorizedRep = !(this.businessTypeForm.value.businessType === "business" && !this.businessTypeForm.value.authorizedRep);
   }
 
-  checkSSN(ssn) {
-    this.ssnIsValid = (ssn != undefined && ssn.length === 4);
+  checkSSN() {
+    this.ssnIsValid = !(this.businessTypeForm.value.businessType === "individual" && this.businessTypeForm.value.ssnLast4.length !== 4);
+  }
+
+  checkBusinessName() {
+    // TODO: Check if business name already exists?
+    this.missingBusinessName = (this.businessTypeForm.value.businessType === "business" && !this.businessTypeForm.value.businessName)
   }
 
   saveAndQuit() {

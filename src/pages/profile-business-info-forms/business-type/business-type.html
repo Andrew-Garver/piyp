@@ -46,14 +46,24 @@
       </div>
     </div>
 
-    <div *ngIf="(f.value.businessType === 'business' && f.value.authorizedRep) || f.value.businessType === 'individual'">
+    <div *ngIf="f.value.businessType === 'individual'">
       <ion-item>
         <ion-label floating>Last 4 digits of SSN</ion-label>
-        <ion-input #ssn type="number" formControlName="ssnLast4"
-                   (blur)="checkSSN(ssn.value)"></ion-input>
+        <ion-input type="number" formControlName="ssnLast4"
+                   (blur)="checkSSN()"></ion-input>
       </ion-item>
       <div *ngIf="!ssnIsValid">
         <p class="invalid">We just need 4 digits</p>
+      </div>
+    </div>
+
+    <div *ngIf="(f.value.businessType === 'business' && f.value.authorizedRep)">
+      <ion-item>
+        <ion-label floating>Business Name</ion-label>
+        <ion-input type="text" formControlName="businessName" (blur)="checkBusinessName()"></ion-input>
+      </ion-item>
+      <div *ngIf="missingBusinessName">
+        <p class="invalid">Please provide a business name</p>
       </div>
     </div>
 
