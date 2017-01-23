@@ -19,7 +19,7 @@ export class ProfilePage {
 
   constructor(private navCtrl: NavController) {
     this.user = localStorage.getItem('current_user');
-    this.currentProfile = localStorage.getItem('current_profile');
+    this.currentProfile = JSON.parse(localStorage.getItem('current_profile'));
     this.profilePage = ProfilePage;
     this.loadProgress = 25;
   }
@@ -41,6 +41,11 @@ export class ProfilePage {
 
   displayBankInfoForms() {
     this.navCtrl.push(BankInfoForm);
+  }
+
+  displayPaymentInfoForms() {
+    console.log("Payment Info");
+    // this.navCtrl.push(BankInfoForm);
   }
 
 }

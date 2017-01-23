@@ -5,8 +5,13 @@
 </ion-header>
 
 <ion-content padding>
-  <h2>Hi there!</h2>
-  <h5>How can we get you started today?</h5>
+  <div *ngIf="!switchProfile">
+    <h2>Hi there!</h2>
+    <h5>How can we get you started today?</h5>
+  </div>
+  <div *ngIf="switchProfile">
+    <h5>Which profile would you like to use?</h5>
+  </div>
   <div class="buttons">
     <button ion-button full (click)="setProProfile()">Visit my Pro dashboard</button>
     <button ion-button full (click)="setConsumerProfile()">Visit my Consumer dashboard</button>

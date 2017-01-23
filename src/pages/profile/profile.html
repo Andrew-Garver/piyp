@@ -22,15 +22,25 @@
       <!--<ion-icon name="checkmark-circle" class="complete" item-left></ion-icon>-->
       <button ion-item (click)="displayTOSForms()">Accept Terms of Service</button>
     </ion-item>
+
     <ion-item>
       <!--<ion-icon name="code-working" class="in-progress" item-left></ion-icon>-->
       <button ion-item (click)="displayPersonalInfoForms()">Provide Personal Info</button>
     </ion-item>
-    <ion-item>
-      <button ion-item (click)="displayBusinessInfoForms()">Provide Business Info</button>
-    </ion-item>
-    <ion-item>
-      <button ion-item (click)="displayBankInfoForms()">Link Bank Account</button>
-    </ion-item>
+
+    <div *ngIf="currentProfile.type === 'pro'">
+      <ion-item>
+        <button ion-item (click)="displayBusinessInfoForms()">Provide Business Info</button>
+      </ion-item>
+      <ion-item>
+        <button ion-item (click)="displayBankInfoForms()">Link Bank Account</button>
+      </ion-item>
+    </div>
+
+    <div *ngIf="currentProfile.type === 'consumer'">
+      <ion-item>
+        <button ion-item (click)="displayPaymentInfoForms()">Provide Payment Info</button>
+      </ion-item>
+    </div>
   </ion-list>
 </ion-content>

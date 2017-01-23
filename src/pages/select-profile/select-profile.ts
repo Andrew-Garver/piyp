@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 
-import {NavController} from 'ionic-angular';
+import {NavController, NavParams} from 'ionic-angular';
 import {TabsPage} from "../tabs/tabs";
 
 @Component({
@@ -10,19 +10,19 @@ import {TabsPage} from "../tabs/tabs";
 export class SelectProfilePage {
 
   private user: any;
+  private switchProfile: any;
 
-  constructor(public navCtrl: NavController) {
+  constructor(public navCtrl: NavController, private params: NavParams) {
     this.user = JSON.parse(localStorage.getItem('current_user'));
+    this.switchProfile = params.get('switch_profile');
   }
 
   setProProfile() {
-    console.log("setting Pro");
     localStorage.setItem('current_profile', JSON.stringify(this.user.profiles[0]));
     this.navCtrl.setRoot(TabsPage);
   }
 
   setConsumerProfile() {
-    console.log("setting consumer");
     localStorage.setItem('current_profile', JSON.stringify(this.user.profiles[1]));
     this.navCtrl.setRoot(TabsPage);
   }
