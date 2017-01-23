@@ -16,12 +16,6 @@ page-login {
       display: block;
       width: 70%;
     }
-
-    .center {
-      margin: auto;
-      text-align: center;
-      padding-top: 20px;
-    }
   }
 
   @media (min-width: 341px) {
@@ -33,28 +27,13 @@ page-login {
       display: block;
       width: 75%;
     }
-
-    .center {
-      margin: auto;
-      text-align: center;
-      padding-top: 20px;
-    }
   }
 
-  //.logo-img {
-  //  padding-top:15%;
-  //  padding-bottom:20%;
-  //  margin-left: auto;
-  //  margin-right: auto;
-  //  display: block;
-  //  width: 75%;
-  //}
-  //
-  //.center {
-  //  margin: auto;
-  //  text-align: center;
-  //  padding-top: 20px;
-  //}
+  .center {
+    margin: auto;
+    text-align: center;
+    padding-top: 20px;
+  }
 
   .link {
     color: white;

@@ -11,7 +11,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content padding>
   <!--<ion-slides #signupSlider>-->
 
   <!--<ion-slide>-->
@@ -21,7 +21,7 @@
   </ion-list-header>
 
   <div *ngIf="loginFieldsMissing">
-    <p class="invalid">Please fill out all form fields carefully</p>
+    <p class="invalid-head">Please fill out all form fields carefully</p>
   </div>
 
   <form #f="ngForm" [formGroup]="formLoginInformation" (ngSubmit)="signUp()">
@@ -38,10 +38,6 @@
     <ion-item>
       <ion-input #email type="email" placeholder="Email" formControlName="email"></ion-input>
     </ion-item>
-    <!--<div *ngIf="formLoginInformation.controls.email.pending && formLoginInformation.controls.email.dirty &&-->
-    <!--formLoginInformation.value.email.includes('@') && formLoginInformation.value.email.includes('.')">-->
-    <!--<p class="async">Checking email...</p>-->
-    <!--</div>-->
     <div *ngIf="!formLoginInformation.controls.email.valid && !formLoginInformation.controls.email.pending &&
                       formLoginInformation.controls.email.dirty && email.value.length > 0 && formLoginInformation.controls.email.hasError('email in use')">
       <p class="invalid">That email has already been used</p>
@@ -57,7 +53,8 @@
                  (blur)="checkPasswords()"></ion-input>
     </ion-item>
     <div *ngIf="invalidPassword">
-      <p class="invalid">Password must contain at least 1 lowercase letter, 1 uppercase letter, 1 digit, and be at least
+      <p class="invalid">Password must contain at least 1 lowercase letter, 1 uppercase letter, 1 digit, and be at
+        least
         8 characters</p>
     </div>
 

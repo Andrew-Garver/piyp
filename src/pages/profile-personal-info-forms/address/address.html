@@ -12,12 +12,11 @@
 </ion-header>
 
 <ion-content padding>
-  <div *ngIf="formFieldsMissing">
-    <br>
-    <p class="invalid">Please fill out all form fields carefully</p>
-  </div>
-
   <h5>Great! Now, where do you live?</h5>
+
+  <div *ngIf="formFieldsMissing">
+    <p class="invalid-head">Please fill out all form fields carefully</p>
+  </div>
 
   <form #f="ngForm" [formGroup]="addressForm" (ngSubmit)="finishForm()">
 

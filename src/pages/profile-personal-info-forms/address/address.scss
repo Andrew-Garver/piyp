@@ -4,14 +4,20 @@ page-profile-personal-address-form {
     font-style: normal;
     font-weight: 300;
     font-size: 80%;
-    position: relative;
-    top: -17px;
-    text-align: center;
   }
 
   .invalid {
     background: #FF4949;
     color: white;
+    position: relative;
+    top: -17px;
+    text-align: center;
+  }
+
+  .invalid-head {
+    background: #FF4949;
+    color: white;
+    text-align: center;
   }
 
   .bottom-button {

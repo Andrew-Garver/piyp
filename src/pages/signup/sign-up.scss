@@ -4,28 +4,21 @@ page-sign-up {
     font-style: normal;
     font-weight: 300;
     font-size: 80%;
-    position: relative;
-    top: -17px;
-    text-align: center;
-  }
-
-  .description_heading {
-
+    padding-left: $content-padding;
+    padding-right: $content-padding;
   }
 
   .invalid {
     background: #FF4949;
     color: white;
+    position: relative;
+    top: -17px;
+    text-align: center;
   }
 
-  .async {
-    background: #FFFF5C;
+  .invalid-head {
+    background: #FF4949;
+    color: white;
+    text-align: center;
   }
-
-  @media (max-width: 340px) {
-    form {
-      font-size: 100%;
-    }
-  }
-
 }

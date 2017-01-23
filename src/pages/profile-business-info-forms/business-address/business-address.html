@@ -12,53 +12,50 @@
 </ion-header>
 
 <ion-content padding>
-  <div *ngIf="formFieldsMissing">
-    <br>
-    <p class="invalid">Please fill out all form fields carefully</p>
-  </div>
-
   <form #f="ngForm" [formGroup]="businessAddressForm" (ngSubmit)="nextForm()">
-    <div class="form-body">
+    <h5>Next, we need your business address and tax id number.</h5>
 
-      <h5>Next, we need your business address and tax id number.</h5>
-
-      <ion-item>
-        <ion-label floating>Address Line 1</ion-label>
-        <ion-input type="text" formControlName="addressLine1"></ion-input>
-      </ion-item>
-
-      <ion-item>
-        <ion-label floating>Address Line 2</ion-label>
-        <ion-input type="text" formControlName="addressLine2"></ion-input>
-      </ion-item>
-
-      <ion-item>
-        <ion-label floating>City</ion-label>
-        <ion-input type="text" formControlName="city"></ion-input>
-      </ion-item>
-
-      <ion-item>
-        <ion-label floating>State</ion-label>
-        <ion-select formControlName="state">
-          <ion-option value="AZ">Arizona</ion-option>
-        </ion-select>
-      </ion-item>
-
-      <ion-item>
-        <ion-label floating>Zip Code</ion-label>
-        <ion-input #zip id="zipcode" type="number" formControlName="zipCode"
-                   (blur)="checkZip(zip.value)"></ion-input>
-      </ion-item>
-      <div *ngIf="!zipCodeIsValid">
-        <p class="invalid">Zip code must be 5 numbers long</p>
-      </div>
-
-      <ion-item>
-        <ion-label floating>Business Tax ID</ion-label>
-        <ion-input type="text" formControlName="businessTaxId"></ion-input>
-      </ion-item>
+    <div *ngIf="formFieldsMissing">
+      <p class="invalid-head">Please fill out all form fields carefully</p>
     </div>
 
+    <ion-item>
+      <ion-label floating>Address Line 1</ion-label>
+      <ion-input type="text" formControlName="addressLine1"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Address Line 2</ion-label>
+      <ion-input type="text" formControlName="addressLine2"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>City</ion-label>
+      <ion-input type="text" formControlName="city"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>State</ion-label>
+      <ion-select formControlName="state">
+        <ion-option value="AZ">Arizona</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Zip Code</ion-label>
+      <ion-input #zip id="zipcode" type="number" formControlName="zipCode"
+                 (blur)="checkZip(zip.value)"></ion-input>
+    </ion-item>
+    <div *ngIf="!zipCodeIsValid">
+      <p class="invalid">Zip code must be 5 numbers long</p>
+    </div>
+
+    <ion-item>
+      <ion-label floating>Business Tax ID</ion-label>
+      <ion-input type="text" formControlName="businessTaxId"></ion-input>
+    </ion-item>
+
+    <br>
     <div class="bottom-button">
       <button type="submit" ion-button full>Next: Services</button>
     </div>

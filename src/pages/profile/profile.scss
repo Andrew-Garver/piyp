@@ -15,4 +15,10 @@ page-profile {
   .in-progress {
     color: #FF9500;
   }
+
+  @media (max-width: 340px) {
+    ion-content {
+      font-size: 70%;
+    }
+  }
 }
