@@ -5,10 +5,12 @@ import {Validators, FormBuilder, FormGroup} from "@angular/forms";
 import {ProfilePage} from "../../profile/profile";
 import {BusinessAddressForm} from "../business-address/business-address";
 import {BusinessServicesForm} from "../business-services/business-services";
+import {ProfileService} from "../../../services/profile.service";
 
 @Component({
   selector: 'page-business-type-form',
-  templateUrl: 'business-type.html'
+  templateUrl: 'business-type.html',
+  providers: [ProfileService]
 })
 export class BusinessTypeForm {
   private businessTypeForm: FormGroup;
@@ -18,7 +20,8 @@ export class BusinessTypeForm {
   private ssnIsValid: boolean = true;
   private missingBusinessName: boolean = false;
 
-  constructor(public navCtrl: NavController, private formBuilder: FormBuilder) {
+  constructor(public navCtrl: NavController, private formBuilder: FormBuilder,
+              private profileService: ProfileService) {
     this.businessTypeForm = formBuilder.group({
       businessType: ['', Validators.required],
       authorizedRep: [null],
@@ -34,27 +37,29 @@ export class BusinessTypeForm {
     if (!this.businessTypeForm.valid) {
       this.formFieldsMissing = true;
     }
-    else if (this.businessTypeForm.value.businessType === "business" && !this.businessTypeForm.value.authorizedRep) {
+    else if (this.businessTypeForm.value.businessType === "company" && !this.businessTypeForm.value.authorizedRep) {
       this.formFieldsMissing = false;
       this.authorizedRep = false;
     }
     else if (this.ssnIsValid && !this.missingBusinessName) {
       this.formFieldsMissing = false;
       this.authorizedRep = true;
+      this.profileService.presentLoading();
       this.postData()
         .then(() => {
-        if (this.businessTypeForm.value.businessType === "business") {
-          this.navCtrl.push(BusinessAddressForm);
-        }
-        else {
-          this.navCtrl.push(BusinessServicesForm);
-        }
+          this.profileService.hideLoading();
+          if (this.businessTypeForm.value.businessType === "company") {
+            this.navCtrl.push(BusinessAddressForm);
+          }
+          else {
+            this.navCtrl.push(BusinessServicesForm);
+          }
         });
     }
   }
 
   checkAuthority() {
-    this.authorizedRep = !(this.businessTypeForm.value.businessType === "business" && !this.businessTypeForm.value.authorizedRep);
+    this.authorizedRep = !(this.businessTypeForm.value.businessType === "company" && !this.businessTypeForm.value.authorizedRep);
   }
 
   checkSSN() {
@@ -63,7 +68,7 @@ export class BusinessTypeForm {
 
   checkBusinessName() {
     // TODO: Check if business name already exists?
-    this.missingBusinessName = (this.businessTypeForm.value.businessType === "business" && !this.businessTypeForm.value.businessName)
+    this.missingBusinessName = (this.businessTypeForm.value.businessType === "company" && !this.businessTypeForm.value.businessName)
   }
 
   saveAndQuit() {
@@ -74,7 +79,12 @@ export class BusinessTypeForm {
   }
 
   postData(): Promise<boolean> {
-    return Promise.resolve(true);
+    let profileId = JSON.parse(localStorage.getItem('current_profile'))._id;
+    let params = {
+      businessType: this.businessTypeForm.value.businessType,
+      ssnLast4: this.businessTypeForm.value.ssnLast4
+    };
+    return this.profileService.updateUserProfile(profileId, params);
   }
 
 }

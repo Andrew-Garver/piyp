@@ -17,24 +17,15 @@ export class ProfileDOBForm {
   private formIsValid: boolean;
 
   constructor(public navCtrl: NavController, private formBuilder: FormBuilder,
-  private profileService: ProfileService) {
+              private profileService: ProfileService) {
     this.formIsValid = true;
 
     // let dobObj = JSON.parse(localStorage.getItem('current_profile')).stripeAccount.legal_entity.dob;
-    // console.log(dobObj);
-    // console.log(dobObj.year);
-    // console.log(dobObj.month);
-    // console.log(dobObj.day);
-    // let year = "1997";
-    // let month = "1";
-    // let day = "1";
-    // let dob = year + "-" + month + "-" + day;
     // // this.dob = (dobObj.year && dobObj.month && dobObj.day) ? dobObj.year + "-" + dobObj.month + "-" + dobObj.day : '';
-    // console.log(new Date("1999-12-31").toISOString());
-    // console.log(new Date(dob).toISOString());
 
-    console.log(new Date("1997-1-1"));
-    console.log(new Date("1997-1-1").toISOString());
+    //TODO: WTF???
+    // console.log(new Date("1997-1-1"));
+    // console.log(new Date("1997-1-1").toISOString());
 
     this.dobForm = formBuilder.group({
       dob: ['', Validators.required]
@@ -43,9 +34,11 @@ export class ProfileDOBForm {
 
   nextPage() {
     if (this.dobForm.valid) {
+      this.profileService.presentLoading();
       this.formIsValid = true;
       this.postData()
         .then(() => {
+          this.profileService.hideLoading();
           this.navCtrl.push(ProfilePersonalAddressForm);
         });
     }

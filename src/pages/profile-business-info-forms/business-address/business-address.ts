@@ -5,10 +5,12 @@ import {TabsPage} from "../../tabs/tabs";
 import {Validators, FormBuilder, FormGroup} from "@angular/forms";
 import {ProfilePage} from "../../profile/profile";
 import {BusinessServicesForm} from "../business-services/business-services";
+import {ProfileService} from "../../../services/profile.service";
 
 @Component({
   selector: 'page-business-address-form',
-  templateUrl: 'business-address.html'
+  templateUrl: 'business-address.html',
+  providers: [ProfileService]
 })
 export class BusinessAddressForm {
   private businessAddressForm: FormGroup;
@@ -16,7 +18,8 @@ export class BusinessAddressForm {
   private zipCodeIsValid: boolean;
   private formFieldsMissing: boolean;
 
-  constructor(public navCtrl: NavController, private formBuilder: FormBuilder) {
+  constructor(public navCtrl: NavController, private formBuilder: FormBuilder,
+              private profileService: ProfileService) {
     this.zipCodeIsValid = true;
 
     this.businessAddressForm = formBuilder.group({
@@ -33,8 +36,10 @@ export class BusinessAddressForm {
   nextForm() {
     if (this.businessAddressForm.valid) {
       this.formFieldsMissing = false;
+      this.profileService.presentLoading();
       this.postData()
         .then(() => {
+          this.profileService.hideLoading();
           this.navCtrl.push(BusinessServicesForm);
         });
     }
@@ -44,13 +49,13 @@ export class BusinessAddressForm {
   }
 
   checkZip(zip) {
-      if (zip != undefined && zip.length != 5) {
-        this.zipCodeIsValid = false;
-      }
-      else {
-        this.zipCodeIsValid = true;
-      }
+    if (zip != undefined && zip.length != 5) {
+      this.zipCodeIsValid = false;
     }
+    else {
+      this.zipCodeIsValid = true;
+    }
+  }
 
   saveAndQuit() {
     this.postData()
@@ -60,7 +65,18 @@ export class BusinessAddressForm {
   }
 
   postData(): Promise<boolean> {
-    return Promise.resolve(true);
+    let profileId = JSON.parse(localStorage.getItem('current_profile'))._id;
+    let address = {
+      "address1": this.businessAddressForm.value.addressLine1,
+      "address2": this.businessAddressForm.value.addressLine2,
+      "city": this.businessAddressForm.value.city,
+      "state": this.businessAddressForm.value.state,
+      "zip": this.businessAddressForm.value.zipCode
+    };
+    return this.profileService.updateUserProfile(profileId, {
+      businessAddress: address,
+      businessTaxId: this.businessAddressForm.value.businessType
+    });
   }
 
 }

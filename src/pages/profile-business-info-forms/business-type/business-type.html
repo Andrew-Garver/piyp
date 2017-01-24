@@ -17,23 +17,23 @@
     <p class="invalid">Please select a business type</p>
   </div>
 
-  <h5>Do you represent a business or do you work alone?</h5>
+  <h5>Do you represent a company or do you work alone?</h5>
 
   <form #f="ngForm" [formGroup]="businessTypeForm" (ngSubmit)="nextForm()">
 
     <ion-list radio-group formControlName="businessType">
       <ion-item>
         <ion-label>Individual</ion-label>
-        <ion-radio #individual value="individual"></ion-radio>
+        <ion-radio value="individual"></ion-radio>
       </ion-item>
 
       <ion-item>
-        <ion-label>Business</ion-label>
-        <ion-radio #business value="business"></ion-radio>
+        <ion-label>Company</ion-label>
+        <ion-radio value="company"></ion-radio>
       </ion-item>
     </ion-list>
 
-    <div *ngIf="f.value.businessType === 'business'">
+    <div *ngIf="f.value.businessType === 'company'">
       <p>Are you an authorized representative of your company?</p>
       <ion-item>
         <ion-label>I am</ion-label>
@@ -57,20 +57,20 @@
       </div>
     </div>
 
-    <div *ngIf="(f.value.businessType === 'business' && f.value.authorizedRep)">
+    <div *ngIf="(f.value.businessType === 'company' && f.value.authorizedRep)">
       <ion-item>
-        <ion-label floating>Business Name</ion-label>
+        <ion-label floating>Company Name</ion-label>
         <ion-input type="text" formControlName="businessName" (blur)="checkBusinessName()"></ion-input>
       </ion-item>
       <div *ngIf="missingBusinessName">
-        <p class="invalid">Please provide a business name</p>
+        <p class="invalid">Please provide a company name</p>
       </div>
     </div>
 
 
 
     <div class="bottom-button">
-      <button type="submit" ion-button full>Next: Business info</button>
+      <button type="submit" ion-button full>Next: Services</button>
     </div>
   </form>
 </ion-content>

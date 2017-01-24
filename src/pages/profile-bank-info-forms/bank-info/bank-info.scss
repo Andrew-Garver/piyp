@@ -6,4 +6,27 @@ page-bank-info {
     left: 0;
     right: 0;
   }
+
+  p {
+    font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 80%;
+    padding-left: $content-padding;
+    padding-right: $content-padding;
+  }
+
+  .invalid {
+    background: #FF4949;
+    color: white;
+    position: relative;
+    top: -17px;
+    text-align: center;
+  }
+
+  .invalid-head {
+    background: #FF4949;
+    color: white;
+    text-align: center;
+  }
 }

@@ -12,10 +12,40 @@
 </ion-header>
 
 <ion-content padding>
-  <h5>Inert witty saying here</h5>
+  <h5>This lets you get paid!</h5>
 
+  <form #f="ngForm" [formGroup]="bankAccountInfoForm" (ngSubmit)="submit()">
+    <div *ngIf="formFieldsMissing">
+      <p class="invalid-head">Please fill out all form fields carefully</p>
+    </div>
 
-  <div class="bottom-button">
-    <button ion-button full (click)="nextForm()">Accept</button>
-  </div>
+    <ion-item>
+      <ion-label floating>Account Holder Name</ion-label>
+      <ion-input type="text" formControlName="accountHolderName"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Account Type</ion-label>
+      <ion-select formControlName="accountType">
+        <ion-option value="individual">Individual</ion-option>
+        <ion-option value="company">Company</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Account Number</ion-label>
+      <ion-input type="number" formControlName="accountNumber"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Routing Number</ion-label>
+      <ion-input type="number" formControlName="routingNumber"></ion-input>
+    </ion-item>
+
+    <br>
+    <div class="bottom-button">
+      <button type="submit" ion-button full>Submit</button>
+    </div>
+  </form>
+
 </ion-content>

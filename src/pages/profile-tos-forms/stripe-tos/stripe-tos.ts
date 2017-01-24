@@ -15,9 +15,11 @@ export class StripeTosPage {
   }
 
   finish() {
+    this.profileService.presentLoading();
     this.postData()
       .then(() => {
         this.navCtrl.setRoot(ProfilePage);
+        this.profileService.hideLoading();
       })
       .catch((err) => {
         console.log("error");

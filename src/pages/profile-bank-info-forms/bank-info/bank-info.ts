@@ -3,21 +3,44 @@ import {Component} from '@angular/core';
 import {NavController} from 'ionic-angular';
 import {StripeTosPage} from "../stripe-tos/stripe-tos";
 import {ProfilePage} from "../../profile/profile";
+import {Validators, FormBuilder, FormGroup} from "@angular/forms";
+import {ExternalAccountService} from "../../../services/external-account.service";
 
 @Component({
   selector: 'page-bank-info',
-  templateUrl: 'bank-info.html'
+  templateUrl: 'bank-info.html',
+  providers: [ExternalAccountService]
 })
 export class BankInfoForm {
 
-  constructor(public navCtrl: NavController) {
+  private bankAccountInfoForm: FormGroup;
+  private formFieldsMissing: boolean;
+
+  constructor(public navCtrl: NavController, private formBuilder: FormBuilder,
+              private externalAccountService: ExternalAccountService) {
+    this.bankAccountInfoForm = formBuilder.group({
+      accountHolderName: ['', Validators.required],
+      accountType: ['', Validators.required],
+      accountNumber: ['', Validators.required],
+      routingNumber: ['', Validators.required],
+    });
   }
 
-  nextForm() {
-    this.postData()
-      .then(() => {
-        this.navCtrl.setRoot(ProfilePage);
-      });
+  submit() {
+    if (this.bankAccountInfoForm.valid) {
+      this.formFieldsMissing = false;
+      this.postData()
+        .then(() => {
+          this.navCtrl.setRoot(ProfilePage);
+        })
+        .catch((err) => {
+          console.log("Error");
+          console.log(err);
+        });
+    }
+    else {
+      this.formFieldsMissing = true;
+    }
   }
 
   saveAndQuit() {
@@ -27,8 +50,32 @@ export class BankInfoForm {
       });
   }
 
-  postData(): Promise<boolean> {
-    return Promise.resolve(true);
+  postData(): Promise<any> {
+    let formData = {
+      routingNumber: this.bankAccountInfoForm.value.routingNumber,
+      accountNumber: this.bankAccountInfoForm.value.accountNumber,
+      accountHolderName: this.bankAccountInfoForm.value.accountHolderName,
+      accountHolderType: this.bankAccountInfoForm.value.accountHolderType
+    };
+
+    return new Promise((resolve, reject) => {
+      let currentProfileId = JSON.parse(localStorage.getItem('current_profile'))._id;
+      this.externalAccountService.createBankToken(formData)
+        .then((token) => {
+          console.log("We got the bank token");
+          return this.externalAccountService.linkExternalAccount(currentProfileId, token);
+        })
+        .then((data) => {
+          console.log("successfully did the bank thing");
+          console.log(data);
+          resolve(data.profile);
+        })
+        .catch((err) => {
+          console.log("ERROR");
+          console.log(err.message);
+          reject(err);
+        });
+    })
   }
 
 }

@@ -18,7 +18,7 @@ export class ProfilePersonalAddressForm {
   private formFieldsMissing: boolean;
 
   constructor(public navCtrl: NavController, private formBuilder: FormBuilder,
-  private profileService: ProfileService) {
+              private profileService: ProfileService) {
     this.zipCodeIsValid = true;
 
     this.addressForm = formBuilder.group({
@@ -33,9 +33,11 @@ export class ProfilePersonalAddressForm {
 
   finishForm() {
     if (this.addressForm.valid) {
+      this.profileService.presentLoading();
       this.formFieldsMissing = false;
       this.postData()
         .then(() => {
+          this.profileService.hideLoading();
           this.navCtrl.setRoot(ProfilePage);
         });
     }
@@ -45,13 +47,13 @@ export class ProfilePersonalAddressForm {
   }
 
   checkZip(zip) {
-      if (zip != undefined && zip.length != 5) {
-        this.zipCodeIsValid = false;
-      }
-      else {
-        this.zipCodeIsValid = true;
-      }
+    if (zip != undefined && zip.length != 5) {
+      this.zipCodeIsValid = false;
     }
+    else {
+      this.zipCodeIsValid = true;
+    }
+  }
 
   saveAndQuit() {
     this.postData()
@@ -67,7 +69,7 @@ export class ProfilePersonalAddressForm {
       "address2": this.addressForm.value.addressLine2,
       "city": this.addressForm.value.city,
       "state": this.addressForm.value.state,
-      "zip": this.addressForm.value.zip
+      "zip": this.addressForm.value.zipCode
     };
     return this.profileService.updateUserProfile(profileId, {personalAddress: address});
   }
