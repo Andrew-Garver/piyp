@@ -1,34 +1,37 @@
 import {Component} from '@angular/core';
 
 import {NavController} from 'ionic-angular';
-import {TabsPage} from "../../tabs/tabs";
 import {ProfilePage} from "../../profile/profile";
+import {ProfileService} from "../../../services/profile.service";
 
 @Component({
   selector: 'page-stripe-tos',
-  templateUrl: 'stripe-tos.html'
+  templateUrl: 'stripe-tos.html',
+  providers: [ProfileService]
 })
 export class StripeTosPage {
 
-  constructor(public navCtrl: NavController) {
+  constructor(public navCtrl: NavController, private profileService: ProfileService) {
   }
 
   finish() {
     this.postData()
       .then(() => {
         this.navCtrl.setRoot(ProfilePage);
+      })
+      .catch((err) => {
+        console.log("error");
+        console.log(err);
       });
   }
 
   declineTos() {
-    this.postData()
-      .then(() => {
-        this.navCtrl.setRoot(ProfilePage);
-      });
+    this.navCtrl.setRoot(ProfilePage);
   }
 
   postData(): Promise<boolean> {
-    return Promise.resolve(true);
+    let profileId = JSON.parse(localStorage.getItem('current_profile'))._id;
+    return this.profileService.updateUserProfile(profileId, {tosAccepted: true});
   }
 
 }

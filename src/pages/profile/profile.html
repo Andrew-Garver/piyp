@@ -28,7 +28,7 @@
       <button ion-item (click)="displayPersonalInfoForms()">Provide Personal Info</button>
     </ion-item>
 
-    <div *ngIf="currentProfile.type === 'pro'">
+    <div *ngIf="currentProfile && currentProfile.type === 'pro'">
       <ion-item>
         <button ion-item (click)="displayBusinessInfoForms()">Provide Business Info</button>
       </ion-item>
@@ -37,7 +37,7 @@
       </ion-item>
     </div>
 
-    <div *ngIf="currentProfile.type === 'consumer'">
+    <div *ngIf="currentProfile && currentProfile.type === 'consumer'">
       <ion-item>
         <button ion-item (click)="displayPaymentInfoForms()">Provide Payment Info</button>
       </ion-item>

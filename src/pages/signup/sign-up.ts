@@ -7,11 +7,12 @@ import {AuthService} from "../../services/auth.service";
 import {AccountCreationService} from "../../services/account-creation.service";
 import {TabsPage} from "../tabs/tabs";
 import {SelectProfilePage} from "../select-profile/select-profile";
+import {UserService} from "../../services/user.service";
 
 @Component({
   selector: 'page-sign-up',
   templateUrl: 'sign-up.html',
-  providers: [AuthService, AccountCreationService, SignUpValidator]
+  providers: [AuthService, AccountCreationService, SignUpValidator, UserService]
 })
 
 export class SignUpPage {
@@ -53,7 +54,8 @@ export class SignUpPage {
   constructor(public navCtrl: NavController, private authService: AuthService,
               public formBuilder: FormBuilder, private toastCtrl: ToastController,
               private app: App, private accountCreationService: AccountCreationService,
-              private signUpValidator: SignUpValidator, private actionSheetCtrl: ActionSheetController) {
+              private signUpValidator: SignUpValidator, private actionSheetCtrl: ActionSheetController,
+              private userService: UserService) {
     // this.personalFieldsMissing = false;
     this.loginFieldsMissing = false;
     // this.paymentFieldsMissing = false;
@@ -242,12 +244,12 @@ export class SignUpPage {
       this.accountCreationService.createAccount(accountInfo)
         .then((result) => {
           console.log("createAccount success");
-          return this.authService.getUser();
+          return this.userService.getUser();
         })
         .then((result) => {
           console.log("getUser success");
           if (result) {
-            if (this.authService.getUserProfile() === 1) {
+            if (this.userService.getNumberOfUserProfiles() === 1) {
               this.navCtrl.push(TabsPage)
             }
             else {

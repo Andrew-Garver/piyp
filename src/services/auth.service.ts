@@ -65,44 +65,6 @@ export class AuthService {
     });
   }
 
-  getUser(): Promise<any> {
-    return new Promise((resolve, reject) => {
-      this.authHttp.get('http://localhost:3000/api/user')
-        .map(res => res.json())
-        .subscribe(
-          data => {
-            if (data.success) {
-              localStorage.setItem('current_user', JSON.stringify(data.user));
-              resolve(true);
-            }
-            else {
-              reject("Unable get user from server");
-            }
-          },
-          err => {
-            console.log(err);
-            reject(err);
-          }
-        );
-    });
-  }
-
-  getUserProfile(): number {
-    if (!localStorage.getItem('current_user')) {
-      return null;
-    }
-    let user = JSON.parse(localStorage.getItem('current_user'));
-    let profiles = user.profiles;
-
-    if (profiles.length === 1) {
-      localStorage.setItem('current_profile', JSON.stringify(profiles[0]));
-      return 1;
-    }
-    else {
-      return 2;
-    }
-  }
-
   getTokenExpiry(token) {
     if (token) {
       return this.jwtHelper.getTokenExpirationDate(token);
@@ -110,6 +72,10 @@ export class AuthService {
     else {
       return null;
     }
+  }
+
+  isTokenExpired(token) {
+    return this.jwtHelper.isTokenExpired(token);
   }
 
   loggedIn(): Promise<any> {

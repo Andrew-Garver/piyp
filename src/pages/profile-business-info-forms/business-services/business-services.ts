@@ -14,9 +14,9 @@ export class BusinessServicesForm {
 
   constructor(public navCtrl: NavController) {
     this.services = [
-      {category: "Automobile Repairs"},
+      {category: "Auto Glass"},
+      {category: "HVAC"},
       {category: "Landscaping"},
-      {category: "Lawn Care"},
       {category: "Pool Maintenance"},
       {category: "Tech Support"}
     ]

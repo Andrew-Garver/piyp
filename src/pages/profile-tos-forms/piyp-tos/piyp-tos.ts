@@ -2,7 +2,6 @@ import {Component} from '@angular/core';
 
 import {NavController} from 'ionic-angular';
 import {StripeTosPage} from "../stripe-tos/stripe-tos";
-import {TabsPage} from "../../tabs/tabs";
 import {ProfilePage} from "../../profile/profile";
 
 @Component({
@@ -18,14 +17,15 @@ export class PiypTosPage {
     this.postData()
       .then(() => {
         this.navCtrl.push(StripeTosPage);
+      })
+      .catch((err) => {
+        console.log("error");
+        console.log(err);
       });
   }
 
   declineTos() {
-    this.postData()
-      .then(() => {
-        this.navCtrl.setRoot(ProfilePage);
-      });
+    this.navCtrl.setRoot(ProfilePage);
   }
 
   postData(): Promise<boolean> {
