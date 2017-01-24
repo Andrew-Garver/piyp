@@ -5,11 +5,12 @@ import {StripeTosPage} from "../stripe-tos/stripe-tos";
 import {ProfilePage} from "../../profile/profile";
 import {Validators, FormBuilder, FormGroup} from "@angular/forms";
 import {ExternalAccountService} from "../../../services/external-account.service";
+import {LoadingService} from "../../../services/loading.service";
 
 @Component({
   selector: 'page-bank-info',
   templateUrl: 'bank-info.html',
-  providers: [ExternalAccountService]
+  providers: [ExternalAccountService, LoadingService]
 })
 export class BankInfoForm {
 
@@ -17,7 +18,7 @@ export class BankInfoForm {
   private formFieldsMissing: boolean;
 
   constructor(public navCtrl: NavController, private formBuilder: FormBuilder,
-              private externalAccountService: ExternalAccountService) {
+              private externalAccountService: ExternalAccountService, private loadingService: LoadingService) {
     this.bankAccountInfoForm = formBuilder.group({
       accountHolderName: ['', Validators.required],
       accountType: ['', Validators.required],
@@ -29,11 +30,14 @@ export class BankInfoForm {
   submit() {
     if (this.bankAccountInfoForm.valid) {
       this.formFieldsMissing = false;
+      this.loadingService.presentLoading();
       this.postData()
         .then(() => {
+        this.loadingService.hideLoading();
           this.navCtrl.setRoot(ProfilePage);
         })
         .catch((err) => {
+        this.loadingService.hideLoading();
           console.log("Error");
           console.log(err);
         });

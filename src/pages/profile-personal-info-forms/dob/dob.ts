@@ -6,18 +6,19 @@ import {Validators, FormBuilder, FormGroup} from "@angular/forms";
 import {TabsPage} from "../../tabs/tabs";
 import {ProfilePage} from "../../profile/profile";
 import {ProfileService} from "../../../services/profile.service";
+import {LoadingService} from "../../../services/loading.service";
 
 @Component({
   selector: 'page-profile-dob-form',
   templateUrl: 'dob.html',
-  providers: [ProfileService]
+  providers: [ProfileService, LoadingService]
 })
 export class ProfileDOBForm {
   private dobForm: FormGroup;
   private formIsValid: boolean;
 
   constructor(public navCtrl: NavController, private formBuilder: FormBuilder,
-              private profileService: ProfileService) {
+              private profileService: ProfileService, private loadingService: LoadingService) {
     this.formIsValid = true;
 
     // let dobObj = JSON.parse(localStorage.getItem('current_profile')).stripeAccount.legal_entity.dob;
@@ -34,11 +35,11 @@ export class ProfileDOBForm {
 
   nextPage() {
     if (this.dobForm.valid) {
-      this.profileService.presentLoading();
+      this.loadingService.presentLoading();
       this.formIsValid = true;
       this.postData()
         .then(() => {
-          this.profileService.hideLoading();
+          this.loadingService.hideLoading();
           this.navCtrl.push(ProfilePersonalAddressForm);
         });
     }

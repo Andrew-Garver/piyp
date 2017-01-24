@@ -6,11 +6,12 @@ import {Validators, FormBuilder, FormGroup} from "@angular/forms";
 import {ProfilePage} from "../../profile/profile";
 import {BusinessServicesForm} from "../business-services/business-services";
 import {ProfileService} from "../../../services/profile.service";
+import {LoadingService} from "../../../services/loading.service";
 
 @Component({
   selector: 'page-business-address-form',
   templateUrl: 'business-address.html',
-  providers: [ProfileService]
+  providers: [ProfileService, LoadingService]
 })
 export class BusinessAddressForm {
   private businessAddressForm: FormGroup;
@@ -19,7 +20,7 @@ export class BusinessAddressForm {
   private formFieldsMissing: boolean;
 
   constructor(public navCtrl: NavController, private formBuilder: FormBuilder,
-              private profileService: ProfileService) {
+              private profileService: ProfileService, private loadinService: LoadingService) {
     this.zipCodeIsValid = true;
 
     this.businessAddressForm = formBuilder.group({
@@ -36,10 +37,10 @@ export class BusinessAddressForm {
   nextForm() {
     if (this.businessAddressForm.valid) {
       this.formFieldsMissing = false;
-      this.profileService.presentLoading();
+      this.loadinService.presentLoading();
       this.postData()
         .then(() => {
-          this.profileService.hideLoading();
+          this.loadinService.hideLoading();
           this.navCtrl.push(BusinessServicesForm);
         });
     }

@@ -8,11 +8,12 @@ import {AccountCreationService} from "../../services/account-creation.service";
 import {TabsPage} from "../tabs/tabs";
 import {SelectProfilePage} from "../select-profile/select-profile";
 import {UserService} from "../../services/user.service";
+import {LoadingService} from "../../services/loading.service";
 
 @Component({
   selector: 'page-sign-up',
   templateUrl: 'sign-up.html',
-  providers: [AuthService, AccountCreationService, SignUpValidator, UserService]
+  providers: [AuthService, AccountCreationService, SignUpValidator, UserService, LoadingService]
 })
 
 export class SignUpPage {
@@ -55,7 +56,7 @@ export class SignUpPage {
               public formBuilder: FormBuilder, private toastCtrl: ToastController,
               private app: App, private accountCreationService: AccountCreationService,
               private signUpValidator: SignUpValidator, private actionSheetCtrl: ActionSheetController,
-              private userService: UserService) {
+              private userService: UserService, private loadingService: LoadingService) {
     // this.personalFieldsMissing = false;
     this.loginFieldsMissing = false;
     // this.paymentFieldsMissing = false;
@@ -241,6 +242,7 @@ export class SignUpPage {
       //     console.log("Payment token acquired! Creating account now.");
       //     console.log(result);
       //     accountInfo.paymentToken = result;
+      this.loadingService.presentLoading();
       this.accountCreationService.createAccount(accountInfo)
         .then((result) => {
           console.log("createAccount success");
@@ -249,6 +251,7 @@ export class SignUpPage {
         .then((result) => {
           console.log("getUser success");
           if (result) {
+            this.loadingService.hideLoading();
             if (this.userService.getNumberOfUserProfiles() === 1) {
               this.navCtrl.push(TabsPage)
             }
@@ -258,6 +261,7 @@ export class SignUpPage {
           }
         })
         .catch((err) => {
+          this.loadingService.hideLoading();
           console.log(err);
           this.presentToast("Error: Could not create account");
         });

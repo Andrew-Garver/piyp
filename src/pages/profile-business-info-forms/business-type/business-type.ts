@@ -6,11 +6,12 @@ import {ProfilePage} from "../../profile/profile";
 import {BusinessAddressForm} from "../business-address/business-address";
 import {BusinessServicesForm} from "../business-services/business-services";
 import {ProfileService} from "../../../services/profile.service";
+import {LoadingService} from "../../../services/loading.service";
 
 @Component({
   selector: 'page-business-type-form',
   templateUrl: 'business-type.html',
-  providers: [ProfileService]
+  providers: [ProfileService, LoadingService]
 })
 export class BusinessTypeForm {
   private businessTypeForm: FormGroup;
@@ -21,7 +22,7 @@ export class BusinessTypeForm {
   private missingBusinessName: boolean = false;
 
   constructor(public navCtrl: NavController, private formBuilder: FormBuilder,
-              private profileService: ProfileService) {
+              private profileService: ProfileService, private loadingService: LoadingService) {
     this.businessTypeForm = formBuilder.group({
       businessType: ['', Validators.required],
       authorizedRep: [null],
@@ -44,10 +45,10 @@ export class BusinessTypeForm {
     else if (this.ssnIsValid && !this.missingBusinessName) {
       this.formFieldsMissing = false;
       this.authorizedRep = true;
-      this.profileService.presentLoading();
+      this.loadingService.presentLoading();
       this.postData()
         .then(() => {
-          this.profileService.hideLoading();
+          this.loadingService.hideLoading();
           if (this.businessTypeForm.value.businessType === "company") {
             this.navCtrl.push(BusinessAddressForm);
           }

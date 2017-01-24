@@ -7,11 +7,12 @@ import {BusinessTypeForm} from "../profile-business-info-forms/business-type/bus
 import {BankInfoForm} from "../profile-bank-info-forms/bank-info/bank-info";
 import {UserService} from "../../services/user.service";
 import {ProfileService} from "../../services/profile.service";
+import {LoadingService} from "../../services/loading.service";
 
 @Component({
   selector: 'page-profile',
   templateUrl: 'profile.html',
-  providers: [UserService, ProfileService]
+  providers: [UserService, ProfileService, LoadingService]
 })
 export class ProfilePage {
 
@@ -22,9 +23,9 @@ export class ProfilePage {
   private currentProfileId: any;
 
   /*
-  * 0: empty
-  * 1: in progress
-  * 2: complete
+   * 0: empty
+   * 1: in progress
+   * 2: complete
    */
   private tosProgress: number = 0;
   private personalInfoProgress: number = 0;
@@ -33,11 +34,12 @@ export class ProfilePage {
   private paymentInfoProgress: number = 0;
 
 
-  constructor(private navCtrl: NavController, private userService: UserService, private profileService: ProfileService) {
+  constructor(private navCtrl: NavController, private userService: UserService,
+              private profileService: ProfileService, private loadingService: LoadingService) {
   }
 
   ionViewWillEnter() {
-    this.profileService.presentLoading();
+    this.loadingService.presentLoading();
     this.userService.getUser()
       .then((user) => {
         this.user = user;
@@ -47,10 +49,11 @@ export class ProfilePage {
       .then((profile) => {
         this.currentProfile = profile;
         console.log(localStorage);
-        this.profileService.hideLoading();
+        this.loadingService.hideLoading();
         this.calculateProgress();
       })
       .catch((err) => {
+        this.loadingService.hideLoading();
         console.log("ERROR");
         console.log(err);
       });
@@ -107,7 +110,7 @@ export class ProfilePage {
         this.currentProfile.stripeAccount.legal_entity.address.postal_code &&
         this.currentProfile.stripeAccount.legal_entity.address.state &&
         this.currentProfile.stripeAccount.legal_entity.address.city /*&&*/
-        /*this.currentProfile.stripeAccount.legal_entity.business_tax_id_provided*/) {
+      /*this.currentProfile.stripeAccount.legal_entity.business_tax_id_provided*/) {
         this.loadProgress = 75;
         this.businessInfoProgress = 2;
       }

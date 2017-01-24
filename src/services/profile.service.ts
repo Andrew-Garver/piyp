@@ -1,14 +1,11 @@
 import {Injectable} from '@angular/core';
 import 'rxjs/add/operator/map';
 import {AuthHttp} from "angular2-jwt";
-import {LoadingController} from "ionic-angular";
 
 @Injectable()
 export class ProfileService {
 
-  private loader: any;
-
-  constructor(private authHttp: AuthHttp, private loadingCtrl: LoadingController) {
+  constructor(private authHttp: AuthHttp) {
   }
 
   getUserProfile(profileId): Promise<any> {
@@ -53,17 +50,6 @@ export class ProfileService {
           }
         );
     });
-  }
-
-  presentLoading() {
-    this.loader = this.loadingCtrl.create({
-      content: "Please wait..."
-    });
-    this.loader.present();
-  }
-
-  hideLoading() {
-    this.loader.dismiss();
   }
 
 }

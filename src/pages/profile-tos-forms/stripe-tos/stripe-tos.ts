@@ -3,23 +3,25 @@ import {Component} from '@angular/core';
 import {NavController} from 'ionic-angular';
 import {ProfilePage} from "../../profile/profile";
 import {ProfileService} from "../../../services/profile.service";
+import {LoadingService} from "../../../services/loading.service";
 
 @Component({
   selector: 'page-stripe-tos',
   templateUrl: 'stripe-tos.html',
-  providers: [ProfileService]
+  providers: [ProfileService, LoadingService]
 })
 export class StripeTosPage {
 
-  constructor(public navCtrl: NavController, private profileService: ProfileService) {
+  constructor(public navCtrl: NavController, private profileService: ProfileService,
+              private loadingService: LoadingService) {
   }
 
   finish() {
-    this.profileService.presentLoading();
+    this.loadingService.presentLoading();
     this.postData()
       .then(() => {
         this.navCtrl.setRoot(ProfilePage);
-        this.profileService.hideLoading();
+        this.loadingService.hideLoading();
       })
       .catch((err) => {
         console.log("error");

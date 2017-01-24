@@ -5,11 +5,12 @@ import {TabsPage} from "../../tabs/tabs";
 import {Validators, FormBuilder, FormGroup} from "@angular/forms";
 import {ProfilePage} from "../../profile/profile";
 import {ProfileService} from "../../../services/profile.service";
+import {LoadingService} from "../../../services/loading.service";
 
 @Component({
   selector: 'page-profile-personal-address-form',
   templateUrl: 'address.html',
-  providers: [ProfileService]
+  providers: [ProfileService, LoadingService]
 })
 export class ProfilePersonalAddressForm {
   private addressForm: FormGroup;
@@ -18,7 +19,7 @@ export class ProfilePersonalAddressForm {
   private formFieldsMissing: boolean;
 
   constructor(public navCtrl: NavController, private formBuilder: FormBuilder,
-              private profileService: ProfileService) {
+              private profileService: ProfileService, private loadingService: LoadingService) {
     this.zipCodeIsValid = true;
 
     this.addressForm = formBuilder.group({
@@ -33,11 +34,11 @@ export class ProfilePersonalAddressForm {
 
   finishForm() {
     if (this.addressForm.valid) {
-      this.profileService.presentLoading();
+      this.loadingService.presentLoading();
       this.formFieldsMissing = false;
       this.postData()
         .then(() => {
-          this.profileService.hideLoading();
+          this.loadingService.hideLoading();
           this.navCtrl.setRoot(ProfilePage);
         });
     }
