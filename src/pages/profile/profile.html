@@ -18,10 +18,17 @@
   <progress-bar [progress]="loadProgress"></progress-bar>
 
   <ion-list no-lines>
-    <ion-item>
-      <!--<ion-icon name="checkmark-circle" class="complete" item-left></ion-icon>-->
-      <button ion-item (click)="displayTOSForms()">Accept Terms of Service</button>
-    </ion-item>
+    <div *ngIf="currentProfile && currentProfile.stripeAccount.tos_acceptance.date">
+      <ion-item>
+        <ion-icon name="checkmark-circle" class="complete" item-left></ion-icon>
+        <button ion-item disabled (click)="displayTOSForms()">Accept Terms of Service</button>
+      </ion-item>
+    </div>
+    <div *ngIf="!currentProfile || !currentProfile.stripeAccount.tos_acceptance.date">
+      <ion-item>
+        <button ion-item (click)="displayTOSForms()">Accept Terms of Service</button>
+      </ion-item>
+    </div>
 
     <ion-item>
       <!--<ion-icon name="code-working" class="in-progress" item-left></ion-icon>-->

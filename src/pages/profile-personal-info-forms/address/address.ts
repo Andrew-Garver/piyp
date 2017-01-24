@@ -4,10 +4,12 @@ import {NavController} from 'ionic-angular';
 import {TabsPage} from "../../tabs/tabs";
 import {Validators, FormBuilder, FormGroup} from "@angular/forms";
 import {ProfilePage} from "../../profile/profile";
+import {ProfileService} from "../../../services/profile.service";
 
 @Component({
   selector: 'page-profile-personal-address-form',
-  templateUrl: 'address.html'
+  templateUrl: 'address.html',
+  providers: [ProfileService]
 })
 export class ProfilePersonalAddressForm {
   private addressForm: FormGroup;
@@ -15,7 +17,8 @@ export class ProfilePersonalAddressForm {
   private zipCodeIsValid: boolean;
   private formFieldsMissing: boolean;
 
-  constructor(public navCtrl: NavController, private formBuilder: FormBuilder) {
+  constructor(public navCtrl: NavController, private formBuilder: FormBuilder,
+  private profileService: ProfileService) {
     this.zipCodeIsValid = true;
 
     this.addressForm = formBuilder.group({
@@ -58,7 +61,15 @@ export class ProfilePersonalAddressForm {
   }
 
   postData(): Promise<boolean> {
-    return Promise.resolve(true);
+    let profileId = JSON.parse(localStorage.getItem('current_profile'))._id;
+    let address = {
+      "address1": this.addressForm.value.addressLine1,
+      "address2": this.addressForm.value.addressLine2,
+      "city": this.addressForm.value.city,
+      "state": this.addressForm.value.state,
+      "zip": this.addressForm.value.zip
+    };
+    return this.profileService.updateUserProfile(profileId, {personalAddress: address});
   }
 
 }

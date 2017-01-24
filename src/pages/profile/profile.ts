@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {NavController, LoadingController} from "ionic-angular";
 import {ProfileDOBForm} from "../profile-personal-info-forms/dob/dob";
 import {StripeTosPage} from "../profile-tos-forms/stripe-tos/stripe-tos";
@@ -13,7 +13,7 @@ import {ProfileService} from "../../services/profile.service";
   templateUrl: 'profile.html',
   providers: [UserService, ProfileService]
 })
-export class ProfilePage implements OnInit {
+export class ProfilePage {
 
   private profilePage: any;
   private loadProgress: number = 0;
@@ -23,7 +23,6 @@ export class ProfilePage implements OnInit {
   private loader: any;
 
   // Needed account info for Pro
-  private piypTosAccepted: boolean;
   private stripeTosAccepted: boolean;
   private hasDob: boolean;
   private hasPersonalAddress: boolean;
@@ -41,7 +40,7 @@ export class ProfilePage implements OnInit {
               private loadingCtrl: LoadingController) {
   }
 
-  ngOnInit() {
+  ionViewWillEnter() {
     this.presentLoading();
     this.userService.getUser()
       .then((user) => {
@@ -52,7 +51,7 @@ export class ProfilePage implements OnInit {
       .then((profile) => {
         this.currentProfile = profile;
         this.hideLoading();
-        console.log(localStorage);
+        this.calculateProgress();
       })
       .catch((err) => {
         console.log("ERROR");
@@ -93,6 +92,21 @@ export class ProfilePage implements OnInit {
 
   hideLoading() {
     this.loader.dismiss();
+  }
+
+  calculateProgress() {
+    if (this.currentProfile) {
+      if (this.currentProfile.stripeAccount.tos_acceptance.date) {
+        console.log(1);
+        this.loadProgress = 10;
+      }
+      if (this.currentProfile.stripeAccount.legal_entity.dob.year &&
+        this.currentProfile.stripeAccount.legal_entity.dob.month &&
+        this.currentProfile.stripeAccount.legal_entity.dob.day) {
+        console.log(2);
+        this.loadProgress = 15;
+      }
+    }
   }
 
 }
