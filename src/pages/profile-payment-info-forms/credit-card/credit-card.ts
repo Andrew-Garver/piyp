@@ -6,11 +6,12 @@ import {LoadingService} from "../../../services/loading.service";
 import {BillingAddressPage} from "../billing-address/billing-address";
 import {FormGroup, Validators, FormBuilder} from "@angular/forms";
 import {SignUpValidator} from "../../signup/sign-up.validator";
+import {CreditCardService} from "../../../services/credit-card.service";
 
 @Component({
   selector: 'page-credit-card',
   templateUrl: 'credit-card.html',
-  providers: [LoadingService, SignUpValidator]
+  providers: [LoadingService, SignUpValidator, CreditCardService]
 })
 export class CreditCardPage {
 
@@ -23,7 +24,8 @@ export class CreditCardPage {
   private creditCardRejected: boolean = false;
 
   constructor(public navCtrl: NavController, private loadingService: LoadingService,
-              private formBuilder: FormBuilder, private signUpValidator: SignUpValidator) {
+              private formBuilder: FormBuilder, private signUpValidator: SignUpValidator,
+  private creditCardService: CreditCardService) {
     this.formFieldsMissing = false;
 
     let creditCardValidator = (control) => {
@@ -96,13 +98,33 @@ export class CreditCardPage {
   }
 
   postData(): Promise<boolean> {
-    // let paymentInfo = {
-    //   creditCardNumber: this.formCreditCardInformation.value.creditCardNumber,
-    //   cvc: this.formCreditCardInformation.value.cvc,
-    //   expDate: this.formCreditCardInformation.value.expirationDate,
-    //   billingZip: this.formCreditCardInformation.value.billingZipCode
-    // };
-    return Promise.resolve(true);
+    let expDate = this.creditCardInfoForm.value.expirationDate;
+    let paymentInfo = {
+      number: this.creditCardInfoForm.value.creditCardNumber,
+      cvc: this.creditCardInfoForm.value.cvc,
+      exp_month: new Date(expDate).getMonth() + 1,
+      exp_year: new Date(expDate).getFullYear(),
+      address_zip: this.creditCardInfoForm.value.billingZipCode
+    };
+
+    return new Promise((resolve, reject) => {
+      let currentProfileId = JSON.parse(localStorage.getItem('current_profile'))._id;
+      this.creditCardService.getToken(paymentInfo)
+        .then((token) => {
+          console.log("We got the card token");
+          return this.creditCardService.updateCard(currentProfileId, token);
+        })
+        .then((data) => {
+          console.log("successfully did the credit card thing");
+          console.log(data);
+          resolve(data.profile);
+        })
+        .catch((err) => {
+          console.log("ERROR");
+          console.log(err.message);
+          reject(err);
+        });
+    });
   }
 
 }

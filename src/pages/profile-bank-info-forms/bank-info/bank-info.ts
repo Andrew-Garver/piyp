@@ -79,7 +79,7 @@ export class BankInfoForm {
           console.log(err.message);
           reject(err);
         });
-    })
+    });
   }
 
 }

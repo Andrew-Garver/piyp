@@ -6,22 +6,21 @@ import {AuthHttp} from "angular2-jwt";
 declare var Stripe: any;
 
 @Injectable()
-export class AccountCreationService {
+export class CreditCardService {
 
   constructor(private http: Http, private authHttp: AuthHttp) {}
 
-  createAccount(body): Promise<string> {
+  updateCard(profileId, token): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.http.post('http://localhost:3000/api/registration/register', body)
+      this.authHttp.post('http://localhost:3000/api/user/profile/' + profileId, {sourceToken: token})
         .map(res => res.json())
         .subscribe(
           data => {
-            localStorage.setItem('access_token', data.accessToken);
-            localStorage.setItem('refresh_token', data.refreshToken);
-            resolve(true);
+            localStorage.setItem('current_profile', JSON.stringify(data.profile));
+            resolve(data);
           },
           error => {
-            console.log("createAccount Failed");
+            console.log("updateCard Failed");
             console.log(error);
             reject(error);
           }
@@ -29,16 +28,11 @@ export class AccountCreationService {
     });
   }
 
-  testPaymentInfo(paymentInfo): Promise<string> {
+  getToken(paymentInfo): Promise<string> {
     return new Promise((resolve, reject) => {
       Stripe.setPublishableKey('pk_test_qYKaD4TLqQdNtStg3FZ237uL');
-      Stripe.card.createToken({
-        number: paymentInfo.creditCardNumber,
-        cvc: paymentInfo.cvc,
-        exp_month: new Date(paymentInfo.expDate).getMonth() + 1,
-        exp_year: new Date(paymentInfo.expDate).getFullYear(),
-        address_zip: paymentInfo.billingZip
-      }, (status, response) => {
+      Stripe.card.createToken(paymentInfo,
+        (status, response) => {
         this.stripeResponseHandler(status, response, resolve, reject);
       });
     });

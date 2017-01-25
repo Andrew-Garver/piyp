@@ -66,11 +66,11 @@ export class ProfilePersonalAddressForm {
   postData(): Promise<boolean> {
     let profileId = JSON.parse(localStorage.getItem('current_profile'))._id;
     let address = {
-      "address1": this.addressForm.value.addressLine1,
-      "address2": this.addressForm.value.addressLine2,
+      "line1": this.addressForm.value.addressLine1,
+      "line2": this.addressForm.value.addressLine2,
       "city": this.addressForm.value.city,
       "state": this.addressForm.value.state,
-      "zip": this.addressForm.value.zipCode
+      "postalCode": this.addressForm.value.zipCode
     };
     return this.profileService.updateUserProfile(profileId, {personalAddress: address});
   }

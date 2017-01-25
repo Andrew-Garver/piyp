@@ -31,7 +31,7 @@ export class ExternalAccountService {
 
   createBankToken(bankInfo): Promise<string> {
     return new Promise((resolve, reject) => {
-      Stripe.setPublishableKey('pk_test_FZHQgh9n93qAURvTBJXGwAF8');
+      Stripe.setPublishableKey('pk_test_qYKaD4TLqQdNtStg3FZ237uL');
       Stripe.bankAccount.createToken({
         country: "US",
         currency: "USD",

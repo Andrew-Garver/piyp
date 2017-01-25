@@ -128,18 +128,16 @@ export class ProfilePage {
   }
 
   calculateConsumerProgress() {
-    if (this.currentProfile.stripeAccount.legal_entity.dob.year &&
-      this.currentProfile.stripeAccount.legal_entity.dob.month &&
-      this.currentProfile.stripeAccount.legal_entity.dob.day) {
-      this.loadProgress = 20;
-      this.personalInfoProgress = 1;
-    }
-    if (this.currentProfile.stripeAccount.legal_entity.personal_address.line1 &&
-      this.currentProfile.stripeAccount.legal_entity.personal_address.postal_code &&
-      this.currentProfile.stripeAccount.legal_entity.personal_address.state &&
-      this.currentProfile.stripeAccount.legal_entity.personal_address.city) {
+    if (this.currentProfile.personalAddress.line1 &&
+      this.currentProfile.personalAddress.postalCode &&
+      this.currentProfile.personalAddress.state &&
+      this.currentProfile.personalAddress.city) {
       this.loadProgress = 50;
       this.personalInfoProgress = 2;
+    }
+    if (this.currentProfile.stripeAccount.sources.total_count) {
+      this.loadProgress = 100;
+      this.paymentInfoProgress = 2;
     }
   }
 
