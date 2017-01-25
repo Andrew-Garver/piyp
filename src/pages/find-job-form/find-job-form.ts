@@ -1,15 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 
 import {NavController} from 'ionic-angular';
-import {Job} from "../../entities/job";
 import {DatabaseService} from "../../services/database.service";
-import {Customer} from "../../entities/customer";
-import {JobDetailsPage} from "../job-details/job-details";
-import {LoginPage} from "../login/login";
-import {ErrorPage} from "../error/error";
-import {NgForm} from "@angular/forms";
-import {AuthService} from "../../services/auth.service";
-import {TabsPage} from "../tabs/tabs";
+import {Validators, FormBuilder, FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'page-find-job-form',
@@ -18,30 +11,31 @@ import {TabsPage} from "../tabs/tabs";
 })
 export class FindJobFormPage {
 
-  constructor(public navCtrl: NavController, private databaseService: DatabaseService,
-              private authService: AuthService) {
-  }
+  private formJobProximity: FormGroup;
+  private services: any;
 
-  ionViewCanEnter(): Promise<boolean> {
-    return new  Promise((resolve, reject) => {
-      this.authService.loggedIn()
-        .then((data) => {
-          if (data) {
-            resolve(true);
-          }
-          else {
-            resolve(false);
-          }
-        })
-        .catch((err) => {
-        console.log(err);
-        reject(err);
-        });
+  constructor(public navCtrl: NavController, private formBuilder: FormBuilder) {
+
+    //TODO: Replace with endpoint call
+    this.services = [
+      {category: "Auto Glass"},
+      {category: "HVAC"},
+      {category: "Landscaping"},
+      {category: "Pool Maintenance"},
+      {category: "Tech Support"}
+    ];
+
+    this.formJobProximity = formBuilder.group({
+      within: ['', Validators.required],
+      ofLocation: ['', Validators.required],
+      serviceCategories: ['', Validators.required]
     });
   }
 
-  searchForOpenJobs(formParams) {
-    console.log("Searching for jobs...");
+  searchForOpenJobs() {
+    if (this.formJobProximity.valid) {
+      console.log("Searching for jobs...");
+    }
   }
 
 }

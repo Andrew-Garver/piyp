@@ -1,3 +1,9 @@
 page-request-job-form {
-
+  .bottom-button {
+    padding: $content-padding;
+    position: fixed;
+    bottom: 10%;
+    left: 0;
+    right: 0;
+  }
 }

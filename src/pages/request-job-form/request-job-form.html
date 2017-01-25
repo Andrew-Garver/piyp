@@ -7,24 +7,22 @@
 </ion-header>
 
 <ion-content padding>
-  <form #f="ngForm" (ngSubmit)="submitJobRequest(f.value)">
+  <form #f="ngForm" [formGroup]="formJobRequest" (ngSubmit)="submitJobRequest()">
     <ion-item>
-      <ion-input type="text" name="job-name" placeholder="Name of Job" ngModel required></ion-input>
+      <ion-input type="text" formControlName="jobName" placeholder="Name of Job"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-input type="text" name="job-category" placeholder="Job Category" ngModel required></ion-input>
+      <ion-input type="text" formControlName="jobCategory" placeholder="Job Category"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-textarea name="job-description" placeholder="Job Description" ngModel required></ion-textarea>
-    </ion-item>
-
-    <ion-item>
-      <ion-input type="text" name="job-location" placeholder="Job Location" ngModel required></ion-input>
+      <ion-textarea formControlName="jobDescription" placeholder="Job Description"></ion-textarea>
     </ion-item>
 
     <br>
-    <button type="submit" ion-button full>Find a Pro for the job!</button>
+    <div class="bottom-button">
+      <button type="submit" ion-button full>Find a Pro for the job!</button>
+    </div>
   </form>
 </ion-content>

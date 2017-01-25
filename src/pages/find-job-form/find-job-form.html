@@ -7,24 +7,37 @@
 </ion-header>
 
 <ion-content padding>
-  <form #f="ngForm" (ngSubmit)="searchForOpenJobs(f.value)">
+  <form #f="ngForm" [formGroup]="formJobProximity" (ngSubmit)="searchForOpenJobs()">
+
     <ion-item>
-      <ion-input type="text" name="job-name" placeholder="Name of Job" ngModel></ion-input>
+      <ion-label>Within</ion-label>
+      <ion-select formControlName="within">
+        <ion-option value="10">10 miles</ion-option>
+        <ion-option value="20">20 miles</ion-option>
+        <ion-option value="30">30 miles</ion-option>
+        <ion-option value="50">50 miles</ion-option>
+        <ion-option value="100">100 miles</ion-option>
+      </ion-select>
     </ion-item>
 
     <ion-item>
-      <ion-input type="text" name="job-category" placeholder="Job Category" ngModel required></ion-input>
+      <ion-label>of</ion-label>
+      <ion-select formControlName="ofLocation">
+        <ion-option value="myLocation">My Location</ion-option>
+        <ion-option value="businessAddress">My Business Address</ion-option>
+      </ion-select>
     </ion-item>
 
     <ion-item>
-      <ion-textarea name="job-keywords" placeholder="Keywords" ngModel></ion-textarea>
-    </ion-item>
-
-    <ion-item>
-      <ion-input type="text" name="job-location" placeholder="Job Location" ngModel></ion-input>
+      <ion-label>Service Categories</ion-label>
+      <ion-select formControlName="serviceCategories" multiple="true">
+        <ion-option *ngFor="let service of services" value="{{service.category}}">{{service.category}}</ion-option>
+      </ion-select>
     </ion-item>
 
     <br>
-    <button type="submit" ion-button full>Search</button>
+    <div class="bottom-button">
+      <button type="submit" ion-button full>Search</button>
+    </div>
   </form>
 </ion-content>
