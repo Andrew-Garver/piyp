@@ -8,6 +8,7 @@ import {BankInfoForm} from "../profile-bank-info-forms/bank-info/bank-info";
 import {UserService} from "../../services/user.service";
 import {ProfileService} from "../../services/profile.service";
 import {LoadingService} from "../../services/loading.service";
+import {CreditCardPage} from "../profile-payment-info-forms/credit-card/credit-card";
 
 @Component({
   selector: 'page-profile',
@@ -50,7 +51,12 @@ export class ProfilePage {
         this.currentProfile = profile;
         console.log(localStorage);
         this.loadingService.hideLoading();
-        this.calculateProgress();
+        if (this.currentProfile.type === 'pro') {
+          this.calculateProProgress();
+        }
+        else {
+          this.calculateConsumerProgress();
+        }
       })
       .catch((err) => {
         this.loadingService.hideLoading();
@@ -79,11 +85,10 @@ export class ProfilePage {
   }
 
   displayPaymentInfoForms() {
-    console.log("Payment Info");
-    // this.navCtrl.push(BankInfoForm);
+    this.navCtrl.push(CreditCardPage);
   }
 
-  calculateProgress() {
+  calculateProProgress() {
     if (this.currentProfile) {
       if (this.currentProfile.stripeAccount.tos_acceptance.date) {
         this.loadProgress = 25;
@@ -106,11 +111,12 @@ export class ProfilePage {
         this.loadProgress = 60;
         this.businessInfoProgress = 1;
       }
-      if (this.currentProfile.stripeAccount.legal_entity.address.line1 &&
+      if ((this.currentProfile.stripeAccount.legal_entity.address.line1 &&
         this.currentProfile.stripeAccount.legal_entity.address.postal_code &&
         this.currentProfile.stripeAccount.legal_entity.address.state &&
         this.currentProfile.stripeAccount.legal_entity.address.city /*&&*/
-      /*this.currentProfile.stripeAccount.legal_entity.business_tax_id_provided*/) {
+      /*this.currentProfile.stripeAccount.legal_entity.business_tax_id_provided*/) ||
+        this.currentProfile.stripeAccount.legal_entity.ssn_last_4_provided) {
         this.loadProgress = 75;
         this.businessInfoProgress = 2;
       }
@@ -118,6 +124,22 @@ export class ProfilePage {
         this.loadProgress = 100;
         this.bankAccountInfoProgress = 2;
       }
+    }
+  }
+
+  calculateConsumerProgress() {
+    if (this.currentProfile.stripeAccount.legal_entity.dob.year &&
+      this.currentProfile.stripeAccount.legal_entity.dob.month &&
+      this.currentProfile.stripeAccount.legal_entity.dob.day) {
+      this.loadProgress = 20;
+      this.personalInfoProgress = 1;
+    }
+    if (this.currentProfile.stripeAccount.legal_entity.personal_address.line1 &&
+      this.currentProfile.stripeAccount.legal_entity.personal_address.postal_code &&
+      this.currentProfile.stripeAccount.legal_entity.personal_address.state &&
+      this.currentProfile.stripeAccount.legal_entity.personal_address.city) {
+      this.loadProgress = 50;
+      this.personalInfoProgress = 2;
     }
   }
 

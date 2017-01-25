@@ -3,7 +3,8 @@ import {Http} from "@angular/http";
 import {Injectable} from "@angular/core";
 
 @Injectable()
-export class SignUpValidator {
+export class
+SignUpValidator {
 
   constructor(private http: Http) {
 

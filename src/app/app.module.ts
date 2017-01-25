@@ -30,6 +30,8 @@ import {BusinessTypeForm} from "../pages/profile-business-info-forms/business-ty
 import {BusinessAddressForm} from "../pages/profile-business-info-forms/business-address/business-address";
 import {BusinessServicesForm} from "../pages/profile-business-info-forms/business-services/business-services";
 import {BankInfoForm} from "../pages/profile-bank-info-forms/bank-info/bank-info";
+import {BillingAddressPage} from "../pages/profile-payment-info-forms/billing-address/billing-address";
+import {CreditCardPage} from "../pages/profile-payment-info-forms/credit-card/credit-card";
 
 export function getAuthHttp(http) {
   return new AuthHttp(new AuthConfig({
@@ -73,7 +75,9 @@ export function getAuthHttp(http) {
     BusinessTypeForm,
     BusinessAddressForm,
     BusinessServicesForm,
-    BankInfoForm
+    BankInfoForm,
+    BillingAddressPage,
+    CreditCardPage
   ],
   imports: [
     IonicModule.forRoot(MyApp, {tabsHideOnSubPages:"true"}),
@@ -107,7 +111,9 @@ export function getAuthHttp(http) {
     BusinessTypeForm,
     BusinessAddressForm,
     BusinessServicesForm,
-    BankInfoForm
+    BankInfoForm,
+    BillingAddressPage,
+    CreditCardPage
   ],
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},

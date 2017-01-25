@@ -18,46 +18,49 @@
   <progress-bar [progress]="loadProgress"></progress-bar>
 
   <ion-list no-lines>
-    <div *ngIf="tosProgress === 2">
-      <ion-item>
-        <ion-icon name="checkmark-circle" class="complete" item-left></ion-icon>
-        <button ion-item disabled (click)="displayTOSForms()">Accept Terms of Service</button>
-      </ion-item>
-    </div>
-
-    <div *ngIf="tosProgress < 2">
-      <ion-item>
-        <button ion-item (click)="displayTOSForms()">Accept Terms of Service</button>
-      </ion-item>
-    </div>
-
-    <div *ngIf="personalInfoProgress === 2">
-      <ion-item>
-        <ion-icon name="checkmark-circle" class="complete" item-left></ion-icon>
-        <button ion-item disabled (click)="displayPersonalInfoForms()">Provide Personal Info</button>
-      </ion-item>
-    </div>
-
-    <div *ngIf="personalInfoProgress === 1">
-      <ion-item>
-        <ion-icon name="code-working" class="in-progress" item-left></ion-icon>
-        <button ion-item (click)="displayPersonalInfoForms()">Provide Personal Info</button>
-      </ion-item>
-    </div>
-
-    <div *ngIf="personalInfoProgress === 0 && tosProgress < 2">
-      <ion-item>
-        <button ion-item disabled (click)="displayPersonalInfoForms()">Provide Personal Info</button>
-      </ion-item>
-    </div>
-
-    <div *ngIf="personalInfoProgress === 0 && tosProgress === 2">
-      <ion-item>
-        <button ion-item (click)="displayPersonalInfoForms()">Provide Personal Info</button>
-      </ion-item>
-    </div>
-
+    <!--
+    Pro Dashboard
+    -->
     <div *ngIf="currentProfile && currentProfile.type === 'pro'">
+      <div *ngIf="tosProgress === 2">
+        <ion-item>
+          <ion-icon name="checkmark-circle" class="complete" item-left></ion-icon>
+          <button ion-item disabled (click)="displayTOSForms()">Accept Terms of Service</button>
+        </ion-item>
+      </div>
+
+      <div *ngIf="tosProgress < 2">
+        <ion-item>
+          <button ion-item (click)="displayTOSForms()">Accept Terms of Service</button>
+        </ion-item>
+      </div>
+
+      <div *ngIf="personalInfoProgress === 2">
+        <ion-item>
+          <ion-icon name="checkmark-circle" class="complete" item-left></ion-icon>
+          <button ion-item disabled (click)="displayPersonalInfoForms()">Provide Personal Info</button>
+        </ion-item>
+      </div>
+
+      <div *ngIf="personalInfoProgress === 1">
+        <ion-item>
+          <ion-icon name="code-working" class="in-progress" item-left></ion-icon>
+          <button ion-item (click)="displayPersonalInfoForms()">Provide Personal Info</button>
+        </ion-item>
+      </div>
+
+      <div *ngIf="personalInfoProgress === 0 && tosProgress < 2">
+        <ion-item>
+          <button ion-item disabled (click)="displayPersonalInfoForms()">Provide Personal Info</button>
+        </ion-item>
+      </div>
+
+      <div *ngIf="personalInfoProgress === 0 && tosProgress === 2">
+        <ion-item>
+          <button ion-item (click)="displayPersonalInfoForms()">Provide Personal Info</button>
+        </ion-item>
+      </div>
+
       <div *ngIf="businessInfoProgress === 2">
         <ion-item>
           <ion-icon name="checkmark-circle" class="complete" item-left></ion-icon>
@@ -111,7 +114,30 @@
       </div>
     </div>
 
+    <!--
+    Consumer Dashboard
+    -->
     <div *ngIf="currentProfile && currentProfile.type === 'consumer'">
+      <div *ngIf="personalInfoProgress === 2">
+        <ion-item>
+          <ion-icon name="checkmark-circle" class="complete" item-left></ion-icon>
+          <button ion-item disabled (click)="displayPersonalInfoForms()">Provide Personal Info</button>
+        </ion-item>
+      </div>
+
+      <div *ngIf="personalInfoProgress === 1">
+        <ion-item>
+          <ion-icon name="code-working" class="in-progress" item-left></ion-icon>
+          <button ion-item (click)="displayPersonalInfoForms()">Provide Personal Info</button>
+        </ion-item>
+      </div>
+
+      <div *ngIf="personalInfoProgress === 0">
+        <ion-item>
+          <button ion-item (click)="displayPersonalInfoForms()">Provide Personal Info</button>
+        </ion-item>
+      </div>
+
       <div *ngIf="paymentInfoProgress === 2">
         <ion-item>
           <ion-icon name="checkmark-circle" class="complete" item-left></ion-icon>
@@ -132,11 +158,11 @@
         </ion-item>
       </div>
 
-      <div *ngIf="paymentInfoProgress === 0 && personalInfoProgress === 2">
+      <!--<div *ngIf="paymentInfoProgress === 0 && personalInfoProgress === 2">-->
         <ion-item>
           <button ion-item (click)="displayPaymentInfoForms()">Setup Payment Info</button>
         </ion-item>
-      </div>
+      <!--</div>-->
     </div>
   </ion-list>
 </ion-content>

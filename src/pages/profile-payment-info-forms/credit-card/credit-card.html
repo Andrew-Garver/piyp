@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Terms of Service</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <h5>Let's hook up your credit card</h5>
+
+  <div *ngIf="formFieldsMissing">
+    <p class="invalid-head">Please fill out all form fields carefully</p>
+  </div>
+
+  <div *ngIf="creditCardRejected">
+    <p class="invalid">Credit card rejected! Please try again.</p>
+  </div>
+
+  <form #f="ngForm" [formGroup]="creditCardInfoForm" (ngSubmit)="nextForm()">
+    <ion-item>
+      <ion-input id="creditCardNumber" type="number" placeholder="Credit Card Number"
+                 formControlName="creditCardNumber"
+                 (blur)="toggleCreditCardError(false)" (focus)="toggleCreditCardError(true)"></ion-input>
+    </ion-item>
+    <div *ngIf="!creditCardInfoForm.controls.creditCardNumber.valid && creditCardInfoForm.controls.creditCardNumber.dirty &&
+    creditCardInfoForm.controls.creditCardNumber.hasError('invalid credit card') && showCreditCardError &&
+    creditCardInfoForm.value.creditCardNumber.length > 0">
+      <p class="invalid">Invalid credit card number</p>
+    </div>
+
+    <ion-item>
+      <ion-input type="number" placeholder="CVC" formControlName="cvc" (blur)="checkCvc()"></ion-input>
+    </ion-item>
+    <div *ngIf="invalidCvc">
+      <p class="invalid">CVC must be 3 or 4 numbers</p>
+    </div>
+
+    <ion-item>
+      <ion-label>Expiration Date</ion-label>
+      <ion-datetime displayFormat="MMM YYYY" pickerFormat="MMM YYYY" min="2017" max="2100"
+                    formControlName="expirationDate"></ion-datetime>
+    </ion-item>
+
+    <ion-item>
+      <ion-input #billingZip type="number" placeholder="Billing Zip Code" formControlName="billingZipCode"
+                 (blur)="checkZip(creditCardInfoForm, billingZip.value)" (focus)="clearBillingZipError()"></ion-input>
+    </ion-item>
+    <div *ngIf="invalidBillingZip && billingZip.value.length > 0 && billingZip.value.length != 5">
+      <p class="invalid">Zip Code must be 5 numbers long</p>
+    </div>
+
+    <br>
+    <button type="submit" class="bottom-button" ion-button full>Sign up</button>
+  </form>
+
+</ion-content>

@@ -25,8 +25,12 @@ export class ProfileDOBForm {
     // // this.dob = (dobObj.year && dobObj.month && dobObj.day) ? dobObj.year + "-" + dobObj.month + "-" + dobObj.day : '';
 
     //TODO: WTF???
-    // console.log(new Date("1997-1-1"));
-    // console.log(new Date("1997-1-1").toISOString());
+    // console.log(new Date("1997-1-1")); // null
+    // console.log(new Date("1999-12-31")); // "1999-12-31T00:00:00.000Z"
+    // console.log(new Date("2010-11-7")); // null
+    // console.log(new Date("1992-4-21")); // null
+    // console.log(new Date("1842-2-27")); // null
+    // console.log(new Date("2000-8-20")); // null
 
     this.dobForm = formBuilder.group({
       dob: ['', Validators.required]
@@ -40,7 +44,13 @@ export class ProfileDOBForm {
       this.postData()
         .then(() => {
           this.loadingService.hideLoading();
+          console.log(localStorage);
           this.navCtrl.push(ProfilePersonalAddressForm);
+        })
+        .catch((err) => {
+        console.log("ERROR");
+        console.log(err);
+        this.loadingService.hideLoading();
         });
     }
     else {
@@ -57,7 +67,7 @@ export class ProfileDOBForm {
 
   postData(): Promise<boolean> {
     let profileId = JSON.parse(localStorage.getItem('current_profile'))._id;
-    console.log(this.dobForm.value.dob);
+    console.log("profile di " + profileId);
     let dobParts = this.dobForm.value.dob.split("-");
     let dob = {
       "year": dobParts[0],
