@@ -33,7 +33,7 @@ export class JobService {
     params = params.slice(0, -1);
 
     return new Promise((resolve, reject) => {
-      this.authHttp.get('http://localhost:3000/api/job?' + params)
+      this.authHttp.get('http://localhost:3000/api/jobs?' + params)
         .map(res => res.json())
         .subscribe(
           data => {

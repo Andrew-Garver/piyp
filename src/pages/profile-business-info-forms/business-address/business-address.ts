@@ -80,7 +80,7 @@ export class BusinessAddressForm {
       });
   }
 
-  postData(): Promise<boolean> {
+  postData(): Promise<any> {
     let profileId = JSON.parse(localStorage.getItem('current_profile'))._id;
     let address = {
       "line1": this.businessAddressForm.value.addressLine1,

@@ -95,7 +95,7 @@ export class BusinessTypeForm {
       });
   }
 
-  postData(): Promise<boolean> {
+  postData(): Promise<any> {
     let profileId = JSON.parse(localStorage.getItem('current_profile'))._id;
     let params = {
       businessType: this.businessTypeForm.value.businessType,

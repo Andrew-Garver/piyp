@@ -51,9 +51,11 @@ export class ProfileDOBForm {
           console.log(localStorage);
           this.navCtrl.push(ProfilePersonalAddressForm)
             .catch(() => {
-              this.authService.logout();
-              this.navCtrl.setRoot(LoginPage);
-              this.toastService.presentToast("Your session has expired. Please login again.");
+              this.authService.logout()
+                .then(() => {
+                  this.navCtrl.setRoot(LoginPage);
+                  this.toastService.presentToast("Your session has expired. Please login again.");
+                });
             });
         })
         .catch((err) => {
@@ -75,7 +77,7 @@ export class ProfileDOBForm {
       });
   }
 
-  postData(): Promise<boolean> {
+  postData(): Promise<any> {
     let profileId = JSON.parse(localStorage.getItem('current_profile'))._id;
     console.log("profile di " + profileId);
     let dobParts = this.dobForm.value.dob.split("-");

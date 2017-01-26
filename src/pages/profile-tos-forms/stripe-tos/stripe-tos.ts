@@ -38,7 +38,7 @@ export class StripeTosPage {
     this.navCtrl.setRoot(ProfilePage);
   }
 
-  postData(): Promise<boolean> {
+  postData(): Promise<any> {
     let profileId = JSON.parse(localStorage.getItem('current_profile'))._id;
     return this.profileService.updateUserProfile(profileId, {tosAccepted: true});
   }

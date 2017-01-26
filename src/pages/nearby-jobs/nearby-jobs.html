@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Open Jobs
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <div *ngIf="!nearbyJobs">
+    <h4>Hmmm. Looks like no nearby jobs were found.</h4>
+    <h5>Try increasing your search radius or selecting a different service category.</h5>
+  </div>
+
+  <div *ngIf="nearbyJobs">
+    <ion-list>
+      <button ion-item *ngFor="let job of nearbyJobs" (click)="viewJobDetails(job)">{{job.title}}</button>
+    </ion-list>
+  </div>
+</ion-content>

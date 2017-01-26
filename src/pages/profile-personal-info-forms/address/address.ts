@@ -72,7 +72,7 @@ export class ProfilePersonalAddressForm {
       });
   }
 
-  postData(): Promise<boolean> {
+  postData(): Promise<any> {
     let profileId = JSON.parse(localStorage.getItem('current_profile'))._id;
     let address = {
       "line1": this.addressForm.value.addressLine1,

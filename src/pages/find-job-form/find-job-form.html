@@ -7,11 +7,11 @@
 </ion-header>
 
 <ion-content padding>
-  <form #f="ngForm" [formGroup]="formJobProximity" (ngSubmit)="searchForOpenJobs()">
+  <form #f="ngForm" [formGroup]="formFindJobs" (ngSubmit)="searchForOpenJobs()">
 
     <ion-item>
       <ion-label>Within</ion-label>
-      <ion-select formControlName="within">
+      <ion-select formControlName="radius">
         <ion-option value="10">10 miles</ion-option>
         <ion-option value="20">20 miles</ion-option>
         <ion-option value="30">30 miles</ion-option>
@@ -22,16 +22,16 @@
 
     <ion-item>
       <ion-label>of</ion-label>
-      <ion-select formControlName="ofLocation">
-        <ion-option value="myLocation">My Location</ion-option>
-        <ion-option value="businessAddress">My Business Address</ion-option>
+      <ion-select formControlName="locType">
+        <ion-option value="current">My Location</ion-option>
+        <ion-option value="business">My Business Address</ion-option>
       </ion-select>
     </ion-item>
 
     <ion-item>
       <ion-label>Service Categories</ion-label>
       <ion-select formControlName="serviceCategories" multiple="true">
-        <ion-option *ngFor="let service of services" value="{{service.category}}">{{service.category}}</ion-option>
+        <ion-option *ngFor="let service of services" value="{{service.id}}">{{service.category}}</ion-option>
       </ion-select>
     </ion-item>
 

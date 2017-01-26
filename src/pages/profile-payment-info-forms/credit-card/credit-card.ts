@@ -99,7 +99,7 @@ export class CreditCardPage {
     }
   }
 
-  postData(): Promise<boolean> {
+  postData(): Promise<any> {
     let expDate = this.creditCardInfoForm.value.expirationDate;
     let paymentInfo = {
       number: this.creditCardInfoForm.value.creditCardNumber,

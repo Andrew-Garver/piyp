@@ -57,7 +57,7 @@ export class RequestJobFormPage {
     }
   }
 
-  postData(): Promise<boolean> {
+  postData(): Promise<any> {
     let job = {
       "title": this.formJobRequest.value.jobName,
       "category": this.formJobRequest.value.jobCategory,

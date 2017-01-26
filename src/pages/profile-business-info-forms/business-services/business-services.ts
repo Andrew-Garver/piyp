@@ -56,7 +56,7 @@ export class BusinessServicesForm {
       });
   }
 
-  postData(): Promise<boolean> {
+  postData(): Promise<any> {
     return Promise.resolve(true);
   }
 

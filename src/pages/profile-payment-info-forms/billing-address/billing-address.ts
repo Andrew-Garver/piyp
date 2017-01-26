@@ -32,7 +32,7 @@ export class BillingAddressPage {
     this.navCtrl.setRoot(ProfilePage);
   }
 
-  postData(): Promise<boolean> {
+  postData(): Promise<any> {
     return Promise.resolve(true);
   }
 

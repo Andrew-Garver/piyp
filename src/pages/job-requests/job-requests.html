@@ -14,7 +14,7 @@
 
   <div *ngIf="requestedJobs">
     <ion-list>
-      <button ion-item *ngFor="let job of requestedJobs" (click)="viewJobDetails(job)">{{job.name}}</button>
+      <button ion-item *ngFor="let job of requestedJobs" (click)="viewJobDetails(job)">{{job.title}}</button>
     </ion-list>
   </div>
 </ion-content>
