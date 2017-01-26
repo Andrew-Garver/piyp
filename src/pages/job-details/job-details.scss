@@ -1,3 +1,23 @@
 page-job-details {
+  .bottom-button {
+    padding: $content-padding;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
 
+  @media (max-width: 340px) {
+    .page-content {
+      overflow-y: scroll;
+      height: 70%;
+    }
+  }
+
+  @media (min-width: 341px) {
+    .page-content {
+      overflow-y: scroll;
+      height: 75%;
+    }
+  }
 }

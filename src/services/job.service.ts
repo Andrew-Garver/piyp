@@ -27,7 +27,6 @@ export class JobService {
   getJobs(data): Promise<any> {
     let params = "";
     for (let key in data) {
-      console.log("key: " + key + " value: " + data[key]);
       params += key + "=" + data[key] + "&";
     }
     params = params.slice(0, -1);

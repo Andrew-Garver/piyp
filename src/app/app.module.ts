@@ -33,6 +33,7 @@ import {BankInfoForm} from "../pages/profile-bank-info-forms/bank-info/bank-info
 import {BillingAddressPage} from "../pages/profile-payment-info-forms/billing-address/billing-address";
 import {CreditCardPage} from "../pages/profile-payment-info-forms/credit-card/credit-card";
 import {NearbyJobsPage} from "../pages/nearby-jobs/nearby-jobs";
+import {PlaceBidPage} from "../pages/place-bid/place-bid";
 
 export function getAuthHttp(http) {
   return new AuthHttp(new AuthConfig({
@@ -79,7 +80,8 @@ export function getAuthHttp(http) {
     BankInfoForm,
     BillingAddressPage,
     CreditCardPage,
-    NearbyJobsPage
+    NearbyJobsPage,
+    PlaceBidPage
   ],
   imports: [
     IonicModule.forRoot(MyApp, {tabsHideOnSubPages:"true"}),
@@ -116,7 +118,8 @@ export function getAuthHttp(http) {
     BankInfoForm,
     BillingAddressPage,
     CreditCardPage,
-    NearbyJobsPage
+    NearbyJobsPage,
+    PlaceBidPage
   ],
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},

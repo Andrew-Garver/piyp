@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Place Bid
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <form #f="ngForm" [formGroup]="formBidAmount" (ngSubmit)="placeBid()">
+    <ion-item>
+      <ion-input type="number" formControlName="bidAmount" placeholder="Bid Amount"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-textarea formControlName="message" placeholder="Personal Message"></ion-textarea>
+    </ion-item>
+
+    <br>
+    <div class="bottom-button">
+      <button type="submit" ion-button full>Place Bid</button>
+    </div>
+  </form>
+</ion-content>

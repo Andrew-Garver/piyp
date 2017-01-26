@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 
 import {NavController, App, NavParams} from 'ionic-angular';
-import {Job} from "../../entities/job";
 import {JobDetailsPage} from "../job-details/job-details";
 import {LoginPage} from "../login/login";
 import {ErrorPage} from "../error/error";
@@ -43,10 +42,12 @@ export class NearbyJobsPage {
 
   }
 
-  private viewJobDetails(job: Job) {
-    if (job) {
-      this.navCtrl.push(JobDetailsPage, {job: job})
-        .catch(() => {
+  private viewJobDetails(selectedJob) {
+    if (selectedJob) {
+      this.navCtrl.push(JobDetailsPage, {job: selectedJob})
+        .catch((err) => {
+          console.log("the error is: ");
+          console.log(err);
           this.authService.logout()
             .then(() => {
               this.app.getRootNav().setRoot(LoginPage);
