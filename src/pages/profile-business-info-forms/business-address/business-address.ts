@@ -7,11 +7,14 @@ import {ProfilePage} from "../../profile/profile";
 import {BusinessServicesForm} from "../business-services/business-services";
 import {ProfileService} from "../../../services/profile.service";
 import {LoadingService} from "../../../services/loading.service";
+import {AuthService} from "../../../services/auth.service";
+import {ToastService} from "../../../services/toast.service";
+import {LoginPage} from "../../login/login";
 
 @Component({
   selector: 'page-business-address-form',
   templateUrl: 'business-address.html',
-  providers: [ProfileService, LoadingService]
+  providers: [ProfileService, LoadingService, AuthService, ToastService]
 })
 export class BusinessAddressForm {
   private businessAddressForm: FormGroup;
@@ -20,7 +23,8 @@ export class BusinessAddressForm {
   private formFieldsMissing: boolean;
 
   constructor(public navCtrl: NavController, private formBuilder: FormBuilder,
-              private profileService: ProfileService, private loadinService: LoadingService) {
+              private profileService: ProfileService, private loadingService: LoadingService,
+              private authService: AuthService, private toastService: ToastService) {
     this.zipCodeIsValid = true;
 
     this.businessAddressForm = formBuilder.group({
@@ -37,11 +41,22 @@ export class BusinessAddressForm {
   nextForm() {
     if (this.businessAddressForm.valid) {
       this.formFieldsMissing = false;
-      this.loadinService.presentLoading();
+      this.loadingService.presentLoading();
       this.postData()
         .then(() => {
-          this.loadinService.hideLoading();
-          this.navCtrl.push(BusinessServicesForm);
+          this.loadingService.hideLoading();
+          this.navCtrl.push(BusinessServicesForm)
+            .catch(() => {
+              this.authService.logout();
+              this.navCtrl.setRoot(LoginPage);
+              this.toastService.presentToast("Your session has expired. Please login again.");
+            });
+        })
+        .catch((err) => {
+          console.log(err);
+          this.loadingService.hideLoading();
+          this.navCtrl.setRoot(ProfilePage);
+          this.toastService.presentToast("Could not reach PIYP servers. Check your data connection and try again.")
         });
     }
     else {
@@ -80,4 +95,21 @@ export class BusinessAddressForm {
     });
   }
 
+  ionViewCanEnter(): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      this.authService.loggedIn()
+        .then((data) => {
+          if (data) {
+            resolve(true);
+          }
+          else {
+            resolve(false);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          reject(err);
+        });
+    });
+  }
 }

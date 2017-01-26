@@ -11,10 +11,6 @@
     <p class="invalid-head">Please fill out all form fields carefully</p>
   </div>
 
-  <div *ngIf="creditCardRejected">
-    <p class="invalid">Credit card rejected! Please try again.</p>
-  </div>
-
   <form #f="ngForm" [formGroup]="creditCardInfoForm" (ngSubmit)="nextForm()">
     <ion-item>
       <ion-input id="creditCardNumber" type="number" placeholder="Credit Card Number"
@@ -49,7 +45,9 @@
     </div>
 
     <br>
-    <button type="submit" class="bottom-button" ion-button full>Sign up</button>
+    <div class="bottom-button">
+      <button type="submit" ion-button full>Sign up</button>
+    </div>
   </form>
 
 </ion-content>

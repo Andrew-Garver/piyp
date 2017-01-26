@@ -6,11 +6,13 @@ import {ProfilePage} from "../../profile/profile";
 import {Validators, FormBuilder, FormGroup} from "@angular/forms";
 import {ExternalAccountService} from "../../../services/external-account.service";
 import {LoadingService} from "../../../services/loading.service";
+import {AuthService} from "../../../services/auth.service";
+import {ToastService} from "../../../services/toast.service";
 
 @Component({
   selector: 'page-bank-info',
   templateUrl: 'bank-info.html',
-  providers: [ExternalAccountService, LoadingService]
+  providers: [ExternalAccountService, LoadingService, AuthService, ToastService]
 })
 export class BankInfoForm {
 
@@ -18,7 +20,8 @@ export class BankInfoForm {
   private formFieldsMissing: boolean;
 
   constructor(public navCtrl: NavController, private formBuilder: FormBuilder,
-              private externalAccountService: ExternalAccountService, private loadingService: LoadingService) {
+              private externalAccountService: ExternalAccountService, private loadingService: LoadingService,
+              private authService: AuthService, private toastService: ToastService) {
     this.bankAccountInfoForm = formBuilder.group({
       accountHolderName: ['', Validators.required],
       accountType: ['', Validators.required],
@@ -33,13 +36,14 @@ export class BankInfoForm {
       this.loadingService.presentLoading();
       this.postData()
         .then(() => {
-        this.loadingService.hideLoading();
+          this.loadingService.hideLoading();
           this.navCtrl.setRoot(ProfilePage);
         })
         .catch((err) => {
-        this.loadingService.hideLoading();
-          console.log("Error");
           console.log(err);
+          this.loadingService.hideLoading();
+          this.navCtrl.setRoot(ProfilePage);
+          this.toastService.presentToast("Could not reach PIYP servers. Check your data connection and try again.")
         });
     }
     else {
@@ -82,4 +86,21 @@ export class BankInfoForm {
     });
   }
 
+  ionViewCanEnter(): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      this.authService.loggedIn()
+        .then((data) => {
+          if (data) {
+            resolve(true);
+          }
+          else {
+            resolve(false);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          reject(err);
+        });
+    });
+  }
 }

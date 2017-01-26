@@ -15,4 +15,13 @@ export class ToastService {
     });
     toast.present();
   }
+
+  presentTimedToast(message) {
+    let toast = this.toastCtrl.create({
+      message: message,
+      duration: 2000,
+      position: "top",
+    });
+    toast.present();
+  }
 }

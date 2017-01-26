@@ -3,6 +3,7 @@ import {Component} from '@angular/core';
 import {NavController} from 'ionic-angular';
 import {DatabaseService} from "../../services/database.service";
 import {Validators, FormBuilder, FormGroup} from "@angular/forms";
+import {Geolocation} from "ionic-native";
 
 @Component({
   selector: 'page-find-job-form',
@@ -34,6 +35,10 @@ export class FindJobFormPage {
 
   searchForOpenJobs() {
     if (this.formJobProximity.valid) {
+      Geolocation.getCurrentPosition().then((position) => {
+        console.log("Your position: ");
+        console.log(position);
+      });
       console.log("Searching for jobs...");
     }
   }

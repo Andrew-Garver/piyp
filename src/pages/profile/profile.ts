@@ -9,11 +9,14 @@ import {UserService} from "../../services/user.service";
 import {ProfileService} from "../../services/profile.service";
 import {LoadingService} from "../../services/loading.service";
 import {CreditCardPage} from "../profile-payment-info-forms/credit-card/credit-card";
+import {AuthService} from "../../services/auth.service";
+import {LoginPage} from "../login/login";
+import {ToastService} from "../../services/toast.service";
 
 @Component({
   selector: 'page-profile',
   templateUrl: 'profile.html',
-  providers: [UserService, ProfileService, LoadingService]
+  providers: [UserService, ProfileService, LoadingService, AuthService, ToastService]
 })
 export class ProfilePage {
 
@@ -34,9 +37,23 @@ export class ProfilePage {
   private bankAccountInfoProgress: number = 0;
   private paymentInfoProgress: number = 0;
 
+  /*
+   * Profile Statistics
+   */
+  // Pro
+  private amountInAccount: number = 0;
+  private activeJobsPro: number = 0;
+  private totalJobsWorked: number = 0;
+  private totalAmountMade: number = 0;
+
+  // Consumer
+  private activeJobsConsumer: number = 0;
+  private totalJobsHired: number = 0;
+  private favoritePro: string;
 
   constructor(private navCtrl: NavController, private userService: UserService,
-              private profileService: ProfileService, private loadingService: LoadingService) {
+              private profileService: ProfileService, private loadingService: LoadingService,
+              private authService: AuthService, private toastService: ToastService) {
   }
 
   ionViewWillEnter() {
@@ -66,26 +83,44 @@ export class ProfilePage {
   }
 
   displayTOSForms() {
-    //TODO: if (this.user.piypTosAccepted)
-    // this.navCtrl.push(StripeTosPage);
-    //TODO: else
-    this.navCtrl.push(PiypTosPage);
+    this.navCtrl.push(StripeTosPage)
+      .catch(() => {
+        this.logout();
+      });
   }
 
   displayPersonalInfoForms() {
-    this.navCtrl.push(ProfileDOBForm);
+    this.navCtrl.push(ProfileDOBForm)
+      .catch(() => {
+        this.logout();
+      });
   }
 
   displayBusinessInfoForms() {
-    this.navCtrl.push(BusinessTypeForm);
+    this.navCtrl.push(BusinessTypeForm)
+      .catch(() => {
+        this.logout();
+      });
   }
 
   displayBankInfoForms() {
-    this.navCtrl.push(BankInfoForm);
+    this.navCtrl.push(BankInfoForm)
+      .catch(() => {
+        this.logout();
+      });
   }
 
   displayPaymentInfoForms() {
-    this.navCtrl.push(CreditCardPage);
+    this.navCtrl.push(CreditCardPage)
+      .catch(() => {
+        this.logout();
+      });
+  }
+
+  logout() {
+    this.authService.logout();
+    this.navCtrl.setRoot(LoginPage);
+    this.toastService.presentToast("Your session has expired. Please login again.");
   }
 
   calculateProProgress() {
@@ -115,7 +150,7 @@ export class ProfilePage {
         this.currentProfile.stripeAccount.legal_entity.address.postal_code &&
         this.currentProfile.stripeAccount.legal_entity.address.state &&
         this.currentProfile.stripeAccount.legal_entity.address.city /*&&*/
-      /*this.currentProfile.stripeAccount.legal_entity.business_tax_id_provided*/) ||
+          /*this.currentProfile.stripeAccount.legal_entity.business_tax_id_provided*/) ||
         this.currentProfile.stripeAccount.legal_entity.ssn_last_4_provided) {
         this.loadProgress = 75;
         this.businessInfoProgress = 2;
@@ -128,16 +163,29 @@ export class ProfilePage {
   }
 
   calculateConsumerProgress() {
-    if (this.currentProfile.personalAddress.line1 &&
-      this.currentProfile.personalAddress.postalCode &&
-      this.currentProfile.personalAddress.state &&
-      this.currentProfile.personalAddress.city) {
-      this.loadProgress = 50;
-      this.personalInfoProgress = 2;
+    if (this.currentProfile) {
+      if (this.currentProfile.personalAddress && this.currentProfile.personalAddress.line1 &&
+        this.currentProfile.personalAddress.postalCode &&
+        this.currentProfile.personalAddress.state &&
+        this.currentProfile.personalAddress.city) {
+        this.loadProgress = 50;
+        this.personalInfoProgress = 2;
+      }
+      if (this.currentProfile.stripeAccount.sources.total_count) {
+        this.loadProgress = 100;
+        this.paymentInfoProgress = 2;
+      }
     }
-    if (this.currentProfile.stripeAccount.sources.total_count) {
-      this.loadProgress = 100;
-      this.paymentInfoProgress = 2;
+  }
+
+  goToPage(page: string) {
+    switch (page) {
+      case 'hiredJobsPro':
+        this.navCtrl.parent.select(0);
+        break;
+      case 'hiredJobsConsumer':
+        this.navCtrl.parent.select(2);
+        break;
     }
   }
 

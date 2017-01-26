@@ -1,7 +1,7 @@
 import {Component, ViewChild} from '@angular/core';
 
-import {NavController, Slides, ToastController, Checkbox, App, ActionSheetController} from 'ionic-angular';
-import {FormBuilder, Validators, FormGroup} from "@angular/forms";
+import {NavController, Slides, Checkbox, App} from 'ionic-angular';
+import {FormBuilder, Validators, FormGroup, FormControl} from "@angular/forms";
 import {SignUpValidator} from "./sign-up.validator";
 import {AuthService} from "../../services/auth.service";
 import {AccountCreationService} from "../../services/account-creation.service";

@@ -7,11 +7,13 @@ import {BillingAddressPage} from "../billing-address/billing-address";
 import {FormGroup, Validators, FormBuilder} from "@angular/forms";
 import {SignUpValidator} from "../../signup/sign-up.validator";
 import {CreditCardService} from "../../../services/credit-card.service";
+import {AuthService} from "../../../services/auth.service";
+import {ToastService} from "../../../services/toast.service";
 
 @Component({
   selector: 'page-credit-card',
   templateUrl: 'credit-card.html',
-  providers: [LoadingService, SignUpValidator, CreditCardService]
+  providers: [LoadingService, SignUpValidator, CreditCardService, AuthService, ToastService]
 })
 export class CreditCardPage {
 
@@ -21,11 +23,11 @@ export class CreditCardPage {
   private invalidCvc: boolean = false;
   private invalidBillingZip: boolean = false;
   private showCreditCardError: boolean = false;
-  private creditCardRejected: boolean = false;
 
   constructor(public navCtrl: NavController, private loadingService: LoadingService,
               private formBuilder: FormBuilder, private signUpValidator: SignUpValidator,
-  private creditCardService: CreditCardService) {
+              private creditCardService: CreditCardService, private authService: AuthService,
+              private toastService: ToastService) {
     this.formFieldsMissing = false;
 
     let creditCardValidator = (control) => {
@@ -84,12 +86,12 @@ export class CreditCardPage {
         .then(() => {
           this.loadingService.hideLoading();
           this.navCtrl.setRoot(ProfilePage);
-          // this.navCtrl.push(BillingAddressPage);
         })
         .catch((err) => {
-          this.loadingService.hideLoading();
-          console.log("error");
           console.log(err);
+          this.loadingService.hideLoading();
+          this.navCtrl.setRoot(ProfilePage);
+          this.toastService.presentToast("Could not reach PIYP servers. Check your data connection and try again.")
         });
     }
     else if (!this.creditCardInfoForm.valid) {
@@ -122,6 +124,24 @@ export class CreditCardPage {
         .catch((err) => {
           console.log("ERROR");
           console.log(err.message);
+          reject(err);
+        });
+    });
+  }
+
+  ionViewCanEnter(): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      this.authService.loggedIn()
+        .then((data) => {
+          if (data) {
+            resolve(true);
+          }
+          else {
+            resolve(false);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
           reject(err);
         });
     });

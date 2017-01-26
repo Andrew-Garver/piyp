@@ -7,11 +7,14 @@ import {BusinessAddressForm} from "../business-address/business-address";
 import {BusinessServicesForm} from "../business-services/business-services";
 import {ProfileService} from "../../../services/profile.service";
 import {LoadingService} from "../../../services/loading.service";
+import {AuthService} from "../../../services/auth.service";
+import {ToastService} from "../../../services/toast.service";
+import {LoginPage} from "../../login/login";
 
 @Component({
   selector: 'page-business-type-form',
   templateUrl: 'business-type.html',
-  providers: [ProfileService, LoadingService]
+  providers: [ProfileService, LoadingService, AuthService, ToastService]
 })
 export class BusinessTypeForm {
   private businessTypeForm: FormGroup;
@@ -22,7 +25,8 @@ export class BusinessTypeForm {
   private missingBusinessName: boolean = false;
 
   constructor(public navCtrl: NavController, private formBuilder: FormBuilder,
-              private profileService: ProfileService, private loadingService: LoadingService) {
+              private profileService: ProfileService, private loadingService: LoadingService,
+              private authService: AuthService, private toastService: ToastService) {
     this.businessTypeForm = formBuilder.group({
       businessType: ['', Validators.required],
       authorizedRep: [null],
@@ -50,11 +54,23 @@ export class BusinessTypeForm {
         .then(() => {
           this.loadingService.hideLoading();
           if (this.businessTypeForm.value.businessType === "company") {
-            this.navCtrl.push(BusinessAddressForm);
+            this.navCtrl.push(BusinessAddressForm)
+              .catch(() => {
+                this.logout();
+              });
           }
           else {
-            this.navCtrl.push(BusinessServicesForm);
+            this.navCtrl.push(BusinessServicesForm)
+              .catch(() => {
+                this.logout();
+              });
           }
+        })
+        .catch((err) => {
+          console.log(err);
+          this.loadingService.hideLoading();
+          this.navCtrl.setRoot(ProfilePage);
+          this.toastService.presentToast("Could not reach PIYP servers. Check your data connection and try again.")
         });
     }
   }
@@ -88,4 +104,27 @@ export class BusinessTypeForm {
     return this.profileService.updateUserProfile(profileId, params);
   }
 
+  ionViewCanEnter(): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      this.authService.loggedIn()
+        .then((data) => {
+          if (data) {
+            resolve(true);
+          }
+          else {
+            resolve(false);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          reject(err);
+        });
+    });
+  }
+
+  logout() {
+    this.authService.logout();
+    this.navCtrl.setRoot(LoginPage);
+    this.toastService.presentToast("Your session has expired. Please login again.");
+  }
 }
