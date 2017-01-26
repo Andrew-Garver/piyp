@@ -14,7 +14,11 @@
 
   <div *ngIf="nearbyJobs">
     <ion-list>
-      <button ion-item *ngFor="let job of nearbyJobs" (click)="viewJobDetails(job)">{{job.request.title}}</button>
+      <button ion-item *ngFor="let job of nearbyJobs" (click)="viewJobDetails(job)">
+        <div>{{job.request.title}}</div>
+        <ion-note class="smaller-size" item-right>{{job.distance}} mi</ion-note>
+        <p>{{job.request.description}}</p>
+      </button>
     </ion-list>
   </div>
 </ion-content>
