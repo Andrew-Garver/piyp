@@ -13,7 +13,10 @@
     </ion-item>
 
     <ion-item>
-      <ion-input type="text" formControlName="jobCategory" placeholder="Job Category"></ion-input>
+      <ion-label>Service Categories</ion-label>
+      <ion-select formControlName="jobCategory">
+        <ion-option *ngFor="let service of services" value="{{service.id}}">{{service.category}}</ion-option>
+      </ion-select>
     </ion-item>
 
     <ion-item>

@@ -1,31 +1,40 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 
 import {NavController, App} from 'ionic-angular';
 import {Job} from "../../entities/job";
-import {DatabaseService} from "../../services/database.service";
-import {Customer} from "../../entities/customer";
 import {JobDetailsPage} from "../job-details/job-details";
 import {LoginPage} from "../login/login";
 import {ErrorPage} from "../error/error";
 import {AuthService} from "../../services/auth.service";
+import {JobService} from "../../services/job.service";
 
 @Component({
   selector: 'page-job-requests',
   templateUrl: 'job-requests.html',
-  providers: [DatabaseService]
+  providers: [AuthService, JobService]
 })
-export class JobRequestsPage implements OnInit {
+export class JobRequestsPage {
 
-  requestedJobs: Job[];
-  profile: any;
+  private profile: any;
+  private requestedJobs: any;
 
-  constructor(public navCtrl: NavController, private databaseService: DatabaseService,
-              private app: App, private authService: AuthService) {
+  constructor(public navCtrl: NavController, private app: App, private authService: AuthService,
+              private jobService: JobService) {
     this.profile = JSON.parse(localStorage.getItem('current_profile'));
   }
 
-  ngOnInit() {
-    console.log(this.profile._id);
+  ionViewWillEnter() {
+    let params = {
+      profileId: this.profile._id
+    };
+
+    this.jobService.getJobs(params)
+      .then((jobs) => {
+        this.requestedJobs = jobs;
+      })
+      .catch((err) => {
+      console.log(err);
+      });
   }
 
   private viewJobDetails(job: Job) {

@@ -19,11 +19,11 @@ export class FindJobFormPage {
 
     //TODO: Replace with endpoint call
     this.services = [
-      {category: "Auto Glass"},
-      {category: "HVAC"},
-      {category: "Landscaping"},
-      {category: "Pool Maintenance"},
-      {category: "Tech Support"}
+      {category: "Auto Glass", id: ""},
+      {category: "HVAC", id: ""},
+      {category: "Landscaping", id: ""},
+      {category: "Pool Maintenance", id: ""},
+      {category: "Tech Support", id: ""}
     ];
 
     this.formJobProximity = formBuilder.group({

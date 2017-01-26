@@ -7,7 +7,14 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-list>
-    <button ion-item *ngFor="let job of hiredJobs" (click)="viewJobDetails(job)">{{job.name}}</button>
-  </ion-list>
+  <div *ngIf="!hiredJobs">
+    <h4>You haven't hired anyone yet.</h4>
+    <h5>Accept some bids on your open job requests to start getting stuff done!</h5>
+  </div>
+
+  <div *ngIf="hiredJobs">
+    <ion-list>
+      <button ion-item *ngFor="let job of hiredJobs" (click)="viewJobDetails(job)">{{job.name}}</button>
+    </ion-list>
+  </div>
 </ion-content>
