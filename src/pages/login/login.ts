@@ -26,7 +26,6 @@ export class LoginPage implements OnInit {
   ngOnInit() {
     this.authService.loggedIn()
       .then((data) => {
-        console.log(data);
         if (data) {
           this.navCtrl.push(TabsPage);
         }
@@ -41,7 +40,6 @@ export class LoginPage implements OnInit {
     this.loadingService.presentLoading();
     this.authService.login(credentials)
       .then((result) => {
-        this.loadingService.hideLoading();
         return this.userService.getUser();
       })
       .then((result) => {
