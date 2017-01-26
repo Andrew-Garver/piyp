@@ -6,6 +6,7 @@ import {ToastService} from "../../services/toast.service";
 import {JobService} from "../../services/job.service";
 import {LoadingService} from "../../services/loading.service";
 import {ServicesService} from "../../services/services.service";
+import {JobRequestsPage} from "../job-requests/job-requests";
 
 @Component({
   selector: 'page-request-job-form',
@@ -52,8 +53,8 @@ export class RequestJobFormPage {
       this.postData()
         .then((job) => {
           this.loadingService.hideLoading();
-          console.log(job);
           this.navCtrl.parent.select(1);
+          this.navCtrl.setRoot(JobRequestsPage);
         })
         .catch((err) => {
           this.displayError(err);
@@ -66,10 +67,11 @@ export class RequestJobFormPage {
 
   postData(): Promise<any> {
     let job = {
-      "title": this.formJobRequest.value.jobName,
-      "category": this.formJobRequest.value.jobCategory,
-      "description": this.formJobRequest.value.jobDescription
+      title: this.formJobRequest.value.jobName,
+      service: this.formJobRequest.value.jobCategory,
+      description: this.formJobRequest.value.jobDescription
     };
+    console.log("requesing job")
     return this.jobService.postJob(job);
   }
 

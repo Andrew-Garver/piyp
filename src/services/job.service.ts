@@ -26,13 +26,16 @@ export class JobService {
 
   getJobs(data): Promise<any> {
     let params = "";
-    for (let key in data) {
-      params += key + "=" + data[key] + "&";
+    if (data) {
+      params += "?";
+      for (let key in data) {
+        params += key + "=" + data[key] + "&";
+      }
+      params = params.slice(0, -1);
     }
-    params = params.slice(0, -1);
 
     return new Promise((resolve, reject) => {
-      this.authHttp.get('http://localhost:3000/api/jobs?' + params)
+      this.authHttp.get('http://localhost:3000/api/jobs' + params)
         .map(res => res.json())
         .subscribe(
           data => {

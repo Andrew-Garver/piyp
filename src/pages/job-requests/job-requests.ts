@@ -24,11 +24,7 @@ export class JobRequestsPage {
   }
 
   ionViewWillEnter() {
-    let params = {
-      profileId: this.profile._id
-    };
-
-    this.jobService.getJobs(params)
+    this.jobService.getJobs(null)
       .then((jobs) => {
         this.requestedJobs = jobs;
       })

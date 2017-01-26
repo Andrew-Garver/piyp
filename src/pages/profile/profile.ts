@@ -55,7 +55,6 @@ export class ProfilePage {
               private profileService: ProfileService, private loadingService: LoadingService,
               private authService: AuthService, private toastService: ToastService) {
     this.tabBarElement = document.querySelector('.tabbar');
-    console.log(this.tabBarElement);
   }
 
   ionViewWillEnter() {

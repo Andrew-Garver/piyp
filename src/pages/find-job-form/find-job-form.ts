@@ -17,6 +17,7 @@ import {AuthService} from "../../services/auth.service";
 export class FindJobFormPage {
 
   private formFindJobs: FormGroup;
+  private currentProfile: any;
   private services: any;
 
   constructor(public navCtrl: NavController, private formBuilder: FormBuilder,
@@ -32,11 +33,18 @@ export class FindJobFormPage {
       {category: "Tech Support", id: "588994498531fc14a2f42ea4"}
     ];
 
+    this.currentProfile = JSON.parse(localStorage.getItem('current_profile'));
+    console.log(this.currentProfile);
+
     this.formFindJobs = formBuilder.group({
       radius: ['', Validators.required],
       locType: ['', Validators.required],
       serviceCategories: ['', Validators.required]
     });
+  }
+
+  ionViewWillEnter() {
+
   }
 
   searchForOpenJobs() {
@@ -71,7 +79,7 @@ export class FindJobFormPage {
 
   getParams(position) {
     let jobParams = {
-      category: this.formFindJobs.value.serviceCategories,
+      service: this.formFindJobs.value.serviceCategories,
       locType: this.formFindJobs.value.locType,
       radius: this.formFindJobs.value.radius
     };
