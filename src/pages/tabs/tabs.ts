@@ -21,6 +21,7 @@ export class TabsPage {
   tab4Root: any;
 
   constructor() {
+    // TODO: quitting in the select-profile page causes this to crash
     this.profile = JSON.parse(localStorage.getItem("current_profile"));
     if (this.profile) {
       if (this.profile.type === "consumer") {

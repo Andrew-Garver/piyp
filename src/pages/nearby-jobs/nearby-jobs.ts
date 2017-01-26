@@ -33,6 +33,7 @@ export class NearbyJobsPage {
       .then((jobs) => {
         this.loadingService.hideLoading();
         this.nearbyJobs = jobs;
+        console.log(jobs);
       })
       .catch((err) => {
         this.loadingService.hideLoading();
@@ -60,6 +61,24 @@ export class NearbyJobsPage {
 
   getJobs(jobParams): Promise<any> {
     return this.jobService.getJobs(jobParams);
+  }
+
+  ionViewCanEnter(): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      this.authService.loggedIn()
+        .then((data) => {
+          if (data) {
+            resolve(true);
+          }
+          else {
+            resolve(false);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          reject(err);
+        });
+    });
   }
 
 }

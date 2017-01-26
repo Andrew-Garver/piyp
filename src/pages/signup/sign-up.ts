@@ -116,8 +116,8 @@ export class SignUpPage {
       let accountInfo = {
         firstName: this.formLoginInformation.value.firstName,
         lastName: this.formLoginInformation.value.lastName,
-        isPro: this.formLoginInformation.value.checkboxPro,
-        isConsumer: this.formLoginInformation.value.checkboxConsumer,
+        isPro: !!this.formLoginInformation.value.checkboxPro,
+        isConsumer: !!this.formLoginInformation.value.checkboxConsumer,
         email: this.formLoginInformation.value.email,
         password: this.formLoginInformation.value.password1,
       };

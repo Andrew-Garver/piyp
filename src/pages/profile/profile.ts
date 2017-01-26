@@ -20,7 +20,7 @@ import {ToastService} from "../../services/toast.service";
 })
 export class ProfilePage {
 
-  private profilePage: any;
+  private tabBarElement: any;
   private loadProgress: number = 0;
   private user: any;
   private currentProfile: any;
@@ -54,6 +54,8 @@ export class ProfilePage {
   constructor(private navCtrl: NavController, private userService: UserService,
               private profileService: ProfileService, private loadingService: LoadingService,
               private authService: AuthService, private toastService: ToastService) {
+    this.tabBarElement = document.querySelector('.tabbar');
+    console.log(this.tabBarElement);
   }
 
   ionViewWillEnter() {
@@ -160,6 +162,15 @@ export class ProfilePage {
         this.bankAccountInfoProgress = 2;
       }
     }
+
+    if (this.tabBarElement) {
+      if (this.bankAccountInfoProgress !== 2) {
+        this.tabBarElement.style.display = 'none';
+      }
+      else {
+        this.tabBarElement.style.display = 'flex';
+      }
+    }
   }
 
   calculateConsumerProgress() {
@@ -174,6 +185,15 @@ export class ProfilePage {
       if (this.currentProfile.stripeAccount.sources.total_count) {
         this.loadProgress = 100;
         this.paymentInfoProgress = 2;
+      }
+    }
+
+    if (this.tabBarElement) {
+      if (this.paymentInfoProgress !== 2) {
+        this.tabBarElement.style.display = 'none';
+      }
+      else {
+        this.tabBarElement.style.display = 'flex';
       }
     }
   }
