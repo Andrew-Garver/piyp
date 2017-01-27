@@ -14,7 +14,12 @@ export class ServicesService {
         .map(res => res.json())
         .subscribe(
           data => {
-            resolve(data.services);
+            let sortedServices = data.services.sort((a, b) => {
+              if (a.name < b.name) return -1;
+              if (a.name > b.name) return 1;
+              return 0;
+            });
+            resolve(sortedServices);
           },
           err => {
             console.log(err);

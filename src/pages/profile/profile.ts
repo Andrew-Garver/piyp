@@ -147,12 +147,14 @@ export class ProfilePage {
         this.loadProgress = 60;
         this.businessInfoProgress = 1;
       }
-      if ((this.currentProfile.stripeAccount.legal_entity.address.line1 &&
+      if (this.currentProfile.registeredServices.length > 0 &&
+        ((this.currentProfile.stripeAccount.legal_entity.address.line1 &&
         this.currentProfile.stripeAccount.legal_entity.address.postal_code &&
         this.currentProfile.stripeAccount.legal_entity.address.state &&
         this.currentProfile.stripeAccount.legal_entity.address.city /*&&*/
           /*this.currentProfile.stripeAccount.legal_entity.business_tax_id_provided*/) ||
-        this.currentProfile.stripeAccount.legal_entity.ssn_last_4_provided) {
+        this.currentProfile.stripeAccount.legal_entity.ssn_last_4_provided)) {
+        console.log(this.currentProfile.registeredServices.length);
         this.loadProgress = 75;
         this.businessInfoProgress = 2;
       }

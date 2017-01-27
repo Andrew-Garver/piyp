@@ -9,6 +9,7 @@
 <ion-content padding>
   <form #f="ngForm" [formGroup]="formJobRequest" (ngSubmit)="submitJobRequest()">
     <ion-item>
+      <ion-icon *ngIf="validate('jobName')" class="invalid" isActive="false" name="warning" item-left></ion-icon>
       <ion-input type="text" formControlName="jobName" placeholder="Name of Job"></ion-input>
     </ion-item>
 
@@ -20,6 +21,7 @@
     </ion-item>
 
     <ion-item>
+      <ion-icon *ngIf="validate('jobDescription')" class="invalid" isActive="false" name="warning" item-left></ion-icon>
       <ion-textarea formControlName="jobDescription" placeholder="Job Description"></ion-textarea>
     </ion-item>
 

@@ -6,7 +6,6 @@ import {ToastService} from "../../services/toast.service";
 import {JobService} from "../../services/job.service";
 import {LoadingService} from "../../services/loading.service";
 import {ServicesService} from "../../services/services.service";
-import {JobRequestsPage} from "../job-requests/job-requests";
 
 @Component({
   selector: 'page-request-job-form',
@@ -16,8 +15,8 @@ import {JobRequestsPage} from "../job-requests/job-requests";
 export class RequestJobFormPage {
 
   private formJobRequest: FormGroup;
-  private missingFormFields = false;
   private services: any;
+  private formSubmitted: boolean = false;
 
   constructor(public navCtrl: NavController, private formBuilder: FormBuilder,
               private toastService: ToastService, private jobService: JobService,
@@ -30,16 +29,17 @@ export class RequestJobFormPage {
     });
   }
 
+  validate(input) {
+    return !this.formJobRequest.controls[input].valid &&
+      (this.formJobRequest.controls[input].touched || this.formSubmitted);
+  }
+
   ionViewWillEnter() {
     this.loadingService.presentLoading();
     this.servicesService.getServices()
       .then((services) => {
         this.loadingService.hideLoading();
-        this.services = services.sort((a, b) => {
-          if (a.name < b.name) return -1;
-          if (a.name > b.name) return 1;
-          return 0;
-        });
+        this.services = services;
       })
       .catch((err) => {
         this.displayError(err);
@@ -48,20 +48,20 @@ export class RequestJobFormPage {
 
   submitJobRequest() {
     if (this.formJobRequest.valid) {
-      this.missingFormFields = false;
+      this.formSubmitted = false;
       this.loadingService.presentLoading();
       this.postData()
         .then((job) => {
           this.loadingService.hideLoading();
+          this.formJobRequest.reset();
           this.navCtrl.parent.select(1);
-          this.navCtrl.setRoot(JobRequestsPage);
         })
         .catch((err) => {
           this.displayError(err);
         });
     }
     else {
-      this.missingFormFields = true;
+      this.formSubmitted = true;
     }
   }
 
@@ -71,7 +71,6 @@ export class RequestJobFormPage {
       service: this.formJobRequest.value.jobCategory,
       description: this.formJobRequest.value.jobDescription
     };
-    console.log("requesing job")
     return this.jobService.postJob(job);
   }
 
@@ -80,5 +79,4 @@ export class RequestJobFormPage {
     console.log(err);
     this.toastService.presentToast("Could not reach PIYP servers. Check your data connection and try again.")
   }
-
 }

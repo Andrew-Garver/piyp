@@ -7,32 +7,53 @@ import {LoadingService} from "../../../services/loading.service";
 import {LoginPage} from "../../login/login";
 import {AuthService} from "../../../services/auth.service";
 import {ToastService} from "../../../services/toast.service";
+import {ServicesService} from "../../../services/services.service";
+import {filter} from "rxjs/operator/filter";
+import {ProfileService} from "../../../services/profile.service";
 
 @Component({
   selector: 'page-business-services',
   templateUrl: 'business-services.html',
-  providers: [LoadingService, AuthService, ToastService]
+  providers: [LoadingService, AuthService, ToastService, ServicesService, ProfileService]
 })
 export class BusinessServicesForm {
   private services: any;
   private noServicesSelected: boolean = false;
 
   constructor(public navCtrl: NavController, private loadingService: LoadingService,
-              private authService: AuthService, private toastService: ToastService) {
-    this.services = [
-      {category: "Auto Glass"},
-      {category: "HVAC"},
-      {category: "Landscaping"},
-      {category: "Pool Maintenance"},
-      {category: "Tech Support"}
-    ]
+              private authService: AuthService, private toastService: ToastService,
+              private servicesService: ServicesService, private profileService: ProfileService) {
+  }
+
+  ionViewWillEnter() {
+    this.loadingService.presentLoading();
+    this.servicesService.getServices()
+      .then((services) => {
+        this.loadingService.hideLoading();
+        this.services = services;
+      })
+      .catch((err) => {
+        this.loadingService.hideLoading();
+        this.toastService.presentToast("Could not reach PIYP servers. Check your data connection and try again.")
+      })
   }
 
   finishForms() {
-    if (this.services.filter(s => s.checked == true).length > 0) {
+    let filteredServices = this.services.filter(s => s.checked == true);
+    if (filteredServices.length > 0) {
       this.noServicesSelected = false;
       this.loadingService.presentLoading();
-      this.postData()
+
+      let serviceArray = [];
+      for (let service of filteredServices) {
+        serviceArray.push(service._id);
+      }
+
+      let data = {
+        registeredServices: serviceArray
+      };
+
+      this.postData(data)
         .then(() => {
           this.loadingService.hideLoading();
           this.navCtrl.setRoot(ProfilePage);
@@ -50,14 +71,15 @@ export class BusinessServicesForm {
   }
 
   saveAndQuit() {
-    this.postData()
-      .then(() => {
-        this.navCtrl.setRoot(ProfilePage);
-      });
+    // this.postData()
+    //   .then(() => {
+    //     this.navCtrl.setRoot(ProfilePage);
+    //   });
   }
 
-  postData(): Promise<any> {
-    return Promise.resolve(true);
+  postData(data): Promise<any> {
+    let profileId = JSON.parse(localStorage.getItem('current_profile'))._id;
+    return this.profileService.updateUserProfile(profileId, data);
   }
 
   ionViewCanEnter(): Promise<boolean> {
