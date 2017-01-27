@@ -36,25 +36,23 @@ export class JobDetailsPage {
     }
   }
 
-  // ionViewCanEnter(): Promise<boolean> {
-  //   return new  Promise((resolve, reject) => {
-  //     this.authService.loggedIn()
-  //       .then((data) => {
-  //       console.log("returning");
-  //       console.log(data);
-  //         if (data) {
-  //           resolve(true);
-  //         }
-  //         else {
-  //           resolve(false);
-  //         }
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //         reject(err);
-  //       });
-  //   });
-  // }
+  ionViewCanEnter(): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      this.authService.loggedIn()
+        .then((data) => {
+          if (data) {
+            resolve(true);
+          }
+          else {
+            resolve(false);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          reject(err);
+        });
+    });
+  }
 
   private editBid(bid) {
     console.log("Editing bid");
@@ -62,12 +60,13 @@ export class JobDetailsPage {
 
   private placeBid(selectedJob) {
     if (selectedJob) {
-      this.navCtrl.push(PlaceBidPage, {job: selectedJob}).catch(() => {
-        this.authService.logout()
-          .then(() => {
-            this.logout();
-          });
-      });
+      this.navCtrl.push(PlaceBidPage, {job: selectedJob})
+        .catch(() => {
+          this.authService.logout()
+            .then(() => {
+              this.logout();
+            });
+        });
     }
     else {
       this.navCtrl.push(ErrorPage);
@@ -94,12 +93,13 @@ export class JobDetailsPage {
 
   private viewCustomerDetails(customer) {
     if (customer) {
-        this.navCtrl.push(CustomerDetailsPage, {customer: customer}).catch(() => {
-          this.authService.logout()
-            .then(() => {
-              this.logout();
-            });
-        });
+      this.navCtrl.push(CustomerDetailsPage, {customer: customer})
+        .catch(() => {
+        this.authService.logout()
+          .then(() => {
+            this.logout();
+          });
+      });
     }
     else {
       this.navCtrl.push(ErrorPage);

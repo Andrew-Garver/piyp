@@ -35,7 +35,7 @@ export class BusinessServicesForm {
       .catch((err) => {
         this.loadingService.hideLoading();
         this.toastService.presentToast("Could not reach PIYP servers. Check your data connection and try again.")
-      })
+      });
   }
 
   finishForms() {

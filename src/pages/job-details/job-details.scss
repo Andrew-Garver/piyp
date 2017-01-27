@@ -1,4 +1,13 @@
 page-job-details {
+  .center {
+    text-align: center;
+  }
+
+  .sub-heading {
+    position: relative;
+    top: 16px;
+  }
+
   .bottom-button {
     padding: $content-padding;
     position: fixed;
@@ -10,7 +19,7 @@ page-job-details {
   @media (max-width: 340px) {
     .page-content {
       overflow-y: scroll;
-      height: 70%;
+      height: 57%;
     }
   }
 

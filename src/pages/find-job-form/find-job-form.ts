@@ -8,6 +8,7 @@ import {ToastService} from "../../services/toast.service";
 import {NearbyJobsPage} from "../nearby-jobs/nearby-jobs";
 import {LoginPage} from "../login/login";
 import {AuthService} from "../../services/auth.service";
+import {ServicesService} from "../../services/services.service";
 
 @Component({
   selector: 'page-find-job-form',
@@ -24,27 +25,14 @@ export class FindJobFormPage {
               private authService: AuthService, private loadingService: LoadingService,
               private toastService: ToastService) {
 
-    //TODO: Replace with endpoint call
-    this.services = [
-      {category: "Auto Glass", id: "588994498531fc14a2f42ea0"},
-      {category: "HVAC", id: "588994498531fc14a2f42ea2"},
-      {category: "Landscaping", id: "588994498531fc14a2f42e9c"},
-      {category: "Pool Service", id: "588994498531fc14a2f42e9e"},
-      {category: "Tech Support", id: "588994498531fc14a2f42ea4"}
-    ];
-
     this.currentProfile = JSON.parse(localStorage.getItem('current_profile'));
-    console.log(this.currentProfile);
+    this.services = this.currentProfile.registeredServices;
 
     this.formFindJobs = formBuilder.group({
       radius: ['', Validators.required],
       locType: ['', Validators.required],
       serviceCategories: ['', Validators.required]
     });
-  }
-
-  ionViewWillEnter() {
-
   }
 
   searchForOpenJobs() {
@@ -79,7 +67,8 @@ export class FindJobFormPage {
 
   getParams(position) {
     let jobParams = {
-      service: this.formFindJobs.value.serviceCategories,
+      profile: this.currentProfile._id,
+      services: this.formFindJobs.value.serviceCategories,
       locType: this.formFindJobs.value.locType,
       radius: this.formFindJobs.value.radius
     };

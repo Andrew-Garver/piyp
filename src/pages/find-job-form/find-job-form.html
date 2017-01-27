@@ -31,7 +31,7 @@
     <ion-item>
       <ion-label>Service Categories</ion-label>
       <ion-select formControlName="serviceCategories" multiple="true">
-        <ion-option *ngFor="let service of services" value="{{service.id}}">{{service.category}}</ion-option>
+        <ion-option *ngFor="let service of services" value="{{service._id}}">{{service.name}}</ion-option>
       </ion-select>
     </ion-item>
 

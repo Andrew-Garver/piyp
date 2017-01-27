@@ -53,18 +53,10 @@ export class BusinessTypeForm {
       this.postData()
         .then(() => {
           this.loadingService.hideLoading();
-          if (this.businessTypeForm.value.businessType === "company") {
-            this.navCtrl.push(BusinessAddressForm)
-              .catch(() => {
-                this.logout();
-              });
-          }
-          else {
-            this.navCtrl.push(BusinessServicesForm)
-              .catch(() => {
-                this.logout();
-              });
-          }
+          this.navCtrl.push(BusinessAddressForm)
+            .catch(() => {
+              this.logout();
+            });
         })
         .catch((err) => {
           console.log(err);

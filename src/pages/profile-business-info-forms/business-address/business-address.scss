@@ -20,7 +20,6 @@ page-business-address-form {
     text-align: center;
   }
 
-  @media (min-width: 340px) {
     .bottom-button {
       padding: $content-padding;
       position: fixed;
@@ -28,7 +27,6 @@ page-business-address-form {
       left: 0;
       right: 0;
     }
-  }
 
   .nav-button-right {
     padding-right: 10%;

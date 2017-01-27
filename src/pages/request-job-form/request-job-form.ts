@@ -69,7 +69,7 @@ export class RequestJobFormPage {
     let job = {
       title: this.formJobRequest.value.jobName,
       service: this.formJobRequest.value.jobCategory,
-      description: this.formJobRequest.value.jobDescription
+      description: this.formJobRequest.value.jobDescription,
     };
     return this.jobService.postJob(job);
   }

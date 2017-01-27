@@ -61,7 +61,6 @@ export class ProfileDOBForm {
         .catch((err) => {
           console.log(err);
           this.loadingService.hideLoading();
-          this.navCtrl.setRoot(ProfilePage);
           this.toastService.presentToast("Could not reach PIYP servers. Check your data connection and try again.")
         });
     }

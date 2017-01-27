@@ -21,11 +21,13 @@ export class BusinessAddressForm {
 
   private zipCodeIsValid: boolean;
   private formFieldsMissing: boolean;
+  private businessType: any;
 
   constructor(public navCtrl: NavController, private formBuilder: FormBuilder,
               private profileService: ProfileService, private loadingService: LoadingService,
               private authService: AuthService, private toastService: ToastService) {
     this.zipCodeIsValid = true;
+    this.businessType = JSON.parse(localStorage.getItem('current_profile')).stripeAccount.legal_entity.type;
 
     this.businessAddressForm = formBuilder.group({
       addressLine1: ['', Validators.required],
@@ -91,7 +93,7 @@ export class BusinessAddressForm {
     };
     return this.profileService.updateUserProfile(profileId, {
       businessAddress: address,
-      businessTaxId: this.businessAddressForm.value.businessType
+      businessTaxId: this.businessAddressForm.value.businessTaxId
     });
   }
 
