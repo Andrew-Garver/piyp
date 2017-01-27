@@ -3,12 +3,19 @@
     <ion-title>
       Job Details
     </ion-title>
+    <ion-buttons *ngIf="currentProfile.type === 'consumer'" end>
+      <div class="nav-button-right">
+        <button color="danger" ion-button (click)="deleteJob()">
+          Delete
+        </button>
+      </div>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
   <h3>{{selectedJob.request.title}}</h3>
-  <span style="float: right">{{selectedJob.distance}} miles from you</span>
+  <span *ngIf="currentProfile.type === 'pro'" style="float: right">{{selectedJob.distance}} miles from you</span>
   <span class="">{{selectedJob._service.name}}</span>
 
   <div *ngIf="currentProfile.type === 'consumer'">

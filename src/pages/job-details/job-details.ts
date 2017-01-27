@@ -10,11 +10,14 @@ import {ProDetailsPage} from "../pro-details/pro-details";
 import {BidsPage} from "../bids/bids";
 import {ToastService} from "../../services/toast.service";
 import {PlaceBidPage} from "../place-bid/place-bid";
+import {RequestJobFormPage} from "../request-job-form/request-job-form";
+import {JobService} from "../../services/job.service";
+import {JobRequestsPage} from "../job-requests/job-requests";
 
 @Component({
   selector: 'page-job-details',
   templateUrl: 'job-details.html',
-  providers: [AuthService, ToastService]
+  providers: [AuthService, ToastService, JobService]
 })
 export class JobDetailsPage {
 
@@ -24,7 +27,8 @@ export class JobDetailsPage {
   private currentProfile: any;
 
   constructor(public navCtrl: NavController, private authService: AuthService,
-              private params: NavParams, private app: App, private toastService: ToastService) {
+              private params: NavParams, private app: App, private toastService: ToastService,
+              private jobService: JobService) {
     this.currentProfile = JSON.parse(localStorage.getItem('current_profile'));
     this.selectedJob = params.get("job");
     if (this.navCtrl.parent && this.navCtrl.parent.getSelected()) {
@@ -54,8 +58,20 @@ export class JobDetailsPage {
     });
   }
 
-  private editBid(bid) {
+  private deleteBid(bid) {
     console.log("Editing bid");
+  }
+
+  private deleteJob() {
+    this.jobService.confirmDelete(this.selectedJob._id)
+      .then((data) => {
+        if (data) {
+          this.navCtrl.setRoot(JobRequestsPage);
+        }
+      })
+      .catch(() => {
+        this.toastService.presentToast("Could not delete job at this time. Please try again later.");
+      });
   }
 
   private placeBid(selectedJob) {
@@ -95,11 +111,11 @@ export class JobDetailsPage {
     if (customer) {
       this.navCtrl.push(CustomerDetailsPage, {customer: customer})
         .catch(() => {
-        this.authService.logout()
-          .then(() => {
-            this.logout();
-          });
-      });
+          this.authService.logout()
+            .then(() => {
+              this.logout();
+            });
+        });
     }
     else {
       this.navCtrl.push(ErrorPage);
