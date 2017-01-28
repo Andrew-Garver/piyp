@@ -1,18 +1,19 @@
 <ion-header>
   <ion-navbar>
     <ion-title>Services</ion-title>
-    <ion-buttons end>
-      <div class="nav-button-right">
-        <button ion-button (click)="saveAndQuit()">
-          Save
-        </button>
-      </div>
-    </ion-buttons>
+    <!--<ion-buttons end>-->
+      <!--<div class="nav-button-right">-->
+        <!--<button ion-button (click)="saveAndQuit()">-->
+          <!--Save-->
+        <!--</button>-->
+      <!--</div>-->
+    <!--</ion-buttons>-->
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <h5>Last but not least, what services do you offer?</h5>
+  <h5 *ngIf="!edit">Last but not least, what services do you offer?</h5>
+  <h5 *ngIf="edit">Do these look correct?</h5>
 
   <div *ngIf="noServicesSelected">
     <p class="invalid">You need to select at least one service</p>
@@ -28,6 +29,7 @@
   </div>
 
   <div class="bottom-button">
-    <button ion-button full (click)="finishForms()">Finish</button>
+    <button *ngIf="!edit" ion-button full (click)="finishForms()">Finish</button>
+    <button *ngIf="edit" ion-button full (click)="finishForms()">Update</button>
   </div>
 </ion-content>

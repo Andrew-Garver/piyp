@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 
-import {NavController} from 'ionic-angular';
+import {NavController, NavParams} from 'ionic-angular';
 import {ProfilePersonalAddressForm} from "../address/address";
 import {ProfilePage} from "../../profile/profile";
 import {LoadingService} from "../../../services/loading.service";
@@ -19,10 +19,16 @@ import {ProfileService} from "../../../services/profile.service";
 export class BusinessServicesForm {
   private services: any;
   private noServicesSelected: boolean = false;
+  private edit: boolean;
+  private registeredServices: any;
 
   constructor(public navCtrl: NavController, private loadingService: LoadingService,
               private authService: AuthService, private toastService: ToastService,
-              private servicesService: ServicesService, private profileService: ProfileService) {
+              private servicesService: ServicesService, private profileService: ProfileService,
+              private navParams: NavParams) {
+    this.edit = this.navParams.get('edit');
+    this.registeredServices = JSON.parse(localStorage.getItem('current_profile')).registeredServices;
+    console.log(this.registeredServices);
   }
 
   ionViewWillEnter() {
@@ -31,6 +37,15 @@ export class BusinessServicesForm {
       .then((services) => {
         this.loadingService.hideLoading();
         this.services = services;
+
+        // pre-populate services
+        for (let selectedService of this.registeredServices) {
+          for (let service of this.services) {
+            if (service._id === selectedService._id) {
+              service.checked = true;
+            }
+          }
+        }
       })
       .catch((err) => {
         this.loadingService.hideLoading();
@@ -56,7 +71,12 @@ export class BusinessServicesForm {
       this.postData(data)
         .then(() => {
           this.loadingService.hideLoading();
-          this.navCtrl.setRoot(ProfilePage);
+          if (this.edit) {
+            this.navCtrl.pop();
+          }
+          else {
+            this.navCtrl.setRoot(ProfilePage);
+          }
         })
         .catch((err) => {
           console.log(err);

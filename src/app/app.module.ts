@@ -35,6 +35,7 @@ import {CreditCardPage} from "../pages/profile-payment-info-forms/credit-card/cr
 import {NearbyJobsPage} from "../pages/nearby-jobs/nearby-jobs";
 import {PlaceBidPage} from "../pages/place-bid/place-bid";
 import {SelectInfoToEditPage} from "../pages/settings/personal-info/select-info-to-edit";
+import {CreditCardsPage} from "../pages/credit-cards/credit-cards";
 
 export function getAuthHttp(http) {
   return new AuthHttp(new AuthConfig({
@@ -83,7 +84,8 @@ export function getAuthHttp(http) {
     CreditCardPage,
     NearbyJobsPage,
     PlaceBidPage,
-    SelectInfoToEditPage
+    SelectInfoToEditPage,
+    CreditCardsPage
   ],
   imports: [
     IonicModule.forRoot(MyApp, {tabsHideOnSubPages:"true"}),
@@ -122,7 +124,8 @@ export function getAuthHttp(http) {
     CreditCardPage,
     NearbyJobsPage,
     PlaceBidPage,
-    SelectInfoToEditPage
+    SelectInfoToEditPage,
+    CreditCardsPage
   ],
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},

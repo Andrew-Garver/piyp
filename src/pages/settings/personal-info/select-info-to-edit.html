@@ -18,13 +18,13 @@
       <button ion-item>Business Type</button>
       <button ion-item>Business Name</button>
       <button ion-item>Business Address</button>
-      <button ion-item>Services Offered</button>
+      <button ion-item (click)="pushPage(servicesOfferedPage)">Services Offered</button>
     </ion-list>
   </div>
   <div *ngIf="currentProfileType === 'consumer'">
     <ion-list-header>Credit Card Info</ion-list-header>
     <ion-list>
-      <button ion-item>Credit Cards</button>
+      <button ion-item (click)="pushPage(creditCardsPage)">Credit Cards</button>
     </ion-list>
   </div>
 </ion-content>

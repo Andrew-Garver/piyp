@@ -1,9 +1,8 @@
 import {Component} from '@angular/core';
 
-import {NavController} from 'ionic-angular';
+import {NavController, NavParams} from 'ionic-angular';
 import {ProfilePage} from "../../profile/profile";
 import {LoadingService} from "../../../services/loading.service";
-import {BillingAddressPage} from "../billing-address/billing-address";
 import {FormGroup, Validators, FormBuilder} from "@angular/forms";
 import {SignUpValidator} from "../../signup/sign-up.validator";
 import {CreditCardService} from "../../../services/credit-card.service";
@@ -24,10 +23,17 @@ export class CreditCardPage {
   private invalidBillingZip: boolean = false;
   private showCreditCardError: boolean = false;
 
+  private currentProfile: any;
+  private edit: boolean;
+
   constructor(public navCtrl: NavController, private loadingService: LoadingService,
               private formBuilder: FormBuilder, private signUpValidator: SignUpValidator,
               private creditCardService: CreditCardService, private authService: AuthService,
-              private toastService: ToastService) {
+              private toastService: ToastService, private navParams: NavParams) {
+
+    this.edit = this.navParams.get('edit');
+    this.currentProfile = JSON.parse(localStorage.getItem('current_profile'));
+    console.log(this.currentProfile);
     this.formFieldsMissing = false;
 
     let creditCardValidator = (control) => {
@@ -85,12 +91,16 @@ export class CreditCardPage {
       this.postData()
         .then(() => {
           this.loadingService.hideLoading();
-          this.navCtrl.setRoot(ProfilePage);
+          if (this.edit) {
+            this.navCtrl.pop();
+          }
+          else {
+            this.navCtrl.setRoot(ProfilePage);
+          }
         })
         .catch((err) => {
           console.log(err);
           this.loadingService.hideLoading();
-          this.navCtrl.setRoot(ProfilePage);
           this.toastService.presentToast("Could not reach PIYP servers. Check your data connection and try again.")
         });
     }

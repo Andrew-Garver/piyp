@@ -5,6 +5,8 @@ import {NavController, App} from "ionic-angular";
 import {LoginPage} from "../../login/login";
 import {ErrorPage} from "../../error/error";
 import {ProfilePersonalAddressForm} from "../../profile-personal-info-forms/address/address";
+import {BusinessServicesForm} from "../../profile-business-info-forms/business-services/business-services";
+import {CreditCardsPage} from "../../credit-cards/credit-cards";
 
 
 @Component({
@@ -16,6 +18,8 @@ export class SelectInfoToEditPage {
 
   private currentProfileType: any;
   private personalAddressPage: any = ProfilePersonalAddressForm;
+  private servicesOfferedPage: any = BusinessServicesForm;
+  private creditCardsPage: any = CreditCardsPage;
 
   constructor(public navCtrl: NavController, private app: App, private authService: AuthService,
               private toastService: ToastService) {

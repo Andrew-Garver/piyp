@@ -12,6 +12,7 @@ import {CreditCardPage} from "../profile-payment-info-forms/credit-card/credit-c
 import {AuthService} from "../../services/auth.service";
 import {LoginPage} from "../login/login";
 import {ToastService} from "../../services/toast.service";
+import {ProfilePersonalAddressForm} from "../profile-personal-info-forms/address/address";
 
 @Component({
   selector: 'page-profile',
@@ -91,10 +92,15 @@ export class ProfilePage {
   }
 
   displayPersonalInfoForms() {
-    this.navCtrl.push(ProfileDOBForm)
+    let pageToPush: any = ProfileDOBForm;
+    if (this.currentProfile.type === 'consumer') {
+      pageToPush = ProfilePersonalAddressForm;
+    }
+    this.navCtrl.push(pageToPush)
       .catch(() => {
         this.logout();
       });
+
   }
 
   displayBusinessInfoForms() {
@@ -148,7 +154,7 @@ export class ProfilePage {
         this.businessInfoProgress = 1;
       }
       if (this.currentProfile.registeredServices.length > 0 &&
-          this.currentProfile.businessAddress &&
+        this.currentProfile.businessAddress &&
         (this.currentProfile.stripeAccount.legal_entity.business_tax_id_provided || this.currentProfile.stripeAccount.legal_entity.type === 'individual')) {
         this.loadProgress = 75;
         this.businessInfoProgress = 2;
