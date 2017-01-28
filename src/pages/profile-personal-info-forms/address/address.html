@@ -1,18 +1,19 @@
 <ion-header>
   <ion-navbar>
     <ion-title>Address</ion-title>
-    <ion-buttons end>
-      <div class="nav-button-right">
-        <button ion-button (click)="saveAndQuit()">
-          Save
-        </button>
-      </div>
-    </ion-buttons>
+    <!--<ion-buttons end>-->
+      <!--<div class="nav-button-right">-->
+        <!--<button ion-button (click)="saveAndQuit()">-->
+          <!--Save-->
+        <!--</button>-->
+      <!--</div>-->
+    <!--</ion-buttons>-->
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <h5>Great! Now, where do you live?</h5>
+  <h5 *ngIf="!edit">Great! Now, where do you live?</h5>
+  <h5 *ngIf="edit">How does this look?</h5>
 
   <div *ngIf="formFieldsMissing">
     <p class="invalid-head">Please fill out all form fields carefully</p>
@@ -102,7 +103,8 @@
     </div>
 
     <div class="bottom-button">
-      <button type="submit" ion-button full>Finish</button>
+      <button *ngIf="!edit" type="submit" ion-button full>Finish</button>
+      <button *ngIf="edit" type="submit" ion-button full>Update</button>
     </div>
   </form>
 </ion-content>

@@ -5,19 +5,24 @@ import {StatusBar, Splashscreen} from 'ionic-native';
 import {LoginPage} from "../pages/login/login";
 import {AuthService} from "../services/auth.service";
 import {SelectProfilePage} from "../pages/select-profile/select-profile";
+import {SelectInfoToEditPage} from "../pages/settings/personal-info/select-info-to-edit";
+import {ErrorPage} from "../pages/error/error";
+import {ToastService} from "../services/toast.service";
 
 
 @Component({
   templateUrl: 'app.html',
-  providers: [AuthService]
+  providers: [AuthService, ToastService]
 })
 export class MyApp implements DoCheck {
   rootPage = LoginPage;
 
   private currentProfileType: any;
   private numProfiles: number;
+  private selectInfoPage: any = SelectInfoToEditPage;
 
-  constructor(platform: Platform, private authService: AuthService, private app: App) {
+  constructor(platform: Platform, private authService: AuthService, private app: App,
+              private toastService: ToastService) {
     // localStorage.clear();
     // localStorage.setItem('refresh_token', "Oi0cpGv1Keku2edFK80ZNUdnxhCRLCXhh5zE0NarmjBI6DmbCauDTwsuaSKoTNkv");
     // localStorage.setItem('access_token', "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFuZHJld3NnYXJ2ZXJAZ21haWwuY29tIiwiZmlyc3ROYW1lIjoiQW5kcmV3IiwibGFzdE5hbWUiOiJHYXJ2ZXIiLCJleHAiOjE0ODQ4NTg5NjJ9.d6oUyAZKmo_CezVD1ONDMUH3owHj8wekc8wUu8At-VM");
@@ -43,6 +48,22 @@ export class MyApp implements DoCheck {
 
   switchProfile() {
     this.app.getRootNav().push(SelectProfilePage, {switch_profile: true});
+  }
+
+  pushPage(page) {
+    if (page) {
+      this.app.getRootNav().push(page)
+        .catch(() => {
+          this.authService.logout()
+            .then(() => {
+              this.app.getRootNav().setRoot(LoginPage);
+              this.toastService.presentToast("Your session has expired. Please login again.");
+            });
+        });
+    }
+    else {
+      this.app.getRootNav().push(ErrorPage);
+    }
   }
 
   logout() {

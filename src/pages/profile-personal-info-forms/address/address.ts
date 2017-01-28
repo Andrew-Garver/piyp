@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 
-import {NavController} from 'ionic-angular';
+import {NavController, NavParams} from 'ionic-angular';
 import {TabsPage} from "../../tabs/tabs";
 import {Validators, FormBuilder, FormGroup} from "@angular/forms";
 import {ProfilePage} from "../../profile/profile";
@@ -16,21 +16,34 @@ import {AuthService} from "../../../services/auth.service";
 })
 export class ProfilePersonalAddressForm {
   private addressForm: FormGroup;
-
   private zipCodeIsValid: boolean;
   private formFieldsMissing: boolean;
+  private edit: boolean;
 
   constructor(public navCtrl: NavController, private formBuilder: FormBuilder,
               private profileService: ProfileService, private loadingService: LoadingService,
-              private authService: AuthService, private toastService: ToastService) {
+              private authService: AuthService, private toastService: ToastService,
+              private navParams: NavParams) {
     this.zipCodeIsValid = true;
 
+    this.edit = this.navParams.get('edit');
+    let personalAddress = JSON.parse(localStorage.getItem('current_profile')).personalAddress;
+    let addressLine1, addressLine2, state, city, zipCode;
+
+    if (personalAddress) {
+      addressLine1 = personalAddress.line1;
+      addressLine2 = personalAddress.line2;
+      state = personalAddress.state;
+      city = personalAddress.city;
+      zipCode = personalAddress.postalCode;
+    }
+
     this.addressForm = formBuilder.group({
-      addressLine1: ['', Validators.required],
-      addressLine2: [''],
-      state: ['', Validators.required],
-      city: ['', Validators.required],
-      zipCode: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(5),
+      addressLine1: [addressLine1, Validators.required],
+      addressLine2: [addressLine2],
+      state: [state, Validators.required],
+      city: [city, Validators.required],
+      zipCode: [zipCode, Validators.compose([Validators.minLength(5), Validators.maxLength(5),
         Validators.pattern('[0-9]*'), Validators.required]), null]
     });
   }
@@ -42,7 +55,12 @@ export class ProfilePersonalAddressForm {
       this.postData()
         .then(() => {
           this.loadingService.hideLoading();
-          this.navCtrl.setRoot(ProfilePage);
+          if (this.edit) {
+            this.navCtrl.pop();
+          }
+          else {
+            this.navCtrl.setRoot(ProfilePage);
+          }
         })
         .catch((err) => {
           console.log(err);

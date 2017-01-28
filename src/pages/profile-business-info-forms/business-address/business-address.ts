@@ -36,12 +36,12 @@ export class BusinessAddressForm {
       city: ['', Validators.required],
       zipCode: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(5),
         Validators.pattern('[0-9]*'), Validators.required]), null],
-      businessTaxId: ['', Validators.required]
+      businessTaxId: ['']
     });
   }
 
   nextForm() {
-    if (this.businessAddressForm.valid) {
+    if (this.businessAddressForm.valid && (this.businessAddressForm.value.businessTaxId || this.businessType === 'individual')) {
       this.formFieldsMissing = false;
       this.loadingService.presentLoading();
       this.postData()

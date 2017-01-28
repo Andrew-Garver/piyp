@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Review
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list-header>Personal Info</ion-list-header>
+  <ion-list>
+    <button ion-item (click)="pushPage(personalAddressPage)">Personal Address</button>
+  </ion-list>
+
+  <div *ngIf="currentProfileType === 'pro'">
+    <ion-list-header>Business Info</ion-list-header>
+    <ion-list>
+      <button ion-item>Business Type</button>
+      <button ion-item>Business Name</button>
+      <button ion-item>Business Address</button>
+      <button ion-item>Services Offered</button>
+    </ion-list>
+  </div>
+  <div *ngIf="currentProfileType === 'consumer'">
+    <ion-list-header>Credit Card Info</ion-list-header>
+    <ion-list>
+      <button ion-item>Credit Cards</button>
+    </ion-list>
+  </div>
+</ion-content>

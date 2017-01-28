@@ -10,20 +10,14 @@
       <button ion-item menuClose (click)="switchProfile()">Switch Profile</button>
       <div *ngIf="numProfiles < 2">
         <div *ngIf="currentProfileType === 'pro'">
-          <button ion-item>Setup Consumer Profile</button>
+          <button menuClose ion-item>Setup Consumer Profile</button>
         </div>
         <div *ngIf="currentProfileType === 'consumer'">
-          <button ion-item>Setup Pro Profile</button>
+          <button menuClose ion-item>Setup Pro Profile</button>
         </div>
       </div>
-      <button ion-item>Personal Info</button>
-      <div *ngIf="currentProfileType === 'pro'">
-        <button ion-item>Business Info</button>
-      </div>
-      <div *ngIf="currentProfileType === 'consumer'">
-        <button ion-item>Credit Cards</button>
-      </div>
-      <button ion-item>Close Account</button>
+      <button menuClose ion-item (click)="pushPage(selectInfoPage)">Review Profile Info</button>
+      <button menuClose ion-item>Close Account</button>
     </ion-list>
   </ion-content>
   <ion-footer>

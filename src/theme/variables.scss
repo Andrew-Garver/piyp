@@ -12,7 +12,7 @@ $font-path: "../assets/fonts";
 // http://ionicframework.com/docs/v2/theming/overriding-ionic-variables/
 
 .denim-background {
-  background: url('../assets/img/denim-light.jpg');
+  background: url('../assets/img/denim-med-dark.jpg');
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -23,6 +23,10 @@ $font-path: "../assets/fonts";
 
 .nav-button-right {
   padding-right: 10%;
+}
+
+.invalid {
+  color: #f53d3d;
 }
 
 // Named Color Variables

@@ -17,7 +17,9 @@ export class SelectProfilePage {
     this.switchProfile = params.get('switch_profile');
 
     // This is just in case the user exits the app before selecting a profile, we don't want them in limbo.
-    localStorage.setItem('current_profile', JSON.stringify(this.user.profiles[0]));
+    if (!localStorage.getItem('current_profile')) {
+      localStorage.setItem('current_profile', JSON.stringify(this.user.profiles[0]));
+    }
   }
 
   setProProfile() {
