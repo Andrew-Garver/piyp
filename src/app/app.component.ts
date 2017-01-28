@@ -8,11 +8,13 @@ import {SelectProfilePage} from "../pages/select-profile/select-profile";
 import {SelectInfoToEditPage} from "../pages/settings/personal-info/select-info-to-edit";
 import {ErrorPage} from "../pages/error/error";
 import {ToastService} from "../services/toast.service";
+import {ProfilePage} from "../pages/profile/profile";
+import {LoadingService} from "../services/loading.service";
 
 
 @Component({
   templateUrl: 'app.html',
-  providers: [AuthService, ToastService]
+  providers: [AuthService, ToastService, LoadingService]
 })
 export class MyApp implements DoCheck {
   rootPage = LoginPage;
@@ -22,7 +24,7 @@ export class MyApp implements DoCheck {
   private selectInfoPage: any = SelectInfoToEditPage;
 
   constructor(platform: Platform, private authService: AuthService, private app: App,
-              private toastService: ToastService) {
+              private toastService: ToastService, private loadingService: LoadingService) {
     // localStorage.clear();
     // localStorage.setItem('refresh_token', "Oi0cpGv1Keku2edFK80ZNUdnxhCRLCXhh5zE0NarmjBI6DmbCauDTwsuaSKoTNkv");
     // localStorage.setItem('access_token', "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFuZHJld3NnYXJ2ZXJAZ21haWwuY29tIiwiZmlyc3ROYW1lIjoiQW5kcmV3IiwibGFzdE5hbWUiOiJHYXJ2ZXIiLCJleHAiOjE0ODQ4NTg5NjJ9.d6oUyAZKmo_CezVD1ONDMUH3owHj8wekc8wUu8At-VM");
@@ -64,6 +66,27 @@ export class MyApp implements DoCheck {
     else {
       this.app.getRootNav().push(ErrorPage);
     }
+  }
+
+  setupNewProfile(type): Promise<any> {
+    this.app.getRootNav().setRoot(ProfilePage);
+    return Promise.resolve(true);
+    // return new Promise((resolve, reject) => {
+    //   this.loadingService.presentLoading();
+    //   this.registrationService.addProfile({profileType: type})
+    //     .then((data) => {
+    //       this.loadingService.hideLoading();
+    //       localStorage.setItem('current_profile', JSON.stringify(data.profile));
+    //       this.app.getRootNav().setRoot(ProfilePage);
+    //       resolve(data.profile);
+    //     })
+    //     .catch((err) => {
+    //       this.loadingService.hideLoading();
+    //       this.toastService.presentToast("Could not reach PIYP servers. Check your data connection and try again.");
+    //       console.log(err.message);
+    //       reject(err);
+    //     });
+    // });
   }
 
   logout() {

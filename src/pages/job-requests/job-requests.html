@@ -7,7 +7,7 @@
 </ion-header>
 
 <ion-content padding>
-  <div *ngIf="!requestedJobs">
+  <div *ngIf="!requestedJobs || requestedJobs.length === 0">
     <h4>You don't have any open job requests.</h4>
     <h5>Head over to the Find a Pro tab to make some!</h5>
   </div>
