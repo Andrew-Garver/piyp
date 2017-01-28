@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 
 import {NavController} from 'ionic-angular';
-import {TabsPage} from "../../tabs/tabs";
 import {Validators, FormBuilder, FormGroup} from "@angular/forms";
 import {ProfilePage} from "../../profile/profile";
 import {BusinessServicesForm} from "../business-services/business-services";
@@ -10,48 +9,40 @@ import {LoadingService} from "../../../services/loading.service";
 import {AuthService} from "../../../services/auth.service";
 import {ToastService} from "../../../services/toast.service";
 import {LoginPage} from "../../login/login";
-import {BusinessTaxIdForm} from "../business-tax-id/business-tax-id";
 
 @Component({
-  selector: 'page-business-address-form',
-  templateUrl: 'business-address.html',
+  selector: 'page-business-tax-id-form',
+  templateUrl: 'business-tax-id.html',
   providers: [ProfileService, LoadingService, AuthService, ToastService]
 })
-export class BusinessAddressForm {
-  private businessAddressForm: FormGroup;
+export class BusinessTaxIdForm {
 
-  private zipCodeIsValid: boolean;
-  private formFieldsMissing: boolean;
-  private businessType: any;
+  private businessTaxIdForm: FormGroup;
+
+  private formFieldsMissing: boolean = false;
+
 
   constructor(public navCtrl: NavController, private formBuilder: FormBuilder,
               private profileService: ProfileService, private loadingService: LoadingService,
               private authService: AuthService, private toastService: ToastService) {
-    this.zipCodeIsValid = true;
-    this.businessType = JSON.parse(localStorage.getItem('current_profile')).stripeAccount.legal_entity.type;
-
-    this.businessAddressForm = formBuilder.group({
-      addressLine1: ['', Validators.required],
-      addressLine2: [''],
-      state: ['', Validators.required],
-      city: ['', Validators.required],
-      zipCode: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(5),
-        Validators.pattern('[0-9]*'), Validators.required]), null]
+    this.businessTaxIdForm = formBuilder.group({
+      businessTaxId: ['', Validators.required],
     });
   }
 
   nextForm() {
-    if (this.businessAddressForm.valid) {
+    if (!this.businessTaxIdForm.valid) {
+      this.formFieldsMissing = true;
+    }
+    else {
       this.formFieldsMissing = false;
       this.loadingService.presentLoading();
       this.postData()
         .then(() => {
           this.loadingService.hideLoading();
-          this.navCtrl.push(this.businessType === 'individual' ? BusinessServicesForm: BusinessTaxIdForm)
+          this.navCtrl.push(BusinessServicesForm)
             .catch(() => {
-              this.authService.logout();
-              this.navCtrl.setRoot(LoginPage);
-              this.toastService.presentToast("Your session has expired. Please login again.");
+              this.logout();
             });
         })
         .catch((err) => {
@@ -61,39 +52,14 @@ export class BusinessAddressForm {
           this.toastService.presentToast("Could not reach PIYP servers. Check your data connection and try again.")
         });
     }
-    else {
-      this.formFieldsMissing = true;
-    }
-  }
-
-  checkZip(zip) {
-    if (zip != undefined && zip.length != 5) {
-      this.zipCodeIsValid = false;
-    }
-    else {
-      this.zipCodeIsValid = true;
-    }
-  }
-
-  saveAndQuit() {
-    this.postData()
-      .then(() => {
-        this.navCtrl.setRoot(ProfilePage);
-      });
   }
 
   postData(): Promise<any> {
     let profileId = JSON.parse(localStorage.getItem('current_profile'))._id;
-    let address = {
-      "line1": this.businessAddressForm.value.addressLine1,
-      "line2": this.businessAddressForm.value.addressLine2,
-      "city": this.businessAddressForm.value.city,
-      "state": this.businessAddressForm.value.state,
-      "postalCode": this.businessAddressForm.value.zipCode
+    let params = {
+      businessTaxId: this.businessTaxIdForm.value.businessTaxId,
     };
-    return this.profileService.updateUserProfile(profileId, {
-      businessAddress: address
-    });
+    return this.profileService.updateUserProfile(profileId, params);
   }
 
   ionViewCanEnter(): Promise<boolean> {
@@ -112,5 +78,11 @@ export class BusinessAddressForm {
           reject(err);
         });
     });
+  }
+
+  logout() {
+    this.authService.logout();
+    this.navCtrl.setRoot(LoginPage);
+    this.toastService.presentToast("Your session has expired. Please login again.");
   }
 }

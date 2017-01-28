@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Business Type</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <div *ngIf="formFieldsMissing">
+    <br>
+    <p class="invalid">This field is required</p>
+  </div>
+
+  <h5>Please provide your business tax id.</h5>
+
+  <form #f="ngForm" [formGroup]="businessTaxIdForm" (ngSubmit)="nextForm()">
+
+    <ion-item>
+      <ion-label floating>Business Tax ID</ion-label>
+      <ion-input type="text" formControlName="businessTaxId"></ion-input>
+    </ion-item>
+
+    <div class="bottom-button">
+      <button type="submit" ion-button full>Next: Services</button>
+    </div>
+  </form>
+</ion-content>
