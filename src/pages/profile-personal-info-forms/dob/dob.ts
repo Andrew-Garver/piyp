@@ -69,13 +69,6 @@ export class ProfileDOBForm {
     }
   }
 
-  saveAndQuit() {
-    this.postData()
-      .then(() => {
-        this.navCtrl.setRoot(ProfilePage);
-      });
-  }
-
   postData(): Promise<any> {
     let profileId = JSON.parse(localStorage.getItem('current_profile'))._id;
     console.log("profile di " + profileId);

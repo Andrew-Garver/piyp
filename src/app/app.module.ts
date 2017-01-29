@@ -38,6 +38,7 @@ import {SelectInfoToEditPage} from "../pages/settings/personal-info/select-info-
 import {CreditCardsPage} from "../pages/credit-cards/credit-cards";
 import {BusinessNameForm} from "../pages/profile-business-info-forms/business-name/business-name";
 import {BusinessTaxIdForm} from "../pages/profile-business-info-forms/business-tax-id/business-tax-id";
+import {BankAccountsPage} from "../pages/bank-accounts/bank-accounts";
 
 export function getAuthHttp(http) {
   return new AuthHttp(new AuthConfig({
@@ -89,7 +90,8 @@ export function getAuthHttp(http) {
     SelectInfoToEditPage,
     CreditCardsPage,
     BusinessNameForm,
-    BusinessTaxIdForm
+    BusinessTaxIdForm,
+    BankAccountsPage
   ],
   imports: [
     IonicModule.forRoot(MyApp, {tabsHideOnSubPages:"true"}),
@@ -131,7 +133,8 @@ export function getAuthHttp(http) {
     SelectInfoToEditPage,
     CreditCardsPage,
     BusinessNameForm,
-    BusinessTaxIdForm
+    BusinessTaxIdForm,
+    BankAccountsPage
   ],
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},

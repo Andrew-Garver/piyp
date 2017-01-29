@@ -29,6 +29,7 @@ export class BusinessServicesForm {
     this.edit = this.navParams.get('edit');
     this.registeredServices = JSON.parse(localStorage.getItem('current_profile')).registeredServices;
     console.log(this.registeredServices);
+    console.log(JSON.parse(localStorage.getItem('current_profile')));
   }
 
   ionViewWillEnter() {
@@ -42,6 +43,7 @@ export class BusinessServicesForm {
         for (let selectedService of this.registeredServices) {
           for (let service of this.services) {
             if (service._id === selectedService._id) {
+              console.log('checking');
               service.checked = true;
             }
           }
@@ -81,20 +83,12 @@ export class BusinessServicesForm {
         .catch((err) => {
           console.log(err);
           this.loadingService.hideLoading();
-          this.navCtrl.setRoot(ProfilePage);
           this.toastService.presentToast("Could not reach PIYP servers. Check your data connection and try again.")
         });
     }
     else {
       this.noServicesSelected = true;
     }
-  }
-
-  saveAndQuit() {
-    // this.postData()
-    //   .then(() => {
-    //     this.navCtrl.setRoot(ProfilePage);
-    //   });
   }
 
   postData(data): Promise<any> {

@@ -7,6 +7,10 @@ import {ErrorPage} from "../../error/error";
 import {ProfilePersonalAddressForm} from "../../profile-personal-info-forms/address/address";
 import {BusinessServicesForm} from "../../profile-business-info-forms/business-services/business-services";
 import {CreditCardsPage} from "../../credit-cards/credit-cards";
+import {BusinessTypeForm} from "../../profile-business-info-forms/business-type/business-type";
+import {BusinessNameForm} from "../../profile-business-info-forms/business-name/business-name";
+import {BusinessAddressForm} from "../../profile-business-info-forms/business-address/business-address";
+import {BankAccountsPage} from "../../bank-accounts/bank-accounts";
 
 
 @Component({
@@ -20,6 +24,10 @@ export class SelectInfoToEditPage {
   private personalAddressPage: any = ProfilePersonalAddressForm;
   private servicesOfferedPage: any = BusinessServicesForm;
   private creditCardsPage: any = CreditCardsPage;
+  private businessTypePage: any = BusinessTypeForm;
+  private businessNamePage: any = BusinessNameForm;
+  private businessAddressPage: any = BusinessAddressForm;
+  private bankAccountsPage: any = BankAccountsPage;
 
   constructor(public navCtrl: NavController, private app: App, private authService: AuthService,
               private toastService: ToastService) {

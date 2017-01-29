@@ -42,20 +42,12 @@ export class BankInfoForm {
         .catch((err) => {
           console.log(err);
           this.loadingService.hideLoading();
-          this.navCtrl.setRoot(ProfilePage);
           this.toastService.presentToast("Could not reach PIYP servers. Check your data connection and try again.")
         });
     }
     else {
       this.formFieldsMissing = true;
     }
-  }
-
-  saveAndQuit() {
-    this.postData()
-      .then(() => {
-        this.navCtrl.setRoot(ProfilePage);
-      });
   }
 
   postData(): Promise<any> {

@@ -10,7 +10,8 @@
     <p class="invalid">Please select a business type</p>
   </div>
 
-  <h5>Do you represent a company or do you work alone?</h5>
+  <h5 *ngIf="!edit">Do you represent a company or do you work alone?</h5>
+  <h5 *ngIf="edit">Is this correct?</h5>
 
   <form #f="ngForm" [formGroup]="businessTypeForm" (ngSubmit)="nextForm()">
 
@@ -51,7 +52,8 @@
     </div>
 
     <div class="bottom-button">
-      <button type="submit" ion-button full>Next: Services</button>
+      <button *ngIf="!edit" type="submit" ion-button full>Next: Services</button>
+      <button *ngIf="edit" type="submit" ion-button full>Update</button>
     </div>
   </form>
 </ion-content>

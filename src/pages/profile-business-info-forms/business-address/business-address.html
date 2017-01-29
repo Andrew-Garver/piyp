@@ -6,7 +6,8 @@
 
 <ion-content padding>
   <form #f="ngForm" [formGroup]="businessAddressForm" (ngSubmit)="nextForm()">
-    <h5>Next, we need your business address.</h5>
+    <h5 *ngIf="!edit">Next, we need your business address.</h5>
+    <h5 *ngIf="edit">Is this still where your business is located?</h5>
 
     <div *ngIf="formFieldsMissing">
       <p class="invalid-head">Please fill out all form fields carefully</p>
@@ -95,7 +96,8 @@
 
     <br>
     <div class="bottom-button">
-      <button type="submit" ion-button full>Next</button>
+      <button *ngIf="!edit" type="submit" ion-button full>Next</button>
+      <button *ngIf="edit" type="submit" ion-button full>Update</button>
     </div>
   </form>
 

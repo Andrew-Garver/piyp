@@ -15,10 +15,15 @@
   <div *ngIf="currentProfileType === 'pro'">
     <ion-list-header>Business Info</ion-list-header>
     <ion-list>
-      <button ion-item>Business Type</button>
-      <button ion-item>Business Name</button>
-      <button ion-item>Business Address</button>
+      <button ion-item (click)="pushPage(businessTypePage)">Business Type</button>
+      <button ion-item (click)="pushPage(businessNamePage)">Business Name</button>
+      <button ion-item (click)="pushPage(businessAddressPage)">Business Address</button>
       <button ion-item (click)="pushPage(servicesOfferedPage)">Services Offered</button>
+    </ion-list>
+
+    <ion-list-header>Bank Info</ion-list-header>
+    <ion-list>
+      <button ion-item (click)="pushPage(bankAccountsPage)">Bank Accounts</button>
     </ion-list>
   </div>
   <div *ngIf="currentProfileType === 'consumer'">

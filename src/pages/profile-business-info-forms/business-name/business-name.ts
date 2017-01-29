@@ -1,9 +1,7 @@
 import {Component} from '@angular/core';
 
-import {NavController} from 'ionic-angular';
+import {NavController, NavParams} from 'ionic-angular';
 import {Validators, FormBuilder, FormGroup} from "@angular/forms";
-import {ProfilePage} from "../../profile/profile";
-import {BusinessServicesForm} from "../business-services/business-services";
 import {ProfileService} from "../../../services/profile.service";
 import {LoadingService} from "../../../services/loading.service";
 import {AuthService} from "../../../services/auth.service";
@@ -20,13 +18,17 @@ export class BusinessNameForm {
 
   private businessNameForm: FormGroup;
   private formFieldsMissing: boolean = false;
-
+  private edit: boolean;
 
   constructor(public navCtrl: NavController, private formBuilder: FormBuilder,
               private profileService: ProfileService, private loadingService: LoadingService,
-              private authService: AuthService, private toastService: ToastService) {
+              private authService: AuthService, private toastService: ToastService,
+              private navParams: NavParams) {
+    this.edit = this.navParams.get('edit');
+    let businessName = JSON.parse(localStorage.getItem('current_profile')).stripeAccount.legal_entity.business_name;
+
     this.businessNameForm = formBuilder.group({
-      businessName: ['', Validators.required],
+      businessName: [businessName, Validators.required],
     });
   }
 
@@ -40,10 +42,15 @@ export class BusinessNameForm {
       this.postData()
         .then(() => {
           this.loadingService.hideLoading();
-          this.navCtrl.push(BusinessAddressForm)
-            .catch(() => {
-              this.logout();
-            });
+          if (this.edit) {
+            this.navCtrl.pop();
+          }
+          else {
+            this.navCtrl.push(BusinessAddressForm)
+              .catch(() => {
+                this.logout();
+              });
+          }
         })
         .catch((err) => {
           console.log(err);

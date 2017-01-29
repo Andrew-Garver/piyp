@@ -100,7 +100,6 @@ export class ProfilePage {
       .catch(() => {
         this.logout();
       });
-
   }
 
   displayBusinessInfoForms() {

@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 
-import {NavController} from 'ionic-angular';
+import {NavController, NavParams} from 'ionic-angular';
 import {Validators, FormBuilder, FormGroup} from "@angular/forms";
 import {ProfilePage} from "../../profile/profile";
 import {BusinessAddressForm} from "../business-address/business-address";
@@ -23,12 +23,17 @@ export class BusinessTypeForm {
   private formFieldsMissing: boolean = false;
   private authorizedRep: boolean = true;
   private ssnIsValid: boolean = true;
+  private edit: boolean;
 
   constructor(public navCtrl: NavController, private formBuilder: FormBuilder,
               private profileService: ProfileService, private loadingService: LoadingService,
-              private authService: AuthService, private toastService: ToastService) {
+              private authService: AuthService, private toastService: ToastService,
+              private navParams: NavParams) {
+    this.edit = this.navParams.get('edit');
+    let businessInfo = JSON.parse(localStorage.getItem('current_profile')).stripeAccount.legal_entity;
+
     this.businessTypeForm = formBuilder.group({
-      businessType: ['', Validators.required],
+      businessType: [businessInfo.type, Validators.required],
       authorizedRep: [null],
       ssnLast4: ['', Validators.pattern('^[0-9]*$')],
     });
@@ -51,10 +56,15 @@ export class BusinessTypeForm {
       this.postData()
         .then(() => {
           this.loadingService.hideLoading();
-          this.navCtrl.push(this.businessTypeForm.value.businessType === 'company' ? BusinessNameForm : BusinessAddressForm)
-            .catch(() => {
-              this.logout();
-            });
+          if (this.edit) {
+           this.navCtrl.pop();
+          }
+          else {
+            this.navCtrl.push(this.businessTypeForm.value.businessType === 'company' ? BusinessNameForm : BusinessAddressForm)
+              .catch(() => {
+                this.logout();
+              });
+          }
         })
         .catch((err) => {
           console.log(err);
@@ -70,13 +80,6 @@ export class BusinessTypeForm {
 
   checkSSN() {
     this.ssnIsValid = !(this.businessTypeForm.value.businessType === "individual" && this.businessTypeForm.value.ssnLast4.length !== 4);
-  }
-
-  saveAndQuit() {
-    this.postData()
-      .then(() => {
-        this.navCtrl.setRoot(ProfilePage);
-      });
   }
 
   postData(): Promise<any> {

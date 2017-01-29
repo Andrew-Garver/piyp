@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 
-import {NavController} from 'ionic-angular';
+import {NavController, NavParams} from 'ionic-angular';
 import {TabsPage} from "../../tabs/tabs";
 import {Validators, FormBuilder, FormGroup} from "@angular/forms";
 import {ProfilePage} from "../../profile/profile";
@@ -22,20 +22,23 @@ export class BusinessAddressForm {
 
   private zipCodeIsValid: boolean;
   private formFieldsMissing: boolean;
-  private businessType: any;
+  private business: any;
+  private edit: boolean;
 
   constructor(public navCtrl: NavController, private formBuilder: FormBuilder,
               private profileService: ProfileService, private loadingService: LoadingService,
-              private authService: AuthService, private toastService: ToastService) {
+              private authService: AuthService, private toastService: ToastService,
+              private navParams: NavParams) {
     this.zipCodeIsValid = true;
-    this.businessType = JSON.parse(localStorage.getItem('current_profile')).stripeAccount.legal_entity.type;
+    this.edit = this.navParams.get('edit');
+      this.business = JSON.parse(localStorage.getItem('current_profile')).stripeAccount.legal_entity;
 
     this.businessAddressForm = formBuilder.group({
-      addressLine1: ['', Validators.required],
-      addressLine2: [''],
-      state: ['', Validators.required],
-      city: ['', Validators.required],
-      zipCode: ['', Validators.compose([Validators.minLength(5), Validators.maxLength(5),
+      addressLine1: [this.business.address ? this.business.address.line1 : '', Validators.required],
+      addressLine2: [this.business.address ? this.business.address.line2 : ''],
+      state: [this.business.address ? this.business.address.state : '', Validators.required],
+      city: [this.business.address ? this.business.address.city : '', Validators.required],
+      zipCode: [this.business.address ? this.business.address.postal_code : '', Validators.compose([Validators.minLength(5), Validators.maxLength(5),
         Validators.pattern('[0-9]*'), Validators.required]), null]
     });
   }
@@ -47,17 +50,21 @@ export class BusinessAddressForm {
       this.postData()
         .then(() => {
           this.loadingService.hideLoading();
-          this.navCtrl.push(this.businessType === 'individual' ? BusinessServicesForm: BusinessTaxIdForm)
-            .catch(() => {
-              this.authService.logout();
-              this.navCtrl.setRoot(LoginPage);
-              this.toastService.presentToast("Your session has expired. Please login again.");
-            });
+          if (this.edit) {
+            this.navCtrl.pop();
+          }
+          else {
+            this.navCtrl.push(this.business.type === 'individual' ? BusinessServicesForm : BusinessTaxIdForm)
+              .catch(() => {
+                this.authService.logout();
+                this.navCtrl.setRoot(LoginPage);
+                this.toastService.presentToast("Your session has expired. Please login again.");
+              });
+          }
         })
         .catch((err) => {
           console.log(err);
           this.loadingService.hideLoading();
-          this.navCtrl.setRoot(ProfilePage);
           this.toastService.presentToast("Could not reach PIYP servers. Check your data connection and try again.")
         });
     }
@@ -73,13 +80,6 @@ export class BusinessAddressForm {
     else {
       this.zipCodeIsValid = true;
     }
-  }
-
-  saveAndQuit() {
-    this.postData()
-      .then(() => {
-        this.navCtrl.setRoot(ProfilePage);
-      });
   }
 
   postData(): Promise<any> {

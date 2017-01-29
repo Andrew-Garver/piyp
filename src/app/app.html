@@ -9,12 +9,8 @@
     <ion-list>
       <button ion-item menuClose (click)="switchProfile()">Switch Profile</button>
       <div *ngIf="numProfiles < 2">
-        <div *ngIf="currentProfileType === 'pro'">
-          <button menuClose ion-item (click)="setupNewProfile('consumer')">Setup Consumer Profile</button>
-        </div>
-        <div *ngIf="currentProfileType === 'consumer'">
-          <button menuClose ion-item (click)="setupNewProfile('pro')">Setup Pro Profile</button>
-        </div>
+        <button *ngIf="currentProfileType === 'pro'" menuClose ion-item (click)="setupNewProfile('consumer')">Setup Consumer Profile</button>
+        <button *ngIf="currentProfileType === 'consumer'" menuClose ion-item (click)="setupNewProfile('pro')">Setup Pro Profile</button>
       </div>
       <button menuClose ion-item (click)="pushPage(selectInfoPage)">Review Profile Info</button>
       <button menuClose ion-item>Close Account</button>
