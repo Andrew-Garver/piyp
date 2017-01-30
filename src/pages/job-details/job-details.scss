@@ -16,6 +16,10 @@ page-job-details {
     right: 0;
   }
 
+  .alert {
+    color: #FF9500;
+  }
+
   @media (max-width: 340px) {
     .page-content-pro {
       overflow-y: scroll;

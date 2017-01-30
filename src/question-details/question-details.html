@@ -10,7 +10,18 @@
   <ion-list>
     <ion-label>{{selectedQuestion.inquirer.name}} asked</ion-label>
     <p>{{selectedQuestion.question}}</p>
-    <ion-label>Answer</ion-label>
-    <p>{{selectedQuestion.answer}}</p>
+    <ion-label *ngIf="selectedQuestion.answer">Answer</ion-label>
+    <div *ngIf="profileType === 'pro' || selectedQuestion.answer">
+      <p>{{selectedQuestion.answer}}</p>
+    </div>
+    <div *ngIf="profileType === 'consumer' && !selectedQuestion.answer">
+      <form #f="ngForm" [formGroup]="formAnswerQuestion" (ngSubmit)="answerQuestion()">
+        <ion-textarea formControlName="answer" placeholder="Type your answer here..."></ion-textarea>
+
+        <div class="bottom-button">
+          <button type="submit" ion-button full>Answer</button>
+        </div>
+      </form>
+    </div>
   </ion-list>
 </ion-content>

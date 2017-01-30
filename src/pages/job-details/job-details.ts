@@ -73,7 +73,7 @@ export class JobDetailsPage {
           id: "jkfhuiefd65498e35s464d847fg56s654"
         },
         question: "How many people have bid on this already?",
-        answer: "I can't divulge that information"
+        answer: null
       },
       {
         id: "fdsa67856fds6a8sa98765fds",
@@ -82,7 +82,7 @@ export class JobDetailsPage {
           id: "jkfhuiefd65498e35s464d847fg56s654"
         },
         question: "Why are you posting this job? You could just do it youself.",
-        answer: "I want to test q and a, Billy!"
+        answer: ""
       }
     ]
   }
