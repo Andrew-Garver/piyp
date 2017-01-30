@@ -13,6 +13,7 @@ import {AuthService} from "../../services/auth.service";
 import {LoginPage} from "../login/login";
 import {ToastService} from "../../services/toast.service";
 import {ProfilePersonalAddressForm} from "../profile-personal-info-forms/address/address";
+import {RateUserPage} from "../rate-user/rate-user";
 
 @Component({
   selector: 'page-profile',
@@ -206,6 +207,9 @@ export class ProfilePage {
         break;
       case 'hiredJobsConsumer':
         this.navCtrl.parent.select(2);
+        break;
+      case 'favoritePros':
+        this.navCtrl.push(RateUserPage);
         break;
     }
   }

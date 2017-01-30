@@ -48,7 +48,7 @@
   </div>
 
   <div *ngIf="currentProfile.type === 'consumer'" class="bottom-button">
-    <button ion-button full (click)="viewBids(selectedJob.id)">View bids</button>
+    <button ion-button full (click)="viewBids(selectedJob.id)">View bids ({{selectedJob.bids.length}})</button>
   </div>
 
   <!--<div *ngIf="currentTab === 'Hired Jobs'">-->

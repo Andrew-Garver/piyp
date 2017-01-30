@@ -8,6 +8,7 @@ import {ManageBidsPage} from "../manage-bids/manage-bids";
 import {LoginPage} from "../login/login";
 import {ToastService} from "../../services/toast.service";
 import {BidService} from "../../services/bid.service";
+import {TabsPage} from "../tabs/tabs";
 
 @Component({
   selector: 'page-place-bid',
@@ -38,14 +39,7 @@ export class PlaceBidPage {
       this.postData()
         .then(() => {
           this.loadingService.hideLoading();
-          this.navCtrl.setRoot(ManageBidsPage)
-            .catch(() => {
-              this.authService.logout()
-                .then(() => {
-                  this.navCtrl.setRoot(LoginPage);
-                  this.toastService.presentToast("Your session has expired. Please login again.");
-                });
-            });
+          this.navCtrl.parent.select(2);
         })
         .catch((err) => {
           console.log(err);

@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Rating
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <h5>Were you satisfied doing business with so-and-so? Leave them a review!</h5>
+  <br>
+
+
+  <ion-label>How satisfied were you with so-and-so?</ion-label>
+  <rating [(ngModel)]="rating"></rating>
+
+  <form #f="ngForm" [formGroup]="formUserReview" (ngSubmit)="submitReview()">
+    <ion-label>Leave them a review, if you wish.</ion-label>
+    <ion-textarea formControlName="review" placeholder="Type your review here..."></ion-textarea>
+
+    <div class="bottom-button">
+      <button type="submit" ion-button full>Submit</button>
+    </div>
+  </form>
+</ion-content>

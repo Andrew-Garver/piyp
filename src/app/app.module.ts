@@ -41,6 +41,9 @@ import {BusinessTaxIdForm} from "../pages/profile-business-info-forms/business-t
 import {BankAccountsPage} from "../pages/bank-accounts/bank-accounts";
 import {QuestionDetailsPage} from "../question-details/question-details";
 import {AskQuestionFormPage} from "../pages/ask-question-form/ask-question-form";
+import {Ionic2RatingModule} from "ionic2-rating";
+import {RateUserPage} from "../pages/rate-user/rate-user";
+import {IntroSlidesPage} from "../pages/into-slides/intro-slides";
 
 export function getAuthHttp(http) {
   return new AuthHttp(new AuthConfig({
@@ -95,11 +98,14 @@ export function getAuthHttp(http) {
     BusinessTaxIdForm,
     BankAccountsPage,
     QuestionDetailsPage,
-    AskQuestionFormPage
+    AskQuestionFormPage,
+    RateUserPage,
+    IntroSlidesPage
   ],
   imports: [
     IonicModule.forRoot(MyApp, {tabsHideOnSubPages:"true"}),
-    HttpModule
+    HttpModule,
+    Ionic2RatingModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -140,7 +146,9 @@ export function getAuthHttp(http) {
     BusinessTaxIdForm,
     BankAccountsPage,
     QuestionDetailsPage,
-    AskQuestionFormPage
+    AskQuestionFormPage,
+    RateUserPage,
+    IntroSlidesPage
   ],
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},

@@ -10,6 +10,7 @@ import {SelectProfilePage} from "../select-profile/select-profile";
 import {UserService} from "../../services/user.service";
 import {LoadingService} from "../../services/loading.service";
 import {ToastService} from "../../services/toast.service";
+import {IntroSlidesPage} from "../into-slides/intro-slides";
 
 @Component({
   selector: 'page-sign-up',

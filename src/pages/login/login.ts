@@ -8,6 +8,7 @@ import {SelectProfilePage} from "../select-profile/select-profile";
 import {UserService} from "../../services/user.service";
 import {ToastService} from "../../services/toast.service";
 import {LoadingService} from "../../services/loading.service";
+import {IntroSlidesPage} from "../into-slides/intro-slides";
 
 @Component({
   selector: 'page-login',
@@ -15,7 +16,7 @@ import {LoadingService} from "../../services/loading.service";
   providers: [AuthService, UserService, ToastService, LoadingService]
 })
 
-export class LoginPage implements OnInit {
+export class LoginPage {
 
   constructor(private authService: AuthService, private navCtrl: NavController,
               private userService: UserService, private toastService: ToastService,
@@ -23,18 +24,18 @@ export class LoginPage implements OnInit {
 
   }
 
-  ngOnInit() {
-    this.authService.loggedIn()
-      .then((data) => {
-        if (data) {
-          this.navCtrl.push(TabsPage);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        console.log("something went wrong auto-logging")
-      });
-  }
+  // ionViewWillEnter() {
+  //   this.authService.loggedIn()
+  //     .then((data) => {
+  //       if (data) {
+  //         this.navCtrl.push(TabsPage);
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //       console.log("something went wrong auto-logging")
+  //     });
+  // }
 
   login(credentials): void {
     this.loadingService.presentLoading();

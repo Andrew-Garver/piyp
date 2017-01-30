@@ -34,7 +34,10 @@ export class AuthService {
       this.destroyToken()
         .then((data) => {
           console.log("clearing storage");
-          localStorage.clear();
+          localStorage.removeItem('current_user');
+          localStorage.removeItem('current_profile');
+          localStorage.removeItem('access_token');
+          localStorage.removeItem('refresh_token');
           resolve(true);
         })
         .catch((err) => {
