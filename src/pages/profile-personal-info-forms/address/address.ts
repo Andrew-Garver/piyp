@@ -8,6 +8,7 @@ import {ProfileService} from "../../../services/profile.service";
 import {LoadingService} from "../../../services/loading.service";
 import {ToastService} from "../../../services/toast.service";
 import {AuthService} from "../../../services/auth.service";
+import {LoginPage} from "../../login/login";
 
 @Component({
   selector: 'page-profile-personal-address-form',
@@ -56,7 +57,14 @@ export class ProfilePersonalAddressForm {
         .then(() => {
           this.loadingService.hideLoading();
           if (this.edit) {
-            this.navCtrl.pop();
+            this.navCtrl.pop()
+              .catch(() => {
+                this.authService.logout()
+                  .then(() => {
+                    this.navCtrl.setRoot(LoginPage);
+                    this.toastService.presentToast("Your session has expired. Please login again.");
+                  });
+              });
           }
           else {
             this.navCtrl.setRoot(ProfilePage);

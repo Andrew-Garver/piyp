@@ -5,7 +5,7 @@ page-job-details {
 
   .sub-heading {
     position: relative;
-    top: 16px;
+    top: 14px;
   }
 
   .bottom-button {
@@ -17,16 +17,26 @@ page-job-details {
   }
 
   @media (max-width: 340px) {
-    .page-content {
+    .page-content-pro {
       overflow-y: scroll;
-      height: 57%;
+      height: 68%;
+    }
+
+    .page-content-consumer {
+      overflow-y: scroll;
+      height: 73%;
     }
   }
 
   @media (min-width: 341px) {
-    .page-content {
+    .page-content-pro {
       overflow-y: scroll;
-      height: 75%;
+      height: 73%;
+    }
+
+    .page-content-consumer {
+      overflow-y: scroll;
+      height: 80%;
     }
   }
 }

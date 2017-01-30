@@ -74,7 +74,14 @@ export class BusinessServicesForm {
         .then(() => {
           this.loadingService.hideLoading();
           if (this.edit) {
-            this.navCtrl.pop();
+            this.navCtrl.pop()
+              .catch(() => {
+                this.authService.logout()
+                  .then(() => {
+                    this.navCtrl.setRoot(LoginPage);
+                    this.toastService.presentToast("Your session has expired. Please login again.");
+                  });
+              });
           }
           else {
             this.navCtrl.setRoot(ProfilePage);

@@ -51,14 +51,15 @@ export class BusinessAddressForm {
         .then(() => {
           this.loadingService.hideLoading();
           if (this.edit) {
-            this.navCtrl.pop();
+            this.navCtrl.pop()
+              .catch(() => {
+                this.logout();
+              });
           }
           else {
             this.navCtrl.push(this.business.type === 'individual' ? BusinessServicesForm : BusinessTaxIdForm)
               .catch(() => {
-                this.authService.logout();
-                this.navCtrl.setRoot(LoginPage);
-                this.toastService.presentToast("Your session has expired. Please login again.");
+                this.logout();
               });
           }
         })
@@ -112,5 +113,13 @@ export class BusinessAddressForm {
           reject(err);
         });
     });
+  }
+
+  logout() {
+    this.authService.logout()
+      .then(() => {
+        this.navCtrl.setRoot(LoginPage);
+        this.toastService.presentToast("Your session has expired. Please login again.");
+      });
   }
 }

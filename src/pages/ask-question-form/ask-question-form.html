@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Find a Job
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <form #f="ngForm" [formGroup]="formAskQuestion" (ngSubmit)="submitQuestion()">
+
+    <ion-label>What would you like to ask?</ion-label>
+    <ion-textarea formControlName="question" placeholder="Type your question here..."></ion-textarea>
+
+    <div class="bottom-button">
+      <button type="submit" ion-button full>Ask</button>
+    </div>
+  </form>
+</ion-content>

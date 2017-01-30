@@ -22,11 +22,21 @@
     <!--<button ion-item (click)="viewProDetails(selectedJob.pro)">Hired Pro: {{selectedJob.pro.name}}</button>-->
   </div>
 
-  <h5 class="sub-heading">Job Description</h5>
-  <div class="page-content">
+  <div [ngClass]="{'page-content-pro': currentProfile.type === 'pro', 'page-content-consumer': currentProfile.type === 'consumer'}">
+    <h5 class="sub-heading">Job Description</h5>
     <p class="description">
       {{selectedJob.request.description}}
     </p>
+
+    <ion-searchbar (ionInput)="filterQuestions($event)"></ion-searchbar>
+    <ion-list>
+      <button ion-item (click)="viewQuestion(question)" *ngFor="let question of questions">
+        <h5>Q: {{question.question}}</h5>
+        <h5>A: {{question.answer}}</h5>
+        <p>{{question.inquirer.name}}</p>
+      </button>
+      <button ion-button full (click)="askQuestion(selectedJob.id)">Ask Question</button>
+    </ion-list>
   </div>
 
   <div *ngIf="currentProfile.type === 'pro'" class="bottom-button">

@@ -43,7 +43,10 @@ export class BusinessNameForm {
         .then(() => {
           this.loadingService.hideLoading();
           if (this.edit) {
-            this.navCtrl.pop();
+            this.navCtrl.pop()
+              .catch(() => {
+                this.logout();
+              });
           }
           else {
             this.navCtrl.push(BusinessAddressForm)
@@ -87,8 +90,10 @@ export class BusinessNameForm {
   }
 
   logout() {
-    this.authService.logout();
-    this.navCtrl.setRoot(LoginPage);
-    this.toastService.presentToast("Your session has expired. Please login again.");
+    this.authService.logout()
+      .then(() => {
+        this.navCtrl.setRoot(LoginPage);
+        this.toastService.presentToast("Your session has expired. Please login again.");
+      });
   }
 }

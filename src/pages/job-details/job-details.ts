@@ -13,6 +13,8 @@ import {PlaceBidPage} from "../place-bid/place-bid";
 import {RequestJobFormPage} from "../request-job-form/request-job-form";
 import {JobService} from "../../services/job.service";
 import {JobRequestsPage} from "../job-requests/job-requests";
+import {QuestionDetailsPage} from "../../question-details/question-details";
+import {AskQuestionFormPage} from "../ask-question-form/ask-question-form";
 
 @Component({
   selector: 'page-job-details',
@@ -25,6 +27,7 @@ export class JobDetailsPage {
   private prosBid: any;
   private currentTab: string;
   private currentProfile: any;
+  private questions: any;
 
   constructor(public navCtrl: NavController, private authService: AuthService,
               private params: NavParams, private app: App, private toastService: ToastService,
@@ -38,6 +41,50 @@ export class JobDetailsPage {
     if (params.get("bid")) {
       this.prosBid = params.get("bid");
     }
+
+    // TODO: Pull questions and answers from job obj
+    this.getQuestions();
+  }
+
+  getQuestions() {
+    this.questions = [
+      {
+        id: "fdsa67856fds6a8sa98765fds",
+        inquirer: {
+          name: "Bob",
+          id: "jkfhuiefd65498e35s464d847fg56s654"
+        },
+        question: "How much do I have to do?",
+        answer: "As much as I tell you to do."
+      },
+      {
+        id: "fdsa67856fds6a8sa98765fds",
+        inquirer: {
+          name: "Alice",
+          id: "jkfhuiefd65498e35s464d847fg56s654"
+        },
+        question: "Can you really pay for this?",
+        answer: "Yes"
+      },
+      {
+        id: "fdsa67856fds6a8sa98765fds",
+        inquirer: {
+          name: "Sally",
+          id: "jkfhuiefd65498e35s464d847fg56s654"
+        },
+        question: "How many people have bid on this already?",
+        answer: "I can't divulge that information"
+      },
+      {
+        id: "fdsa67856fds6a8sa98765fds",
+        inquirer: {
+          name: "Billy",
+          id: "jkfhuiefd65498e35s464d847fg56s654"
+        },
+        question: "Why are you posting this job? You could just do it youself.",
+        answer: "I want to test q and a, Billy!"
+      }
+    ]
   }
 
   ionViewCanEnter(): Promise<boolean> {
@@ -134,6 +181,41 @@ export class JobDetailsPage {
     }
     else {
       this.navCtrl.push(ErrorPage);
+    }
+  }
+
+  viewQuestion(question) {
+    this.navCtrl.push(QuestionDetailsPage, {question: question})
+      .catch(() => {
+        this.authService.logout()
+          .then(() => {
+            this.logout();
+          });
+      });
+  }
+
+  askQuestion(jobId) {
+    this.navCtrl.push(AskQuestionFormPage, {jobId: jobId})
+      .catch(() => {
+        this.authService.logout()
+          .then(() => {
+            this.logout();
+          });
+      });
+  }
+
+  filterQuestions(ev: any) {
+    // Reset items back to all of the items
+    this.getQuestions();
+
+    // set val to the value of the searchbar
+    let val = ev.target.value;
+
+    // if the value is an empty string don't filter the items
+    if (val && val.trim() != '') {
+      this.questions = this.questions.filter((question) => {
+        return (question.question.toLowerCase().indexOf(val.toLowerCase()) > -1);
+      })
     }
   }
 
