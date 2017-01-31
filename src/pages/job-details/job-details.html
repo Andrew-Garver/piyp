@@ -15,14 +15,15 @@
 
 <ion-content padding>
   <h3>{{selectedJob.request.title}}</h3>
-  <span *ngIf="currentProfile.type === 'pro'" style="float: right">{{selectedJob.distance}} miles from you</span>
-  <span class="">{{selectedJob._service.name}}</span>
+  <span *ngIf="currentProfile.type === 'pro' && selectedJob.distance" style="float: right">{{selectedJob.distance}} miles from you</span>
+  <span>{{selectedJob._service.name}}</span>
+  <h5 *ngIf="currentProfile.type === 'pro' && selectedJob.bids.length > 0">Your current bid: ${{selectedJob.bids[0].amount}}</h5>
 
   <div *ngIf="currentProfile.type === 'consumer'">
     <!--<button ion-item (click)="viewProDetails(selectedJob.pro)">Hired Pro: {{selectedJob.pro.name}}</button>-->
   </div>
 
-  <div [ngClass]="{'page-content-pro': currentProfile.type === 'pro', 'page-content-consumer': currentProfile.type === 'consumer'}">
+  <div [ngClass]="{'page-content-one': (currentProfile.type === 'pro' && !selectedJob.acceptedBid) || currentProfile.type === 'consumer', 'page-content-two': currentProfile.type === 'pro' && selectedJob.acceptedBid}">
     <h5 class="sub-heading">Job Description</h5>
     <p class="description">
       {{selectedJob.request.description}}
@@ -43,12 +44,13 @@
   </div>
 
   <div *ngIf="currentProfile.type === 'pro'" class="bottom-button">
-    <button ion-button full (click)="viewCustomerDetails()">View Customer Profile</button>
-    <button ion-button full (click)="placeBid(selectedJob)">Place Bid</button>
+    <button *ngIf="selectedJob.acceptedBid" ion-button full (click)="viewCustomerDetails()">View Customer Profile</button>
+    <button *ngIf="selectedJob.bids.length > 0" ion-button full (click)="editBid(selectedJob)">Edit Bid</button>
+    <button *ngIf="selectedJob.bids.length === 0" ion-button full (click)="placeBid(selectedJob)">Place Bid</button>
   </div>
 
   <div *ngIf="currentProfile.type === 'consumer'" class="bottom-button">
-    <button ion-button full (click)="viewBids(selectedJob.id)">View bids ({{selectedJob.bids.length}})</button>
+    <button ion-button full (click)="viewBids(selectedJob)">View bids ({{selectedJob.bids.length}})</button>
   </div>
 
   <!--<div *ngIf="currentTab === 'Hired Jobs'">-->

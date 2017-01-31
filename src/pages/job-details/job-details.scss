@@ -21,19 +21,19 @@ page-job-details {
   }
 
   @media (max-width: 340px) {
-    .page-content-pro {
+    .page-content-one {
       overflow-y: scroll;
-      height: 68%;
+      height: 69%;
     }
 
-    .page-content-consumer {
+    .page-content-two {
       overflow-y: scroll;
-      height: 73%;
+      height: 59%;
     }
   }
 
   @media (min-width: 341px) {
-    .page-content-pro {
+    .page-content-one {
       overflow-y: scroll;
       height: 73%;
     }

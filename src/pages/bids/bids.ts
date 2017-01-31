@@ -7,44 +7,30 @@ import {DatabaseService} from "../../services/database.service";
 import {BidDetailsPage} from "../bid-details/bid-details";
 import {LoginPage} from "../login/login";
 import {ErrorPage} from "../error/error";
+import {ToastService} from "../../services/toast.service";
 
 @Component({
   selector: 'page-bids',
   templateUrl: 'bids.html',
-  providers: [AuthService, DatabaseService]
+  providers: [AuthService, ToastService]
 })
 
-export class BidsPage implements OnInit {
+export class BidsPage {
 
-  private openBids: Bid[];
-  private numBids: number;
-  private jobId: number;
-  private isPro: boolean;
+  private selectedJob: any;
 
   constructor(private navCtrl: NavController, private params: NavParams,
-              private authService: AuthService, private databaseService: DatabaseService,
-              private app: App) {
-    this.jobId = this.params.get('jobId');
-    if (JSON.parse(localStorage.getItem("current_user")).isPro) {
-      this.isPro = true;
-    }
-    else {
-      this.isPro = false;
-    }
+              private authService: AuthService, private app: App,
+  private toastService: ToastService) {
+    this.selectedJob = params.get('job');
   }
 
-  ngOnInit() {
-    if (this.jobId) {
-      this.databaseService.getBidsByJobId(this.jobId)
-        .then((bids) => {
-          this.openBids = bids;
-          this.numBids = bids.length;
-        });
-    }
+  ionViewWillEnter() {
+
   }
 
   ionViewCanEnter(): Promise<boolean> {
-    return new  Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       this.authService.loggedIn()
         .then((data) => {
           if (data) {
@@ -61,16 +47,14 @@ export class BidsPage implements OnInit {
     });
   }
 
-  viewBidDetails(bidId: number) {
-    if (bidId > 0) {
-      this.navCtrl.push(BidDetailsPage, {bidId: bidId}).catch(() => {
-        this.authService.logout()
-          .then(() => this.app.getRootNav().setRoot(LoginPage));
-      });
+  viewBidDetails() {
+      this.navCtrl.push(BidDetailsPage, {job: this.selectedJob})
+        .catch(() => {
+          this.authService.logout()
+            .then(() => {
+              this.toastService.presentToast("Could not reach PIYP servers. Check your data connection and try again.")
+            });
+        });
     }
-    else {
-      this.navCtrl.push(ErrorPage);
-    }
-  }
 
 }

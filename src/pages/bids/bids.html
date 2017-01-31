@@ -7,18 +7,10 @@
 </ion-header>
 
 <ion-content padding>
-  <div *ngIf="numBids">
-    <div *ngIf="isPro">
-      <h1>Your competition</h1>
-    </div>
-    <div *ngIf="!isPro">
-      <h1>You have bids!</h1>
-    </div>
+  <div *ngIf="selectedJob.bids">
+    <h3>Check out your bids!</h3>
     <ion-list>
-      <button ion-item *ngFor="let bid of openBids" (click)="viewBidDetails(bid.id)">{{bid.pro.name}}: {{bid.amount}}</button>
+      <button ion-item *ngFor="let bid of selectedJob.bids" (click)="viewBidDetails(bid)">Andrew's Tech Co.: ${{bid.amount}}</button>
     </ion-list>
-  </div>
-  <div *ngIf="!numBids">
-    <h1>No bids yet!</h1>
   </div>
 </ion-content>

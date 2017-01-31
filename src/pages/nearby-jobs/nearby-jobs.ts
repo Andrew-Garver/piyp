@@ -27,8 +27,10 @@ export class NearbyJobsPage {
 
   ionViewWillEnter() {
     let params = this.navParams.get('params');
+    params.queryBy = "radius";
+
     this.loadingService.presentLoading();
-    this.getJobs(params)
+    this.jobService.getJobs(params)
       .then((jobs) => {
         this.loadingService.hideLoading();
         this.nearbyJobs = jobs;
@@ -39,7 +41,6 @@ export class NearbyJobsPage {
         console.log(err);
         this.toastService.presentToast("Could not reach PIYP servers. Check your data connection and try again.")
       });
-
   }
 
   private viewJobDetails(selectedJob) {
@@ -58,10 +59,6 @@ export class NearbyJobsPage {
     else {
       this.navCtrl.push(ErrorPage);
     }
-  }
-
-  getJobs(jobParams): Promise<any> {
-    return this.jobService.getJobs(jobParams);
   }
 
   ionViewCanEnter(): Promise<boolean> {

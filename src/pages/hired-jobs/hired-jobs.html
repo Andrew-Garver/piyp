@@ -7,9 +7,15 @@
 </ion-header>
 
 <ion-content padding>
-  <div *ngIf="!hiredJobs">
-    <h4>You haven't hired anyone yet.</h4>
-    <h5>Accept some bids on your open job requests to start getting stuff done!</h5>
+  <div *ngIf="!hiredJobs || hiredJobs.length === 0">
+    <div *ngIf="profile.type === 'consumer'">
+      <h4>You haven't hired anyone yet.</h4>
+      <h5>Accept some bids on your open job requests to start getting stuff done!</h5>
+    </div>
+    <div *ngIf="profile.type === 'pro'">
+      <h4>Nobody has hired you yet.</h4>
+      <h5>Keep making bids! It'll happen.</h5>
+    </div>
   </div>
 
   <div *ngIf="hiredJobs">

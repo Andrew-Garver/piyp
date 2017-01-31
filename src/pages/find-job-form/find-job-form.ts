@@ -24,15 +24,16 @@ export class FindJobFormPage {
   constructor(public navCtrl: NavController, private formBuilder: FormBuilder,
               private authService: AuthService, private loadingService: LoadingService,
               private toastService: ToastService) {
-
-    this.currentProfile = JSON.parse(localStorage.getItem('current_profile'));
-    this.services = this.currentProfile.registeredServices;
-
     this.formFindJobs = formBuilder.group({
       radius: ['', Validators.required],
       locType: ['', Validators.required],
       serviceCategories: ['', Validators.required]
     });
+  }
+
+  ionViewWillEnter() {
+    this.currentProfile = JSON.parse(localStorage.getItem('current_profile'));
+    this.services = this.currentProfile.registeredServices;
   }
 
   searchForOpenJobs() {

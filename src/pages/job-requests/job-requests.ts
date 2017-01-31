@@ -27,7 +27,8 @@ export class JobRequestsPage {
 
   ionViewWillEnter() {
     let params = {
-      profile: this.profile._id
+      profile: this.profile._id,
+      queryBy: 'creator'
     };
 
     this.loadingService.presentLoading();

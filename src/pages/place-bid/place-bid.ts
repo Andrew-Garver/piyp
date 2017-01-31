@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 
-import {NavController, NavParams} from "ionic-angular";
+import {NavController, NavParams, App} from "ionic-angular";
 import {AuthService} from "../../services/auth.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {LoadingService} from "../../services/loading.service";
@@ -20,16 +20,18 @@ export class PlaceBidPage {
 
   private formBidAmount: FormGroup;
   private selectedJob: any;
+  private edit: boolean;
 
   constructor(private navCtrl: NavController, private authService: AuthService,
               private navParams: NavParams, private formBuilder: FormBuilder,
               private loadingService: LoadingService, private toastService: ToastService,
-              private bidService: BidService) {
+              private bidService: BidService, private app: App) {
     this.selectedJob = this.navParams.get('job');
+    this.edit = this.navParams.get('edit');
 
     this.formBidAmount = formBuilder.group({
-      bidAmount: ['', Validators.required],
-      message: [''],
+      bidAmount: [this.edit ? this.selectedJob.bids[0].amount : '', Validators.required],
+      message: [this.edit ? this.selectedJob.bids[0].message : '', Validators.required],
     });
   }
 
@@ -39,6 +41,7 @@ export class PlaceBidPage {
       this.postData()
         .then(() => {
           this.loadingService.hideLoading();
+          this.navCtrl.popToRoot();
           this.navCtrl.parent.select(2);
         })
         .catch((err) => {

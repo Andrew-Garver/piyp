@@ -25,6 +25,22 @@ export class JobService {
     });
   }
 
+  acceptBid(jobId, formData): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.authHttp.post('http://localhost:3000/api/job/' + jobId, formData)
+        .map(res => res.json())
+        .subscribe(
+          data => {
+            resolve(data.job);
+          },
+          err => {
+            console.log(err);
+            reject(err);
+          }
+        );
+    });
+  }
+
   getJobs(data): Promise<any> {
     let params = "";
     if (data) {

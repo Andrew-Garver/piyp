@@ -41,9 +41,12 @@ export class JobDetailsPage {
     if (params.get("bid")) {
       this.prosBid = params.get("bid");
     }
+  }
 
+  ionViewWillEnter() {
     // TODO: Pull questions and answers from job obj
     this.getQuestions();
+    console.log(this.selectedJob);
   }
 
   getQuestions() {
@@ -136,27 +139,9 @@ export class JobDetailsPage {
     }
   }
 
-  private viewBids(jobId: number) {
-    if (jobId) {
-      this.navCtrl.push(BidsPage, {jobId: jobId}).catch(() => {
-        this.authService.logout()
-          .then(() => {
-            this.logout();
-          });
-      });
-    }
-    else {
-      this.navCtrl.push(ErrorPage);
-    }
-  }
-
-  private markJobComplete(jobId: number) {
-    console.log("Completing job");
-  }
-
-  private viewCustomerDetails(customer) {
-    if (customer) {
-      this.navCtrl.push(CustomerDetailsPage, {customer: customer})
+  private editBid(selectedJob) {
+    if (selectedJob) {
+      this.navCtrl.push(PlaceBidPage, {job: selectedJob, edit: true})
         .catch(() => {
           this.authService.logout()
             .then(() => {
@@ -167,6 +152,35 @@ export class JobDetailsPage {
     else {
       this.navCtrl.push(ErrorPage);
     }
+  }
+
+  private viewBids(selectedJob) {
+    if (selectedJob) {
+      this.navCtrl.push(BidsPage, {job: selectedJob})
+        .catch(() => {
+          this.authService.logout()
+            .then(() => {
+              this.logout();
+            });
+        });
+    }
+    else {
+      this.navCtrl.push(ErrorPage);
+    }
+  }
+
+  private markJobComplete(jobId: number) {
+    console.log("Completing job");
+  }
+
+  private viewCustomerDetails() {
+      this.navCtrl.push(CustomerDetailsPage, {customer: this.selectedJob._creator})
+        .catch(() => {
+          this.authService.logout()
+            .then(() => {
+              this.logout();
+            });
+        });
   }
 
   private viewProDetails(pro: Pro) {

@@ -12,7 +12,7 @@ import {AuthService} from "../../services/auth.service";
 
 export class CustomerDetailsPage {
 
-  customer: Customer;
+  private customer: any;
 
   constructor(private navCtrl: NavController, private params: NavParams,
               private authService: AuthService) {
