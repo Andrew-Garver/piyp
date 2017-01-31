@@ -15,6 +15,7 @@ import {JobService} from "../../services/job.service";
 import {JobRequestsPage} from "../job-requests/job-requests";
 import {QuestionDetailsPage} from "../../question-details/question-details";
 import {AskQuestionFormPage} from "../ask-question-form/ask-question-form";
+import {RateUserPage} from "../rate-user/rate-user";
 
 @Component({
   selector: 'page-job-details',
@@ -25,18 +26,15 @@ export class JobDetailsPage {
 
   private selectedJob: any;
   private prosBid: any;
-  private currentTab: string;
   private currentProfile: any;
   private questions: any;
+  private winningBid: any;
 
   constructor(public navCtrl: NavController, private authService: AuthService,
               private params: NavParams, private app: App, private toastService: ToastService,
               private jobService: JobService) {
     this.currentProfile = JSON.parse(localStorage.getItem('current_profile'));
-    this.selectedJob = params.get("job");
-    if (this.navCtrl.parent && this.navCtrl.parent.getSelected()) {
-      this.currentTab = this.navCtrl.parent.getSelected().tabTitle;
-    }
+    this.selectedJob = this.params.get("job");
 
     if (params.get("bid")) {
       this.prosBid = params.get("bid");
@@ -47,6 +45,13 @@ export class JobDetailsPage {
     // TODO: Pull questions and answers from job obj
     this.getQuestions();
     console.log(this.selectedJob);
+
+    for (let bid of this.selectedJob.bids) {
+      if (bid._id === this.selectedJob.acceptedBid) {
+        this.winningBid = bid;
+        break;
+      }
+    }
   }
 
   getQuestions() {
@@ -169,18 +174,29 @@ export class JobDetailsPage {
     }
   }
 
-  private markJobComplete(jobId: number) {
-    console.log("Completing job");
+  private markJobComplete() {
+    let user = this.selectedJob._creator;
+    //TODO: Return bid creator info on bid
+    // if (this.currentProfile.type === 'consumer') {
+    //   user = this.winningBid._creator;
+    // }
+    this.navCtrl.push(RateUserPage, {userToBeRated: user})
+      .catch(() => {
+        this.authService.logout()
+          .then(() => {
+            this.logout();
+          });
+      });
   }
 
   private viewCustomerDetails() {
-      this.navCtrl.push(CustomerDetailsPage, {customer: this.selectedJob._creator})
-        .catch(() => {
-          this.authService.logout()
-            .then(() => {
-              this.logout();
-            });
-        });
+    this.navCtrl.push(CustomerDetailsPage, {customer: this.selectedJob._creator})
+      .catch(() => {
+        this.authService.logout()
+          .then(() => {
+            this.logout();
+          });
+      });
   }
 
   private viewProDetails(pro: Pro) {
@@ -230,6 +246,28 @@ export class JobDetailsPage {
       this.questions = this.questions.filter((question) => {
         return (question.question.toLowerCase().indexOf(val.toLowerCase()) > -1);
       })
+    }
+  }
+
+  determineClass() {
+    if (this.currentProfile.type === 'pro') {
+      if (!this.selectedJob.acceptedBid) { // Not hired
+        if (this.selectedJob.bids) { // placed a bid
+          return "page-content-76";
+        }
+        else { // not yet placed a bid
+          return "page-content-78";
+        }
+      }
+      else { // Hired
+        return "page-content-66";
+      }
+    }
+    else if (this.currentProfile.type === 'consumer' && !this.selectedJob.acceptedBid) {
+      return "page-content-76"
+    }
+    else {
+      return "page-content-66";
     }
   }
 

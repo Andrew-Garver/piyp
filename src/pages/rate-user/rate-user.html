@@ -7,11 +7,11 @@
 </ion-header>
 
 <ion-content padding>
-  <h5>Were you satisfied doing business with so-and-so? Leave them a review!</h5>
+  <h5>Were you satisfied doing business with {{userToBeRated.firstName}}? Leave them a review!</h5>
   <br>
 
 
-  <ion-label>How satisfied were you with so-and-so?</ion-label>
+  <ion-label>How satisfied were you with {{userToBeRated.firstName}}?</ion-label>
   <rating [(ngModel)]="rating"></rating>
 
   <form #f="ngForm" [formGroup]="formUserReview" (ngSubmit)="submitReview()">

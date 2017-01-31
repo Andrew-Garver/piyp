@@ -18,12 +18,9 @@
   <span *ngIf="currentProfile.type === 'pro' && selectedJob.distance" style="float: right">{{selectedJob.distance}} miles from you</span>
   <span>{{selectedJob._service.name}}</span>
   <h5 *ngIf="currentProfile.type === 'pro' && selectedJob.bids.length > 0">Your current bid: ${{selectedJob.bids[0].amount}}</h5>
+  <h5 *ngIf="currentProfile.type === 'consumer' && winningBid">Your selected bid: ${{winningBid.amount}}</h5>
 
-  <div *ngIf="currentProfile.type === 'consumer'">
-    <!--<button ion-item (click)="viewProDetails(selectedJob.pro)">Hired Pro: {{selectedJob.pro.name}}</button>-->
-  </div>
-
-  <div [ngClass]="{'page-content-one': (currentProfile.type === 'pro' && !selectedJob.acceptedBid) || currentProfile.type === 'consumer', 'page-content-two': currentProfile.type === 'pro' && selectedJob.acceptedBid}">
+  <div [ngClass]="determineClass()">
     <h5 class="sub-heading">Job Description</h5>
     <p class="description">
       {{selectedJob.request.description}}
@@ -39,18 +36,22 @@
           A: {{question.answer}}
         </h5>
       </button>
-      <button *ngIf="currentProfile.type === 'pro'" ion-button full (click)="askQuestion(selectedJob.id)">Ask Question</button>
+      <button *ngIf="currentProfile.type === 'pro'" ion-button full (click)="askQuestion(selectedJob.id)">Ask Question
+      </button>
     </ion-list>
   </div>
 
   <div *ngIf="currentProfile.type === 'pro'" class="bottom-button">
     <button *ngIf="selectedJob.acceptedBid" ion-button full (click)="viewCustomerDetails()">View Customer Profile</button>
-    <button *ngIf="selectedJob.bids.length > 0" ion-button full (click)="editBid(selectedJob)">Edit Bid</button>
+    <button *ngIf="selectedJob.acceptedBid" ion-button full (click)="markJobComplete()">Mark Job Complete</button>
+    <button *ngIf="selectedJob.bids.length > 0 && !selectedJob.acceptedBid" ion-button full (click)="editBid(selectedJob)">Edit Bid</button>
     <button *ngIf="selectedJob.bids.length === 0" ion-button full (click)="placeBid(selectedJob)">Place Bid</button>
   </div>
 
   <div *ngIf="currentProfile.type === 'consumer'" class="bottom-button">
-    <button ion-button full (click)="viewBids(selectedJob)">View bids ({{selectedJob.bids.length}})</button>
+    <button *ngIf="!selectedJob.acceptedBid" ion-button full (click)="viewBids(selectedJob)">View bids ({{selectedJob.bids.length}})</button>
+    <button *ngIf="selectedJob.acceptedBid" ion-button full (click)="viewProDetails(selectedJob)">View Pro Profile</button>
+    <button *ngIf="selectedJob.acceptedBid" ion-button full (click)="markJobComplete()">Mark Job Complete</button>
   </div>
 
   <!--<div *ngIf="currentTab === 'Hired Jobs'">-->

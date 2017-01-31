@@ -17,7 +17,7 @@ import {ToastService} from "../../services/toast.service";
   providers: [LoadingService, JobService, ToastService]
 })
 
-export class ManageBidsPage implements OnInit {
+export class ManageBidsPage {
 
   private profile: any;
   private jobsWithBids: any;
@@ -28,7 +28,7 @@ export class ManageBidsPage implements OnInit {
     this.profile = JSON.parse(localStorage.getItem("current_profile"));
   }
 
-  ngOnInit() {
+  ionViewWillEnter() {
     let params = {
       profile: this.profile._id,
       queryBy: 'placedBids'

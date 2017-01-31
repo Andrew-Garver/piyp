@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 
-import {NavController} from 'ionic-angular';
+import {NavController, NavParams} from 'ionic-angular';
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {LoadingService} from "../../services/loading.service";
 import {ToastService} from "../../services/toast.service";
@@ -16,11 +16,14 @@ export class RateUserPage {
 
   private formUserReview: FormGroup;
   private rating: number;
+  private userToBeRated: any;
+  private currentProfile: any;
 
   constructor(public navCtrl: NavController, private formBuilder: FormBuilder,
               private authService: AuthService, private loadingService: LoadingService,
-              private toastService: ToastService) {
-
+              private toastService: ToastService, private navParams: NavParams) {
+    this.currentProfile = JSON.parse(localStorage.getItem('current_profile'));
+    this.userToBeRated = navParams.get('userToBeRated');
     this.formUserReview = formBuilder.group({
       review: ['']
     });
