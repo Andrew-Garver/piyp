@@ -14,8 +14,11 @@
 </ion-header>
 
 <ion-content padding>
-  <div class="profile_pic">
-    <ion-icon name="contact"></ion-icon>
+  <div *ngIf="!profilePic" class="profile_pic">
+    <ion-icon name="contact" (click)="accessGallery()"></ion-icon>
+  </div>
+  <div *ngIf="profilePic">
+    <img class="img-circular" (click)="accessGallery()" [src]=profilePic>
   </div>
 
   <ion-list no-lines>
@@ -138,7 +141,8 @@
             <button *ngIf="currentProfileType === 'pro'" menuClose ion-item (click)="setupNewProfile('consumer')">Setup
               Consumer Profile
             </button>
-            <button *ngIf="currentProfileType === 'consumer'" menuClose ion-item (click)="setupNewProfile('pro')">Setup Pro
+            <button *ngIf="currentProfileType === 'consumer'" menuClose ion-item (click)="setupNewProfile('pro')">Setup
+              Pro
               Profile
             </button>
           </div>
@@ -218,7 +222,8 @@
             <button *ngIf="currentProfileType === 'pro'" menuClose ion-item (click)="setupNewProfile('consumer')">Setup
               Consumer Profile
             </button>
-            <button *ngIf="currentProfileType === 'consumer'" menuClose ion-item (click)="setupNewProfile('pro')">Setup Pro
+            <button *ngIf="currentProfileType === 'consumer'" menuClose ion-item (click)="setupNewProfile('pro')">Setup
+              Pro
               Profile
             </button>
           </div>

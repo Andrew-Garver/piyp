@@ -17,6 +17,7 @@ import {RateUserPage} from "../rate-user/rate-user";
 import {ErrorPage} from "../error/error";
 import {SelectProfilePage} from "../select-profile/select-profile";
 import {SelectInfoToEditPage} from "../settings/personal-info/select-info-to-edit";
+import {Camera} from "ionic-native";
 
 @Component({
   selector: 'page-profile',
@@ -30,6 +31,7 @@ export class ProfilePage {
   private user: any;
   private currentProfile: any;
   private currentProfileId: any;
+  private profilePic: any;
   private selectInfoPage: any = SelectInfoToEditPage;
 
   /*
@@ -61,6 +63,7 @@ export class ProfilePage {
               private profileService: ProfileService, private loadingService: LoadingService,
               private authService: AuthService, private toastService: ToastService, private app: App) {
     this.tabBarElement = document.querySelector('.tabbar');
+    this.profilePic = localStorage.getItem('profile_picture');
   }
 
   ionViewWillEnter() {
@@ -232,6 +235,19 @@ export class ProfilePage {
     else {
       this.navCtrl.push(ErrorPage);
     }
+  }
+
+  accessGallery(){
+    Camera.getPicture({
+      sourceType: Camera.PictureSourceType.SAVEDPHOTOALBUM,
+      destinationType: Camera.DestinationType.DATA_URL
+    }).then((imageData) => {
+      this.profilePic = 'data:image/jpeg;base64,'+imageData;
+      localStorage.setItem('profile_picture', this.profilePic);
+    }, (err) => {
+      this.toastService.presentToast("Something went wrong when trying to access your photos. Please try again.");
+      console.log(err);
+    });
   }
 
   setupNewProfile(type): Promise<any> {
