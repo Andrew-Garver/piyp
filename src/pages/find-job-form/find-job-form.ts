@@ -9,11 +9,12 @@ import {NearbyJobsPage} from "../nearby-jobs/nearby-jobs";
 import {LoginPage} from "../login/login";
 import {AuthService} from "../../services/auth.service";
 import {ServicesService} from "../../services/services.service";
+import {ProfileService} from "../../services/profile.service";
 
 @Component({
   selector: 'page-find-job-form',
   templateUrl: 'find-job-form.html',
-  providers: [AuthService, LoadingService, ToastService]
+  providers: [AuthService, LoadingService, ToastService, ProfileService]
 })
 export class FindJobFormPage {
 
@@ -23,7 +24,7 @@ export class FindJobFormPage {
 
   constructor(public navCtrl: NavController, private formBuilder: FormBuilder,
               private authService: AuthService, private loadingService: LoadingService,
-              private toastService: ToastService) {
+              private toastService: ToastService, private profileService: ProfileService) {
     this.formFindJobs = formBuilder.group({
       radius: ['', Validators.required],
       locType: ['', Validators.required],

@@ -10,6 +10,13 @@
         </button>
       </div>
     </ion-buttons>
+    <ion-buttons start>
+      <div class="nav-button-left">
+        <button ion-button (click)="switchProfile()">
+          Switch
+        </button>
+      </div>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
@@ -136,7 +143,7 @@
         <br><br>
         <ion-list-header>Account Actions</ion-list-header>
         <ion-list no-lines>
-          <button ion-item menuClose (click)="switchProfile()">Switch Profile</button>
+          <!--<button ion-item menuClose (click)="switchProfile()">Switch Profile</button>-->
           <div *ngIf="numProfiles < 2">
             <button *ngIf="currentProfileType === 'pro'" menuClose ion-item (click)="setupNewProfile('consumer')">Setup
               Consumer Profile
@@ -217,7 +224,7 @@
         <br><br>
         <ion-list-header>Account Actions</ion-list-header>
         <ion-list no-lines>
-          <button ion-item menuClose (click)="switchProfile()">Switch Profile</button>
+          <!--<button ion-item menuClose (click)="switchProfile()">Switch Profile</button>-->
           <div *ngIf="numProfiles < 2">
             <button *ngIf="currentProfileType === 'pro'" menuClose ion-item (click)="setupNewProfile('consumer')">Setup
               Consumer Profile

@@ -76,7 +76,6 @@ export class ProfilePage {
       })
       .then((profile) => {
         this.currentProfile = profile;
-        console.log(localStorage);
         this.loadingService.hideLoading();
         if (this.currentProfile.type === 'pro') {
           this.calculateProProgress();
@@ -211,6 +210,7 @@ export class ProfilePage {
     switch (page) {
       case 'hiredJobsPro':
         this.navCtrl.parent.select(0);
+        console.log(this.navCtrl.parent);
         break;
       case 'hiredJobsConsumer':
         this.navCtrl.parent.select(2);
