@@ -27,6 +27,7 @@ export class MyApp implements DoCheck, OnInit {
 
   constructor(private platform: Platform, private authService: AuthService, private app: App,
               private toastService: ToastService, private loadingService: LoadingService) {
+    // localStorage.clear();
     if (!localStorage.getItem('has_seen_intro'))
     {
       this.rootPage = IntroSlidesPage;

@@ -9,11 +9,6 @@
 <ion-content padding>
   <form #f="ngForm" [formGroup]="formJobRequest" (ngSubmit)="submitJobRequest()">
     <ion-item>
-      <ion-icon *ngIf="validate('jobName')" class="invalid" isActive="false" name="warning" item-left></ion-icon>
-      <ion-input type="text" formControlName="jobName" placeholder="Name of Job"></ion-input>
-    </ion-item>
-
-    <ion-item>
       <ion-label>Service Categories</ion-label>
       <ion-select formControlName="jobCategory">
         <ion-option *ngFor="let service of services" value="{{service._id}}">{{service.name}}</ion-option>
@@ -21,9 +16,15 @@
     </ion-item>
 
     <ion-item>
+      <ion-icon *ngIf="validate('jobName')" class="invalid" isActive="false" name="warning" item-left></ion-icon>
+      <ion-input type="text" formControlName="jobName" placeholder="Job Title"></ion-input>
+    </ion-item>
+
+    <ion-item>
       <ion-icon *ngIf="validate('jobDescription')" class="invalid" isActive="false" name="warning" item-left></ion-icon>
       <ion-textarea formControlName="jobDescription" placeholder="Job Description"></ion-textarea>
     </ion-item>
+    <p>Note: Try to be as detailed as possible in your description. This will help you attract more bids, quicker.</p>
 
     <br>
     <div class="bottom-button">

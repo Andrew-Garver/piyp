@@ -31,5 +31,4 @@ export class SelectProfilePage {
     localStorage.setItem('current_profile', JSON.stringify(this.user.profiles[1]));
     this.navCtrl.setRoot(TabsPage);
   }
-
 }

@@ -29,7 +29,6 @@
     <ion-searchbar (ionInput)="filterQuestions($event)"></ion-searchbar>
     <ion-list>
       <button ion-item (click)="viewQuestion(question)" *ngFor="let question of questions">
-        <p>{{question.inquirer.name}}</p>
         <h5>Q: {{question.question}}</h5>
         <h5>
           <ion-icon *ngIf="currentProfile.type === 'consumer' && !question.answer" class="alert" isActive="false" name="warning" item-left></ion-icon>

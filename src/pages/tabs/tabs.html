@@ -1,4 +1,4 @@
-<ion-tabs #tabs id="tabs" selectedIndex="3">
+<ion-tabs #tabs id="tabs" selectedIndex="{{landingTabNumber}}">
   <div *ngIf="profile && profile.type === 'consumer'">
     <ion-tab [root]="tab1Root" tabTitle="Find a Pro" tabIcon="ios-people"></ion-tab>
     <ion-tab [root]="tab2Root" tabTitle="Job Requests" tabIcon="ios-archive"></ion-tab>
@@ -7,7 +7,7 @@
   </div>
   <div *ngIf="profile && profile.type === 'pro'">
     <ion-tab [root]="tab1Root" tabTitle="Hired Jobs" tabIcon="ios-briefcase"></ion-tab>
-    <ion-tab [root]="tab2Root" tabTitle="Find Jobs" tabIcon="ios-archive"></ion-tab>
+    <ion-tab [root]="tab2Root" tabTitle="Find Jobs" tabIcon="ios-search"></ion-tab>
     <ion-tab [root]="tab3Root" tabTitle="Manage Bids" tabIcon="ios-filing"></ion-tab>
     <ion-tab [root]="tab4Root" tabTitle="Profile" tabIcon="ios-person"></ion-tab>
   </div>

@@ -1,11 +1,15 @@
 <ion-header>
   <ion-navbar>
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
     <ion-title>
       User Profile
     </ion-title>
+    <ion-buttons end>
+      <div class="nav-button-right">
+        <button ion-button (click)="logoutServer()">
+          Logout
+        </button>
+      </div>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
@@ -125,6 +129,21 @@
         <button ion-item (click)="goToPage('hiredJobsPro')">Active Jobs: {{activeJobsPro}}</button>
         <button ion-item (click)="goToPage('historicalJobs')">Total Jobs Worked: {{totalJobsWorked}}</button>
         <button ion-item (click)="goToPage('historicalJobs')">Total Amount Made: ${{totalAmountMade}}</button>
+
+        <br><br>
+        <ion-list-header>Account Actions</ion-list-header>
+        <ion-list no-lines>
+          <button ion-item menuClose (click)="switchProfile()">Switch Profile</button>
+          <div *ngIf="numProfiles < 2">
+            <button *ngIf="currentProfileType === 'pro'" menuClose ion-item (click)="setupNewProfile('consumer')">Setup
+              Consumer Profile
+            </button>
+            <button *ngIf="currentProfileType === 'consumer'" menuClose ion-item (click)="setupNewProfile('pro')">Setup Pro
+              Profile
+            </button>
+          </div>
+          <button menuClose ion-item (click)="pushPage(selectInfoPage)">Review Profile Info</button>
+        </ion-list>
       </div>
     </div>
 
@@ -190,6 +209,21 @@
         <button ion-item (click)="goToPage('hiredJobsConsumer')">Open Jobs: {{activeJobsConsumer}}</button>
         <button ion-item (click)="goToPage('historicalJobs')">Total Jobs Completed: {{totalJobsHired}}</button>
         <button ion-item (click)="goToPage('favoritePros')">Favortite Pros: {{favoritePro}}</button>
+
+        <br><br>
+        <ion-list-header>Account Actions</ion-list-header>
+        <ion-list no-lines>
+          <button ion-item menuClose (click)="switchProfile()">Switch Profile</button>
+          <div *ngIf="numProfiles < 2">
+            <button *ngIf="currentProfileType === 'pro'" menuClose ion-item (click)="setupNewProfile('consumer')">Setup
+              Consumer Profile
+            </button>
+            <button *ngIf="currentProfileType === 'consumer'" menuClose ion-item (click)="setupNewProfile('pro')">Setup Pro
+              Profile
+            </button>
+          </div>
+          <button menuClose ion-item (click)="pushPage(selectInfoPage)">Review Profile Info</button>
+        </ion-list>
       </div>
     </div>
   </ion-list>

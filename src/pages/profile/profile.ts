@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NavController, LoadingController} from "ionic-angular";
+import {NavController, LoadingController, App} from "ionic-angular";
 import {ProfileDOBForm} from "../profile-personal-info-forms/dob/dob";
 import {StripeTosPage} from "../profile-tos-forms/stripe-tos/stripe-tos";
 import {PiypTosPage} from "../profile-tos-forms/piyp-tos/piyp-tos";
@@ -14,6 +14,9 @@ import {LoginPage} from "../login/login";
 import {ToastService} from "../../services/toast.service";
 import {ProfilePersonalAddressForm} from "../profile-personal-info-forms/address/address";
 import {RateUserPage} from "../rate-user/rate-user";
+import {ErrorPage} from "../error/error";
+import {SelectProfilePage} from "../select-profile/select-profile";
+import {SelectInfoToEditPage} from "../settings/personal-info/select-info-to-edit";
 
 @Component({
   selector: 'page-profile',
@@ -27,6 +30,7 @@ export class ProfilePage {
   private user: any;
   private currentProfile: any;
   private currentProfileId: any;
+  private selectInfoPage: any = SelectInfoToEditPage;
 
   /*
    * 0: empty
@@ -55,7 +59,7 @@ export class ProfilePage {
 
   constructor(private navCtrl: NavController, private userService: UserService,
               private profileService: ProfileService, private loadingService: LoadingService,
-              private authService: AuthService, private toastService: ToastService) {
+              private authService: AuthService, private toastService: ToastService, private app: App) {
     this.tabBarElement = document.querySelector('.tabbar');
   }
 
@@ -212,6 +216,51 @@ export class ProfilePage {
         this.navCtrl.push(RateUserPage);
         break;
     }
+  }
+
+  pushPage(page) {
+    if (page) {
+      this.navCtrl.push(page)
+        .catch(() => {
+          this.authService.logout()
+            .then(() => {
+              this.navCtrl.setRoot(LoginPage);
+              this.toastService.presentToast("Your session has expired. Please login again.");
+            });
+        });
+    }
+    else {
+      this.navCtrl.push(ErrorPage);
+    }
+  }
+
+  setupNewProfile(type): Promise<any> {
+    this.navCtrl.setRoot(ProfilePage);
+    return Promise.resolve(true);
+    // return new Promise((resolve, reject) => {
+    //   this.loadingService.presentLoading();
+    //   this.registrationService.addProfile({profileType: type})
+    //     .then((data) => {
+    //       this.loadingService.hideLoading();
+    //       localStorage.setItem('current_profile', JSON.stringify(data.profile));
+    //       this.app.getRootNav().setRoot(ProfilePage);
+    //       resolve(data.profile);
+    //     })
+    //     .catch((err) => {
+    //       this.loadingService.hideLoading();
+    //       this.toastService.presentToast("Could not reach PIYP servers. Check your data connection and try again.");
+    //       console.log(err.message);
+    //       reject(err);
+    //     });
+    // });
+  }
+  switchProfile() {
+    this.app.getRootNav().push(SelectProfilePage, {switch_profile: true});
+  }
+
+  logoutServer() {
+    this.authService.logout()
+      .then(() => this.app.getRootNav().setRoot(LoginPage));
   }
 
 }
