@@ -8,7 +8,6 @@
 
 <ion-content padding>
   <ion-list>
-    <ion-label>{{selectedQuestion.inquirer.name}} asked</ion-label>
     <p>{{selectedQuestion.question}}</p>
     <ion-label *ngIf="selectedQuestion.answer">Answer</ion-label>
     <div *ngIf="profileType === 'pro' || selectedQuestion.answer">
