@@ -2,6 +2,9 @@ import {Injectable} from '@angular/core';
 import 'rxjs/add/operator/map';
 import {AuthHttp} from "angular2-jwt";
 import {AlertController} from "ionic-angular";
+import {getAuthHttp} from "../app/app.module";
+import {Response} from "@angular/http";
+import {Observable} from "rxjs";
 
 @Injectable()
 export class JobService {
@@ -12,32 +15,32 @@ export class JobService {
   postJob(formData): Promise<any> {
     return new Promise((resolve, reject) => {
       this.authHttp.post('http://localhost:3000/api/job', formData)
-        .map(res => res.json())
-        .subscribe(
-          data => {
-            resolve(data.job);
-          },
-          err => {
-            console.log(err);
-            reject(err);
-          }
-        );
+          .map(res => res.json())
+          .subscribe(
+              data => {
+                resolve(data.job);
+              },
+              err => {
+                console.log(err);
+                reject(err);
+              }
+          );
     });
   }
 
   acceptBid(jobId, formData): Promise<any> {
     return new Promise((resolve, reject) => {
       this.authHttp.post('http://localhost:3000/api/job/' + jobId, formData)
-        .map(res => res.json())
-        .subscribe(
-          data => {
-            resolve(data.job);
-          },
-          err => {
-            console.log(err);
-            reject(err);
-          }
-        );
+          .map(res => res.json())
+          .subscribe(
+              data => {
+                resolve(data.job);
+              },
+              err => {
+                console.log(err);
+                reject(err);
+              }
+          );
     });
   }
 
@@ -53,16 +56,16 @@ export class JobService {
 
     return new Promise((resolve, reject) => {
       this.authHttp.get('http://localhost:3000/api/jobs' + params)
-        .map(res => res.json())
-        .subscribe(
-          data => {
-            resolve(data.jobs);
-          },
-          err => {
-            console.log(err);
-            reject(err);
-          }
-        );
+          .map(res => res.json())
+          .subscribe(
+              data => {
+                resolve(data.jobs);
+              },
+              err => {
+                console.log(err);
+                reject(err);
+              }
+          );
     });
   }
 
@@ -83,12 +86,12 @@ export class JobService {
             handler: () => {
               console.log('Deleing job: ' + jobId);
               this.deleteJob(jobId)
-                .then(() => {
-                  resolve(true);
-                })
-                .catch(() => {
-                  reject(false);
-                });
+                  .then(() => {
+                    resolve(true);
+                  })
+                  .catch(() => {
+                    reject(false);
+                  });
             }
           }
         ]
@@ -112,5 +115,45 @@ export class JobService {
     //       }
     //     );
     // });
+  }
+
+  askQuestion(jobId, question): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.authHttp.post(`http://localhost:3000/api/job/${jobId}/question`, {question: question})
+          .map((response: Response) => {
+            let body = response.json();
+            if (body && body.success) {
+              return body.questions;
+            }
+            throw new Error('success was false.');
+          })
+          .catch((error) => {
+            console.log('Error asking question:', error);
+            return Observable.of(false);
+          })
+          .subscribe((result: any) => {
+            resolve(result);
+          });
+    });
+  }
+
+  answerQuestion(jobId, questionId, answer): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.authHttp.post(`http://localhost:3000/api/job/${jobId}/question/${questionId}/answer`, {answer: answer})
+          .map((response: Response) => {
+            let body = response.json();
+            if (body && body.success) {
+              return body.questions;
+            }
+            throw new Error('success was false.');
+          })
+          .catch((error) => {
+            console.log('Error answering question:', error);
+            return Observable.of(false);
+          })
+          .subscribe((result: any) => {
+            resolve(result);
+          });
+    });
   }
 }
