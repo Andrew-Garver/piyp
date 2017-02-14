@@ -10,9 +10,12 @@ import {RequestJobFormPage} from "../request-job-form/request-job-form";
 import {FindJobFormPage} from "../find-job-form/find-job-form";
 import {NavParams, Tabs, NavController, App} from "ionic-angular";
 import {ProfileService} from "../../services/profile.service";
+import {ToastService} from "../../services/toast.service";
+import {JobService} from "../../services/job.service";
 
 @Component({
   templateUrl: 'tabs.html',
+  providers: [JobService]
 })
 export class TabsPage {
 
@@ -23,8 +26,9 @@ export class TabsPage {
   tab3Root: any;
   tab4Root: any;
   landingTabNumber: number;
+  newBids: number = 0;
 
-  constructor(private app: App) {
+  constructor(private jobService: JobService) {
     // TODO: quitting in the select-profile page causes this to crash
     this.profile = JSON.parse(localStorage.getItem("current_profile"));
 
@@ -47,6 +51,28 @@ export class TabsPage {
         this.tab4Root = ProfilePage;
       }
     }
+  }
+
+  ionViewWillEnter() {
+    let params = {
+      profile: this.profile._id,
+      queryBy: 'creator'
+    };
+
+    // this.loadingService.presentLoading();
+    this.jobService.getJobs(params)
+      .then((jobs) => {
+        // this.loadingService.hideLoading();
+        for (let job of jobs) {
+          if (job.bids) {
+            this.newBids += job.bids.length;
+          }
+        }
+      })
+      .catch((err) => {
+        // this.loadingService.hideLoading();
+        console.log(err);
+      });
   }
 
 }

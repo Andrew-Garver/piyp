@@ -16,11 +16,12 @@ import {JobRequestsPage} from "../job-requests/job-requests";
 import {QuestionDetailsPage} from "../../question-details/question-details";
 import {AskQuestionFormPage} from "../ask-question-form/ask-question-form";
 import {RateUserPage} from "../rate-user/rate-user";
+import {LoadingService} from "../../services/loading.service";
 
 @Component({
   selector: 'page-job-details',
   templateUrl: 'job-details.html',
-  providers: [AuthService, ToastService, JobService]
+  providers: [AuthService, ToastService, JobService, LoadingService]
 })
 export class JobDetailsPage {
 
@@ -32,7 +33,7 @@ export class JobDetailsPage {
 
   constructor(public navCtrl: NavController, private authService: AuthService,
               private params: NavParams, private app: App, private toastService: ToastService,
-              private jobService: JobService) {
+              private jobService: JobService, private loadingService: LoadingService) {
     this.currentProfile = JSON.parse(localStorage.getItem('current_profile'));
     this.selectedJob = this.params.get("job");
 
@@ -137,19 +138,46 @@ export class JobDetailsPage {
     }
   }
 
+  private confirmJobComplete() {
+    this.loadingService.presentLoading();
+    this.jobService.consumerMarkJobComplete(this.selectedJob._id)
+      .then((result) => {
+        this.loadingService.hideLoading();
+        this.navCtrl.pop();
+      })
+      .catch((err) => {
+        this.loadingService.hideLoading();
+        this.toastService.presentToast(err);
+        console.log(err);
+      });
+  }
+
   private markJobComplete() {
-    let user = this.selectedJob._creator;
-    //TODO: Return bid creator info on bid
-    // if (this.currentProfile.type === 'consumer') {
-    //   user = this.winningBid._creator;
-    // }
-    this.navCtrl.push(RateUserPage, {userToBeRated: user})
-        .catch(() => {
-          this.authService.logout()
-              .then(() => {
-                this.logout();
-              });
-        });
+    this.loadingService.presentLoading();
+    this.jobService.proMarkJobComplete(this.selectedJob._id)
+      .then((result) => {
+      this.loadingService.hideLoading();
+      this.navCtrl.pop();
+      })
+      .catch((err) => {
+        this.loadingService.hideLoading();
+        this.toastService.presentToast(err);
+        console.log(err);
+      });
+
+
+    // let user = this.selectedJob._creator;
+    // //TODO: Return bid creator info on bid
+    // // if (this.currentProfile.type === 'consumer') {
+    // //   user = this.winningBid._creator;
+    // // }
+    // this.navCtrl.push(RateUserPage, {userToBeRated: user})
+    //     .catch(() => {
+    //       this.authService.logout()
+    //           .then(() => {
+    //             this.logout();
+    //           });
+    //     });
   }
 
   private viewCustomerDetails() {

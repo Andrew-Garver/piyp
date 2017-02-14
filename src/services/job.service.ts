@@ -156,4 +156,44 @@ export class JobService {
           });
     });
   }
+
+  proMarkJobComplete(jobId): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.authHttp.post(`http://localhost:3000/api/job/${jobId}`, {proMarkedComplete: true})
+        .map((response: Response) => {
+          let body = response.json();
+          if (body && body.success) {
+            return body.questions;
+          }
+          throw new Error('success was false.');
+        })
+        .catch((error) => {
+          console.log('Error for pro marking job complete:', error);
+          return Observable.of(false);
+        })
+        .subscribe((result: any) => {
+          resolve(result);
+        });
+    });
+  }
+
+  consumerMarkJobComplete(jobId): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.authHttp.post(`http://localhost:3000/api/job/${jobId}`, {userConfirmedComplete: true})
+        .map((response: Response) => {
+          let body = response.json();
+          if (body && body.success) {
+            return body.questions;
+          }
+          throw new Error('success was false.');
+        })
+        .catch((error) => {
+          console.log('Error for consumer marking job complete:', error);
+          return Observable.of(false);
+        })
+        .subscribe((result: any) => {
+          resolve(result);
+        });
+    });
+  }
 }

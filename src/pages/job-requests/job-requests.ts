@@ -18,6 +18,7 @@ export class JobRequestsPage {
 
   private profile: any;
   private requestedJobs: any;
+  private bidsPerJob: any = {};
 
   constructor(public navCtrl: NavController, private app: App, private authService: AuthService,
               private jobService: JobService, private loadingService: LoadingService,
@@ -36,6 +37,11 @@ export class JobRequestsPage {
       .then((jobs) => {
         this.loadingService.hideLoading();
         this.requestedJobs = jobs;
+        for (let job of jobs) {
+          if (job.bids) {
+            this.bidsPerJob[job._id] = job.bids.length;
+          }
+        }
         console.log(jobs);
       })
       .catch((err) => {
