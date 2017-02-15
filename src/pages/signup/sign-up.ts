@@ -11,11 +11,12 @@ import {UserService} from "../../services/user.service";
 import {LoadingService} from "../../services/loading.service";
 import {ToastService} from "../../services/toast.service";
 import {IntroSlidesPage} from "../into-slides/intro-slides";
+import {ProfileService} from "../../services/profile.service";
 
 @Component({
   selector: 'page-sign-up',
   templateUrl: 'sign-up.html',
-  providers: [AuthService, AccountCreationService, SignUpValidator, UserService, LoadingService, ToastService]
+  providers: [AuthService, AccountCreationService, SignUpValidator, UserService, LoadingService, ToastService, ProfileService]
 })
 
 export class SignUpPage {
@@ -40,7 +41,8 @@ export class SignUpPage {
   constructor(public navCtrl: NavController, private signUpValidator: SignUpValidator,
               public formBuilder: FormBuilder, private toastService: ToastService,
               private app: App, private accountCreationService: AccountCreationService,
-              private userService: UserService, private loadingService: LoadingService) {
+              private userService: UserService, private loadingService: LoadingService,
+              private profileService: ProfileService) {
     this.loginFieldsMissing = false;
     this.noAccountTypeSelected = false;
     this.passwordsMatch = true;
@@ -128,6 +130,11 @@ export class SignUpPage {
         .then((result) => {
           console.log("createAccount success");
           return this.userService.getUser();
+        })
+        .then((user) => {
+          if (user.profiles && user.profiles.length > 0) {
+            return this.profileService.getUserProfile(user.profiles[0]._id);
+          }
         })
         .then((result) => {
           console.log("getUser success");

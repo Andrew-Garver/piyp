@@ -143,12 +143,22 @@ export class JobDetailsPage {
     this.jobService.consumerMarkJobComplete(this.selectedJob._id)
       .then((result) => {
         this.loadingService.hideLoading();
-        this.navCtrl.pop();
+        this.leaveReview();
       })
       .catch((err) => {
         this.loadingService.hideLoading();
         this.toastService.presentToast(err);
         console.log(err);
+      });
+  }
+
+  private leaveReview() {
+    this.navCtrl.push(RateUserPage, {jobId: this.selectedJob._id})
+      .catch(() => {
+        this.authService.logout()
+          .then(() => {
+            this.logout();
+          });
       });
   }
 
@@ -164,20 +174,6 @@ export class JobDetailsPage {
         this.toastService.presentToast(err);
         console.log(err);
       });
-
-
-    // let user = this.selectedJob._creator;
-    // //TODO: Return bid creator info on bid
-    // // if (this.currentProfile.type === 'consumer') {
-    // //   user = this.winningBid._creator;
-    // // }
-    // this.navCtrl.push(RateUserPage, {userToBeRated: user})
-    //     .catch(() => {
-    //       this.authService.logout()
-    //           .then(() => {
-    //             this.logout();
-    //           });
-    //     });
   }
 
   private viewCustomerDetails() {

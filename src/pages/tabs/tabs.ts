@@ -29,7 +29,7 @@ export class TabsPage {
   newBids: number = 0;
 
   constructor(private jobService: JobService) {
-    // TODO: quitting in the select-profile page causes this to crash
+    // TODO: quitting in the select-profile page might cause this to crash
     this.profile = JSON.parse(localStorage.getItem("current_profile"));
 
     if (this.profile.type === "pro" && (!this.profile.stripeAccount || !this.profile.stripeAccount.external_accounts.total_count) ||

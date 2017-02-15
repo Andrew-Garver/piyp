@@ -9,39 +9,32 @@ import {UserService} from "../../services/user.service";
 import {ToastService} from "../../services/toast.service";
 import {LoadingService} from "../../services/loading.service";
 import {IntroSlidesPage} from "../into-slides/intro-slides";
+import {ProfileService} from "../../services/profile.service";
 
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html',
-  providers: [AuthService, UserService, ToastService, LoadingService]
+  providers: [AuthService, UserService, ToastService, LoadingService, ProfileService]
 })
 
 export class LoginPage {
 
   constructor(private authService: AuthService, private navCtrl: NavController,
               private userService: UserService, private toastService: ToastService,
-              private loadingService: LoadingService) {
+              private loadingService: LoadingService, private profileService: ProfileService) {
 
   }
-
-  // ionViewWillEnter() {
-  //   this.authService.loggedIn()
-  //     .then((data) => {
-  //       if (data) {
-  //         this.navCtrl.push(TabsPage);
-  //       }
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //       console.log("something went wrong auto-logging")
-  //     });
-  // }
 
   login(credentials): void {
     this.loadingService.presentLoading();
     this.authService.login(credentials)
       .then((result) => {
         return this.userService.getUser();
+      })
+      .then((user) => {
+        if (user.profiles && user.profiles.length > 0) {
+          return this.profileService.getUserProfile(user.profiles[0]._id);
+        }
       })
       .then((result) => {
         this.loadingService.hideLoading();

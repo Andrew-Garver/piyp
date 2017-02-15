@@ -1,21 +1,28 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Rating
+      Review
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <h5>Were you satisfied doing business with {{userToBeRated.firstName}}? Leave them a review!</h5>
-  <br>
+  <div *ngIf="currentProfile.type === 'pro'">
+    <h5>Were you satisfied doing business with this Consumer? Leave them a review!</h5>
+    <br>
+    <ion-label>How satisfied were you with this Consumer?</ion-label>
+  </div>
 
+  <div *ngIf="currentProfile.type === 'consumer'">
+    <h5>Were you satisfied doing business with this Pro? Leave them a review!</h5>
+    <br>
+    <ion-label>How satisfied were you with this Pro?</ion-label>
+  </div>
 
-  <ion-label>How satisfied were you with {{userToBeRated.firstName}}?</ion-label>
   <rating [(ngModel)]="rating"></rating>
 
   <form #f="ngForm" [formGroup]="formUserReview" (ngSubmit)="submitReview()">
-    <ion-label>Leave them a review, if you wish.</ion-label>
+    <ion-label>Leave them a review!</ion-label>
     <ion-textarea formControlName="review" placeholder="Type your review here..."></ion-textarea>
 
     <div class="bottom-button">

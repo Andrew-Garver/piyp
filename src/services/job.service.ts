@@ -162,10 +162,6 @@ export class JobService {
       this.authHttp.post(`http://localhost:3000/api/job/${jobId}`, {proMarkedComplete: true})
         .map((response: Response) => {
           let body = response.json();
-          if (body && body.success) {
-            return body.questions;
-          }
-          throw new Error('success was false.');
         })
         .catch((error) => {
           console.log('Error for pro marking job complete:', error);
@@ -179,16 +175,28 @@ export class JobService {
 
   consumerMarkJobComplete(jobId): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.authHttp.post(`http://localhost:3000/api/job/${jobId}`, {userConfirmedComplete: true})
+      this.authHttp.post(`http://localhost:3000/api/job/${jobId}`, {consumerConfirmedComplete: true})
         .map((response: Response) => {
           let body = response.json();
-          if (body && body.success) {
-            return body.questions;
-          }
-          throw new Error('success was false.');
         })
         .catch((error) => {
           console.log('Error for consumer marking job complete:', error);
+          return Observable.of(false);
+        })
+        .subscribe((result: any) => {
+          resolve(result);
+        });
+    });
+  }
+
+  leaveReview(params): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.authHttp.post(`http://localhost:3000/api/job/${params.jobId}/review/${params.profileType}`, {rating: params.rating, review: params.review})
+        .map((response: Response) => {
+          let body = response.json();
+        })
+        .catch((error) => {
+          console.log('Error leaving review for consumer:', error);
           return Observable.of(false);
         })
         .subscribe((result: any) => {
