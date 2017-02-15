@@ -53,16 +53,4 @@
     <button *ngIf="selectedJob.acceptedBid" ion-button full (click)="viewProDetails(selectedJob)">View Pro Profile</button>
     <button *ngIf="selectedJob.acceptedBid" ion-button full (click)="confirmJobComplete()" [attr.disabled]="selectedJob.proMarkedComplete ? null : ''">Confirm Job Complete</button>
   </div>
-
-  <!--<div *ngIf="currentTab === 'Hired Jobs'">-->
-  <!--<button ion-button full (click)="markJobComplete(selectedJob.id)">Mark Job as Complete</button>-->
-  <!--</div>-->
-  <!--<div *ngIf="currentTab === 'Manage Bids'">-->
-  <!--<div *ngIf="prosBid">-->
-  <!--<br>-->
-  <!--<button ion-item>Your Bid: {{prosBid.amount}}</button>-->
-  <!--<button ion-button full (click)="editBid(prosBid)">Edit Your Bid</button>-->
-  <!--</div>-->
-  <!--<button ion-button full (click)="viewBids(selectedJob.id)">View All Bids</button>-->
-  <!--</div>-->
 </ion-content>

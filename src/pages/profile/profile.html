@@ -11,7 +11,7 @@
       </div>
     </ion-buttons>
     <ion-buttons start>
-      <div class="nav-button-left">
+      <div *ngIf="user && user.profiles && user.profiles.length > 1" class="nav-button-left">
         <button ion-button (click)="switchProfile()">
           Switch
         </button>
