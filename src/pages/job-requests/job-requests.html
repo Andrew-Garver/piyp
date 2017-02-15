@@ -16,7 +16,7 @@
     <ion-list>
       <button ion-item *ngFor="let job of requestedJobs" (click)="viewJobDetails(job)">
         {{job.request.title}}
-        <ion-badge *ngIf="bidsPerJob[job._id]" item-right>{{bidsPerJob[job._id]}}</ion-badge>
+        <!--<ion-badge *ngIf="bidsPerJob[job._id]" item-right>{{bidsPerJob[job._id]}}</ion-badge>-->
       </button>
     </ion-list>
   </div>

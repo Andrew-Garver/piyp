@@ -20,11 +20,6 @@ export class SelectProfilePage {
   private profileService: ProfileService, private toastService: ToastService) {
     this.user = JSON.parse(localStorage.getItem('current_user'));
     this.switchProfile = params.get('switch_profile');
-
-    // This is just in case the user exits the app before selecting a profile, we don't want them in limbo.
-    // if (!localStorage.getItem('current_profile')) {
-    //   localStorage.setItem('current_profile', JSON.stringify(this.user.profiles[0]));
-    // }
   }
 
   setProfile(profileId) {
