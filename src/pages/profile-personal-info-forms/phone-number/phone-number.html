@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Address</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <h5 *ngIf="!edit">What's your phone number?</h5>
+  <h5 *ngIf="edit">Does this need to change?</h5>
+
+  <form #f="ngForm" [formGroup]="phoneNumberForm" (ngSubmit)="finishForm()">
+    <ion-item>
+      <ion-label floating>Phone Number</ion-label>
+      <ion-input type="number" formControlName="phoneNumber"></ion-input>
+    </ion-item>
+
+    <div class="bottom-button">
+      <button *ngIf="!edit" type="submit" ion-button full>Finish</button>
+      <button *ngIf="edit" type="submit" ion-button full>Update</button>
+    </div>
+  </form>
+</ion-content>

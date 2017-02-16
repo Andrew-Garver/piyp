@@ -12,7 +12,7 @@
     <p class="invalid-head">Please fill out all form fields carefully</p>
   </div>
 
-  <form #f="ngForm" [formGroup]="addressForm" (ngSubmit)="finishForm()">
+  <form #f="ngForm" [formGroup]="addressForm" (ngSubmit)="nextPage()">
 
     <ion-item>
       <ion-label floating>Address Line 1</ion-label>
@@ -96,7 +96,7 @@
     </div>
 
     <div class="bottom-button">
-      <button *ngIf="!edit" type="submit" ion-button full>Finish</button>
+      <button *ngIf="!edit" type="submit" ion-button full>Next</button>
       <button *ngIf="edit" type="submit" ion-button full>Update</button>
     </div>
   </form>

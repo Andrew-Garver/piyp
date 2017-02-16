@@ -151,7 +151,7 @@ export class ProfilePage {
       if (this.currentProfile.stripeAccount.legal_entity.personal_address.line1 &&
         this.currentProfile.stripeAccount.legal_entity.personal_address.postal_code &&
         this.currentProfile.stripeAccount.legal_entity.personal_address.state &&
-        this.currentProfile.stripeAccount.legal_entity.personal_address.city) {
+        this.currentProfile.stripeAccount.legal_entity.personal_address.city) { // TODO: Add phone number logic
         this.loadProgress = 50;
         this.personalInfoProgress = 2;
       }
@@ -186,7 +186,7 @@ export class ProfilePage {
       if (this.currentProfile.personalAddress && this.currentProfile.personalAddress.line1 &&
         this.currentProfile.personalAddress.postalCode &&
         this.currentProfile.personalAddress.state &&
-        this.currentProfile.personalAddress.city) {
+        this.currentProfile.personalAddress.city) { // TODO: Add phone number logic
         this.loadProgress = 50;
         this.personalInfoProgress = 2;
       }
