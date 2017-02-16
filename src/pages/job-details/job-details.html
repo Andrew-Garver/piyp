@@ -44,7 +44,7 @@
     <button *ngIf="selectedJob.acceptedBid" ion-button full (click)="viewCustomerDetails()">View Customer Profile</button>
     <button *ngIf="selectedJob.acceptedBid && !selectedJob.proMarkedComplete" ion-button full (click)="markJobComplete()">Mark Job Complete</button>
     <button *ngIf="selectedJob.acceptedBid && selectedJob.proMarkedComplete" ion-button full (click)="leaveReview()" [attr.disabled]="selectedJob.consumerConfirmedComplete ? '' : null">Review Consumer</button>
-    <button *ngIf="selectedJob.bids.length > 0 && !selectedJob.acceptedBid" ion-button full (click)="editBid(selectedJob)">Edit Bid</button>
+    <button *ngIf="selectedJob.bids.length > 0 && !selectedJob.acceptedBid" ion-button full color="danger" (click)="deleteBid(selectedJob)">Delete Bid</button>
     <button *ngIf="selectedJob.bids.length === 0" ion-button full (click)="placeBid(selectedJob)">Place Bid</button>
   </div>
 

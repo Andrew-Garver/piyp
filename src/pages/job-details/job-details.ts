@@ -17,34 +17,28 @@ import {QuestionDetailsPage} from "../../question-details/question-details";
 import {AskQuestionFormPage} from "../ask-question-form/ask-question-form";
 import {RateUserPage} from "../rate-user/rate-user";
 import {LoadingService} from "../../services/loading.service";
+import {BidService} from "../../services/bid.service";
 
 @Component({
   selector: 'page-job-details',
   templateUrl: 'job-details.html',
-  providers: [AuthService, ToastService, JobService, LoadingService]
+  providers: [AuthService, ToastService, JobService, LoadingService, BidService]
 })
 export class JobDetailsPage {
 
   private selectedJob: any;
-  private prosBid: any;
   private currentProfile: any;
   private questions: any;
   private winningBid: any;
 
   constructor(public navCtrl: NavController, private authService: AuthService,
               private params: NavParams, private app: App, private toastService: ToastService,
-              private jobService: JobService, private loadingService: LoadingService) {
+              private jobService: JobService, private loadingService: LoadingService, private bidService: BidService) {
     this.currentProfile = JSON.parse(localStorage.getItem('current_profile'));
     this.selectedJob = this.params.get("job");
-
-    if (params.get("bid")) {
-      this.prosBid = params.get("bid");
-    }
   }
 
   ionViewWillEnter() {
-    console.log(this.selectedJob);
-    // TODO: Pull questions and answers from job obj
     this.getQuestions();
 
     for (let bid of this.selectedJob.bids) {
@@ -62,61 +56,52 @@ export class JobDetailsPage {
   ionViewCanEnter(): Promise<boolean> {
     return new Promise((resolve, reject) => {
       this.authService.loggedIn()
-          .then((data) => {
-            if (data) {
-              resolve(true);
-            }
-            else {
-              resolve(false);
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-            reject(err);
-          });
+        .then((data) => {
+          if (data) {
+            resolve(true);
+          }
+          else {
+            resolve(false);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          reject(err);
+        });
     });
   }
 
-  private deleteBid(bid) {
-    console.log("Editing bid");
+  private deleteBid() {
+    this.bidService.deleteBid(this.selectedJob._id, this.selectedJob.bids[0]._id)
+      .then((data) => {
+        this.navCtrl.pop();
+      })
+      .catch(() => {
+        this.toastService.presentToast("Could not delete job at this time. Please try again later.");
+      });
   }
 
   private deleteJob() {
     this.jobService.confirmDelete(this.selectedJob._id)
-        .then((data) => {
-          if (data) {
-            this.navCtrl.setRoot(JobRequestsPage);
-          }
-        })
-        .catch(() => {
-          this.toastService.presentToast("Could not delete job at this time. Please try again later.");
-        });
+      .then((data) => {
+        if (data) {
+          this.navCtrl.setRoot(JobRequestsPage);
+        }
+      })
+      .catch(() => {
+        this.toastService.presentToast("Could not delete job at this time. Please try again later.");
+      });
   }
 
   private placeBid(selectedJob) {
     if (selectedJob) {
       this.navCtrl.push(PlaceBidPage, {job: selectedJob})
-          .catch(() => {
-            this.authService.logout()
-                .then(() => {
-                  this.logout();
-                });
-          });
-    }
-    else {
-      this.navCtrl.push(ErrorPage);
-    }
-  }
-
-  private editBid(selectedJob) {
-    if (selectedJob) {
-      this.navCtrl.push(PlaceBidPage, {job: selectedJob, edit: true})
-          .catch(() => {
-            this.authService.logout()
-                .then(() => {
-                  this.logout();
-                });
-          });
+        .catch(() => {
+          this.authService.logout()
+            .then(() => {
+              this.logout();
+            });
+        });
     }
     else {
       this.navCtrl.push(ErrorPage);
@@ -126,12 +111,12 @@ export class JobDetailsPage {
   private viewBids(selectedJob) {
     if (selectedJob) {
       this.navCtrl.push(BidsPage, {job: selectedJob})
-          .catch(() => {
-            this.authService.logout()
-                .then(() => {
-                  this.logout();
-                });
-          });
+        .catch(() => {
+          this.authService.logout()
+            .then(() => {
+              this.logout();
+            });
+        });
     }
     else {
       this.navCtrl.push(ErrorPage);
@@ -166,8 +151,8 @@ export class JobDetailsPage {
     this.loadingService.presentLoading();
     this.jobService.proMarkJobComplete(this.selectedJob._id)
       .then((result) => {
-      this.loadingService.hideLoading();
-      this.navCtrl.pop();
+        this.loadingService.hideLoading();
+        this.navCtrl.pop();
       })
       .catch((err) => {
         this.loadingService.hideLoading();
@@ -178,23 +163,23 @@ export class JobDetailsPage {
 
   private viewCustomerDetails() {
     this.navCtrl.push(CustomerDetailsPage, {customer: this.selectedJob._creator})
-        .catch(() => {
-          this.authService.logout()
-              .then(() => {
-                this.logout();
-              });
-        });
+      .catch(() => {
+        this.authService.logout()
+          .then(() => {
+            this.logout();
+          });
+      });
   }
 
   private viewProDetails(pro: Pro) {
     if (pro) {
       this.navCtrl.push(ProDetailsPage, {pro: pro})
-          .catch(() => {
-            this.authService.logout()
-                .then(() => {
-                  this.logout();
-                });
-          });
+        .catch(() => {
+          this.authService.logout()
+            .then(() => {
+              this.logout();
+            });
+        });
     }
     else {
       this.navCtrl.push(ErrorPage);
@@ -204,23 +189,23 @@ export class JobDetailsPage {
   viewQuestion(question) {
     console.log('viewing question:', question);
     this.navCtrl.push(QuestionDetailsPage, {question: question, job: this.selectedJob})
-        .catch(() => {
-          this.authService.logout()
-              .then(() => {
-                this.logout();
-              });
-        });
+      .catch(() => {
+        this.authService.logout()
+          .then(() => {
+            this.logout();
+          });
+      });
   }
 
   askQuestion(jobId) {
     console.log('jobId:', this.selectedJob._id);
     this.navCtrl.push(AskQuestionFormPage, {job: this.selectedJob})
-        .catch(() => {
-          this.authService.logout()
-              .then(() => {
-                this.logout();
-              });
-        });
+      .catch(() => {
+        this.authService.logout()
+          .then(() => {
+            this.logout();
+          });
+      });
   }
 
   filterQuestions(ev: any) {

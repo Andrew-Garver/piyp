@@ -42,7 +42,7 @@ export class PlaceBidPage {
         .then(() => {
           this.loadingService.hideLoading();
           this.navCtrl.popToRoot();
-          this.navCtrl.parent.select(2);
+          this.navCtrl.parent.select(1);
         })
         .catch((err) => {
           console.log(err);
