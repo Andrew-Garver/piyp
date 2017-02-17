@@ -33,8 +33,10 @@ export class NearbyJobsPage {
     this.jobService.getJobs(params)
       .then((jobs) => {
         this.loadingService.hideLoading();
-        this.nearbyJobs = jobs;
         console.log(jobs);
+        this.nearbyJobs = jobs.filter((job) => {
+          return job.bids.length === 0;
+        });
       })
       .catch((err) => {
         this.loadingService.hideLoading();

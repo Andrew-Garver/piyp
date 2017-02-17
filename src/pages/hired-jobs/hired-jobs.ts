@@ -37,7 +37,9 @@ export class HiredJobsPage {
     this.jobService.getJobs(params)
       .then((jobs) => {
         this.loadingService.hideLoading();
-        this.hiredJobs = jobs;
+        this.hiredJobs = jobs.filter((job) => {
+          return !job.proLeftFeedback;
+        });
         console.log(jobs);
       })
       .catch((err) => {
