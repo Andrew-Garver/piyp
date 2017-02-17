@@ -11,7 +11,7 @@ import {BusinessTypeForm} from "../../profile-business-info-forms/business-type/
 import {BusinessNameForm} from "../../profile-business-info-forms/business-name/business-name";
 import {BusinessAddressForm} from "../../profile-business-info-forms/business-address/business-address";
 import {BankAccountsPage} from "../../bank-accounts/bank-accounts";
-import {PhoneNumberPage} from "../../profile-personal-info-forms/phone-number/phone-number";
+import {PhoneNumberPage} from "../../phone-number/phone-number";
 
 
 @Component({

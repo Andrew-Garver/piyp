@@ -11,6 +11,7 @@ import {AuthService} from "../../../services/auth.service";
 import {ToastService} from "../../../services/toast.service";
 import {LoginPage} from "../../login/login";
 import {BusinessTaxIdForm} from "../business-tax-id/business-tax-id";
+import {PhoneNumberPage} from "../../phone-number/phone-number";
 
 @Component({
   selector: 'page-business-address-form',
@@ -31,7 +32,7 @@ export class BusinessAddressForm {
               private navParams: NavParams) {
     this.zipCodeIsValid = true;
     this.edit = this.navParams.get('edit');
-      this.business = JSON.parse(localStorage.getItem('current_profile')).stripeAccount.legal_entity;
+    this.business = JSON.parse(localStorage.getItem('current_profile')).stripeAccount.legal_entity;
 
     this.businessAddressForm = formBuilder.group({
       addressLine1: [this.business.address ? this.business.address.line1 : '', Validators.required],
@@ -57,7 +58,7 @@ export class BusinessAddressForm {
               });
           }
           else {
-            this.navCtrl.push(this.business.type === 'individual' ? BusinessServicesForm : BusinessTaxIdForm)
+            this.navCtrl.push(PhoneNumberPage)
               .catch(() => {
                 this.logout();
               });

@@ -44,7 +44,7 @@ import {AskQuestionFormPage} from "../pages/ask-question-form/ask-question-form"
 import {Ionic2RatingModule} from "ionic2-rating";
 import {RateUserPage} from "../pages/rate-user/rate-user";
 import {IntroSlidesPage} from "../pages/into-slides/intro-slides";
-import {PhoneNumberPage} from "../pages/profile-personal-info-forms/phone-number/phone-number";
+import {PhoneNumberPage} from "../pages/phone-number/phone-number";
 
 export function getAuthHttp(http) {
   return new AuthHttp(new AuthConfig({

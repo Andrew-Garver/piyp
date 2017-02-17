@@ -1,15 +1,14 @@
 import {Component} from '@angular/core';
 
 import {NavController, NavParams} from 'ionic-angular';
-import {TabsPage} from "../../tabs/tabs";
 import {Validators, FormBuilder, FormGroup} from "@angular/forms";
-import {ProfilePage} from "../../profile/profile";
 import {ProfileService} from "../../../services/profile.service";
 import {LoadingService} from "../../../services/loading.service";
 import {ToastService} from "../../../services/toast.service";
 import {AuthService} from "../../../services/auth.service";
 import {LoginPage} from "../../login/login";
-import {PhoneNumberPage} from "../phone-number/phone-number";
+import {PhoneNumberPage} from "../../phone-number/phone-number";
+import {ProfilePage} from "../../profile/profile";
 
 @Component({
   selector: 'page-profile-personal-address-form',
@@ -21,6 +20,7 @@ export class ProfilePersonalAddressForm {
   private zipCodeIsValid: boolean;
   private formFieldsMissing: boolean;
   private edit: boolean;
+  private currentProfile: any;
 
   constructor(public navCtrl: NavController, private formBuilder: FormBuilder,
               private profileService: ProfileService, private loadingService: LoadingService,
@@ -29,7 +29,8 @@ export class ProfilePersonalAddressForm {
     this.zipCodeIsValid = true;
 
     this.edit = this.navParams.get('edit');
-    let personalAddress = JSON.parse(localStorage.getItem('current_profile')).personalAddress;
+    this.currentProfile = JSON.parse(localStorage.getItem('current_profile'));
+    let personalAddress = this.currentProfile.personalAddress;
     let addressLine1, addressLine2, state, city, zipCode;
 
     if (personalAddress) {
@@ -68,7 +69,12 @@ export class ProfilePersonalAddressForm {
               });
           }
           else {
-            this.navCtrl.push(PhoneNumberPage);
+            if (this.currentProfile.type === 'consumer') {
+              this.navCtrl.push(PhoneNumberPage);
+            }
+            else {
+              this.navCtrl.setRoot(ProfilePage);
+            }
           }
         })
         .catch((err) => {

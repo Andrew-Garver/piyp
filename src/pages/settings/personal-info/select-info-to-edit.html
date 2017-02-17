@@ -10,7 +10,7 @@
   <ion-list-header>Personal Info</ion-list-header>
   <ion-list>
     <button ion-item (click)="pushPage(personalAddressPage)">Personal Address</button>
-    <button ion-item (click)="pushPage(phoneNumberPage)">Phone Number</button>
+    <button *ngIf="currentProfileType === 'consumer'" ion-item (click)="pushPage(phoneNumberPage)">Phone Number</button>
   </ion-list>
 
   <div *ngIf="currentProfileType === 'pro'">
@@ -19,6 +19,7 @@
       <button ion-item (click)="pushPage(businessTypePage)">Business Type</button>
       <button ion-item (click)="pushPage(businessNamePage)">Business Name</button>
       <button ion-item (click)="pushPage(businessAddressPage)">Business Address</button>
+      <button *ngIf="currentProfileType === 'pro'" ion-item (click)="pushPage(phoneNumberPage)">Phone Number</button>
       <button ion-item (click)="pushPage(servicesOfferedPage)">Services Offered</button>
     </ion-list>
 

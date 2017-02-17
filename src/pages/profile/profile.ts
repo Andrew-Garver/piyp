@@ -151,7 +151,7 @@ export class ProfilePage {
       if (this.currentProfile.stripeAccount.legal_entity.personal_address.line1 &&
         this.currentProfile.stripeAccount.legal_entity.personal_address.postal_code &&
         this.currentProfile.stripeAccount.legal_entity.personal_address.state &&
-        this.currentProfile.stripeAccount.legal_entity.personal_address.city) { // TODO: Add phone number logic
+        this.currentProfile.stripeAccount.legal_entity.personal_address.city) {
         this.loadProgress = 50;
         this.personalInfoProgress = 2;
       }
@@ -160,7 +160,7 @@ export class ProfilePage {
         this.businessInfoProgress = 1;
       }
       if (this.currentProfile.registeredServices.length > 0 &&
-        this.currentProfile.businessAddress &&
+        this.currentProfile.businessAddress && this.currentProfile.businessPhone &&
         (this.currentProfile.stripeAccount.legal_entity.business_tax_id_provided || this.currentProfile.stripeAccount.legal_entity.type === 'individual')) {
         this.loadProgress = 75;
         this.businessInfoProgress = 2;
@@ -186,7 +186,7 @@ export class ProfilePage {
       if (this.currentProfile.personalAddress && this.currentProfile.personalAddress.line1 &&
         this.currentProfile.personalAddress.postalCode &&
         this.currentProfile.personalAddress.state &&
-        this.currentProfile.personalAddress.city) { // TODO: Add phone number logic
+        this.currentProfile.personalAddress.city && this.currentProfile.personalPhone) {
         this.loadProgress = 50;
         this.personalInfoProgress = 2;
       }
@@ -237,12 +237,12 @@ export class ProfilePage {
     }
   }
 
-  accessGallery(){
+  accessGallery() {
     Camera.getPicture({
       sourceType: Camera.PictureSourceType.SAVEDPHOTOALBUM,
       destinationType: Camera.DestinationType.DATA_URL
     }).then((imageData) => {
-      this.profilePic = 'data:image/jpeg;base64,'+imageData;
+      this.profilePic = 'data:image/jpeg;base64,' + imageData;
       localStorage.setItem('profile_picture', this.profilePic);
     }, (err) => {
       this.toastService.presentToast("Something went wrong when trying to access your photos. Please try again.");
@@ -270,6 +270,7 @@ export class ProfilePage {
     //     });
     // });
   }
+
   switchProfile() {
     this.app.getRootNav().push(SelectProfilePage, {switch_profile: true});
   }

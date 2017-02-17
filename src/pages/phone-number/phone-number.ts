@@ -1,14 +1,15 @@
 import {Component} from '@angular/core';
 
 import {NavController, NavParams} from 'ionic-angular';
-import {TabsPage} from "../../tabs/tabs";
 import {Validators, FormBuilder, FormGroup} from "@angular/forms";
-import {ProfilePage} from "../../profile/profile";
-import {ProfileService} from "../../../services/profile.service";
-import {LoadingService} from "../../../services/loading.service";
-import {ToastService} from "../../../services/toast.service";
-import {AuthService} from "../../../services/auth.service";
-import {LoginPage} from "../../login/login";
+import {ProfileService} from "../../services/profile.service";
+import {LoadingService} from "../../services/loading.service";
+import {AuthService} from "../../services/auth.service";
+import {ToastService} from "../../services/toast.service";
+import {LoginPage} from "../login/login";
+import {ProfilePage} from "../profile/profile";
+import {BusinessServicesForm} from "../profile-business-info-forms/business-services/business-services";
+import {BusinessTaxIdForm} from "../profile-business-info-forms/business-tax-id/business-tax-id";
 
 @Component({
   selector: 'page-phone-number',
@@ -17,7 +18,9 @@ import {LoginPage} from "../../login/login";
 })
 export class PhoneNumberPage {
   private phoneNumberForm: FormGroup;
+  private currentProfile: any;
   private edit: boolean;
+  private business: any;
 
   constructor(public navCtrl: NavController, private formBuilder: FormBuilder,
               private profileService: ProfileService, private loadingService: LoadingService,
@@ -25,10 +28,12 @@ export class PhoneNumberPage {
               private navParams: NavParams) {
 
     this.edit = this.navParams.get('edit');
-    //TODO: prepopulate phone number, if exists.
+    this.currentProfile = JSON.parse(localStorage.getItem('current_profile'));
+    this.business = JSON.parse(localStorage.getItem('current_profile')).stripeAccount.legal_entity;
+    let phoneNumber = JSON.parse(localStorage.getItem('current_profile'))[this.currentProfile.type === 'consumer' ? "personalPhone" : "businessPhone"];
 
     this.phoneNumberForm = formBuilder.group({
-      phoneNumber: ['', Validators.required],
+      phoneNumber: [phoneNumber, Validators.required],
     });
   }
 
@@ -49,7 +54,12 @@ export class PhoneNumberPage {
               });
           }
           else {
-            this.navCtrl.setRoot(ProfilePage);
+            if (this.currentProfile.type === 'consumer') {
+              this.navCtrl.setRoot(ProfilePage);
+            }
+            else {
+              this.navCtrl.push(this.business.type === 'individual' ? BusinessServicesForm : BusinessTaxIdForm)
+            }
           }
         })
         .catch((err) => {
@@ -61,9 +71,16 @@ export class PhoneNumberPage {
   }
 
   postData(): Promise<any> {
-    return Promise.resolve(true);
-    // let profileId = JSON.parse(localStorage.getItem('current_profile'))._id;
-    // return this.profileService.updateUserProfile(profileId, {phoneNumber: this.phoneNumberForm.value.phoneNumber});
+    let profileId = JSON.parse(localStorage.getItem('current_profile'))._id;
+    let params = {};
+    if (this.currentProfile.type === "consumer") {
+      params["personalPhone"] = this.phoneNumberForm.value.phoneNumber;
+    }
+    else {
+      params["businessPhone"] = this.phoneNumberForm.value.phoneNumber;
+    }
+
+    return this.profileService.updateUserProfile(profileId, params);
   }
 
   ionViewCanEnter(): Promise<boolean> {
