@@ -19,6 +19,7 @@ import {SelectProfilePage} from "../select-profile/select-profile";
 import {SelectInfoToEditPage} from "../settings/personal-info/select-info-to-edit";
 import {Camera} from "ionic-native";
 import {JobService} from "../../services/job.service";
+import {BidsPage} from "../bids/bids";
 
 @Component({
   selector: 'page-profile',
@@ -34,6 +35,7 @@ export class ProfilePage {
   private currentProfileId: any;
   private profilePic: any;
   private selectInfoPage: any = SelectInfoToEditPage;
+  private bidsPage: any = BidsPage;
 
   /*
    * 0: empty
@@ -51,8 +53,8 @@ export class ProfilePage {
    */
   // Pro
   private amountInAccount: number = 0;
-  private completedJobs: number = 0;
-  private lostBids: number = 0;
+  private bidsWon: any[] = [];
+  private bidsLost: any[] = [];
 
   // Consumer
   private activeJobsConsumer: number = 0;
@@ -93,7 +95,19 @@ export class ProfilePage {
       })
       .then((jobsWithBids) => {
         if (jobsWithBids) {
+          this.bidsWon = [];
+          this.bidsLost = [];
           console.log(jobsWithBids);
+          for (let job of jobsWithBids) {
+            if (job.acceptedBid && job.bids && job.bids.length > 0) {
+              if (job.acceptedBid === job.bids[0]._id) {
+                this.bidsWon.push(job);
+              }
+              else {
+                this.bidsLost.push(job);
+              }
+            }
+          }
         }
       })
       .catch((err) => {
@@ -218,17 +232,10 @@ export class ProfilePage {
     }
   }
 
-  goToPage(page: string) {
+  goToTab(page: string) {
     switch (page) {
-      case 'hiredJobsPro':
-        this.navCtrl.parent.select(0);
-        console.log(this.navCtrl.parent);
-        break;
       case 'hiredJobsConsumer':
         this.navCtrl.parent.select(2);
-        break;
-      case 'favoritePros':
-        this.navCtrl.push(RateUserPage);
         break;
     }
   }

@@ -35,7 +35,7 @@ export class NearbyJobsPage {
         this.loadingService.hideLoading();
         console.log(jobs);
         this.nearbyJobs = jobs.filter((job) => {
-          return job.bids.length === 0;
+          return job.bids.length === 0 && !job.acceptedBid; // TODO: This might get kind of heavy as things go on. We probably want to filter out completed jobs on the backend.
         });
       })
       .catch((err) => {

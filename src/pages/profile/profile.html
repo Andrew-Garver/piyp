@@ -135,9 +135,9 @@
         *ngIf="tosProgress === 2 && personalInfoProgress === 2 && businessInfoProgress === 2 && bankAccountInfoProgress === 2">
         <h5 class="center">Check out your stats!</h5>
 
-        <button ion-item (click)="goToPage('transferFunds')">PIYP Account Total: ${{amountInAccount}}</button>
-        <button ion-item (click)="goToPage('completedJobs')">Completed Jobs: {{completedJobs}}</button>
-        <button ion-item (click)="goToPage('lostBids')">Lost Bids: {{lostBids}}</button>
+        <button ion-item (click)="pushPage()">PIYP Account Total: ${{amountInAccount}}</button>
+        <button ion-item (click)="pushPage()">Bids Won: {{bidsWon.length}}</button>
+        <button ion-item (click)="pushPage()">Bids Lost: {{bidsLost.length}}</button>
 
         <br><br>
         <ion-list-header>Account Actions</ion-list-header>
@@ -216,9 +216,9 @@
       <div *ngIf="personalInfoProgress === 2 && paymentInfoProgress === 2">
         <h5 class="center">Check out your stats!</h5>
 
-        <button ion-item (click)="goToPage('hiredJobsConsumer')">Open Job Requests: {{activeJobsConsumer}}</button>
-        <button ion-item (click)="goToPage('historicalJobs')">Completed Jobs: {{totalJobsHired}}</button>
-        <button ion-item (click)="goToPage('favoritePros')">Favortite Pros: {{favoritePro}}</button>
+        <button ion-item (click)="goToTab('hiredJobsConsumer')">Open Job Requests: {{activeJobsConsumer}}</button>
+        <button ion-item (click)="pushPage()">Completed Jobs: {{totalJobsHired}}</button>
+        <button ion-item (click)="pushPage()">Favortite Pros: {{favoritePro}}</button>
 
         <br><br>
         <ion-list-header>Account Actions</ion-list-header>
