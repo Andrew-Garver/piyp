@@ -39,7 +39,6 @@ export class ManageBidsPage {
       .then((jobs) => {
         this.loadingService.hideLoading();
         this.jobsWithBids = jobs;
-        console.log(jobs);
       })
       .catch((err) => {
         this.loadingService.hideLoading();

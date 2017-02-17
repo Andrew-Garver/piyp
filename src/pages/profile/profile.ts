@@ -18,6 +18,7 @@ import {ErrorPage} from "../error/error";
 import {SelectProfilePage} from "../select-profile/select-profile";
 import {SelectInfoToEditPage} from "../settings/personal-info/select-info-to-edit";
 import {Camera} from "ionic-native";
+import {JobService} from "../../services/job.service";
 
 @Component({
   selector: 'page-profile',
@@ -50,9 +51,8 @@ export class ProfilePage {
    */
   // Pro
   private amountInAccount: number = 0;
-  private activeJobsPro: number = 0;
-  private totalJobsWorked: number = 0;
-  private totalAmountMade: number = 0;
+  private completedJobs: number = 0;
+  private lostBids: number = 0;
 
   // Consumer
   private activeJobsConsumer: number = 0;
@@ -61,7 +61,8 @@ export class ProfilePage {
 
   constructor(private navCtrl: NavController, private userService: UserService,
               private profileService: ProfileService, private loadingService: LoadingService,
-              private authService: AuthService, private toastService: ToastService, private app: App) {
+              private authService: AuthService, private toastService: ToastService, private app: App,
+              private jobService: JobService) {
     this.tabBarElement = document.querySelector('.tabbar');
     this.profilePic = localStorage.getItem('profile_picture');
   }
@@ -79,14 +80,25 @@ export class ProfilePage {
         this.loadingService.hideLoading();
         if (this.currentProfile.type === 'pro') {
           this.calculateProProgress();
+          let params = {
+            profile: this.currentProfileId,
+            queryBy: 'all'
+          };
+          return this.jobService.getJobs(params)
         }
         else {
           this.calculateConsumerProgress();
+          return Promise.resolve(false);
+        }
+      })
+      .then((jobsWithBids) => {
+        if (jobsWithBids) {
+          console.log(jobsWithBids);
         }
       })
       .catch((err) => {
         this.loadingService.hideLoading();
-        console.log("ERROR");
+        this.toastService.presentToast("Could not reach PIYP servers. Check your data connection and try again.")
         console.log(err);
       });
   }
