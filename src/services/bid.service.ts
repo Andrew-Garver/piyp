@@ -40,25 +40,19 @@ export class BidService {
     });
   }
 
-  // getBids(): Promise<any> {
-  //   return new Promise((resolve, reject) => {
-  //     this.authHttp.get('http://localhost:3000/api/user')
-  //       .map(res => res.json())
-  //       .subscribe(
-  //         data => {
-  //           if (data.success) {
-  //             localStorage.setItem('current_user', JSON.stringify(data.user));
-  //             resolve(data.user);
-  //           }
-  //           else {
-  //             reject("Unable get user from server");
-  //           }
-  //         },
-  //         err => {
-  //           console.log(err);
-  //           reject(err);
-  //         }
-  //       );
-  //   });
-  // }
+  getBids(jobId): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.authHttp.get(`http://localhost:3000/api/job/${jobId}/bids`)
+        .map(res => res.json())
+        .subscribe(
+          data => {
+            resolve(data.bids);
+          },
+          err => {
+            console.log(err);
+            reject(err);
+          }
+        );
+    });
+  }
 }

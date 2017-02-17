@@ -28,6 +28,22 @@ export class JobService {
     });
   }
 
+  getJob(jobId): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.authHttp.get(`http://localhost:3000/api/job/${jobId}/bids`)
+        .map(res => res.json())
+        .subscribe(
+          data => {
+            resolve(data.bids);
+          },
+          err => {
+            console.log(err);
+            reject(err);
+          }
+        );
+    });
+  }
+
   acceptBid(jobId, formData): Promise<any> {
     return new Promise((resolve, reject) => {
       this.authHttp.post('http://localhost:3000/api/job/' + jobId, formData)

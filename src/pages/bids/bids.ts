@@ -8,25 +8,25 @@ import {BidDetailsPage} from "../bid-details/bid-details";
 import {LoginPage} from "../login/login";
 import {ErrorPage} from "../error/error";
 import {ToastService} from "../../services/toast.service";
+import {ProfileService} from "../../services/profile.service";
 
 @Component({
   selector: 'page-bids',
   templateUrl: 'bids.html',
-  providers: [AuthService, ToastService]
+  providers: [AuthService, ToastService, ProfileService]
 })
 
 export class BidsPage {
 
+  private bids: any;
   private selectedJob: any;
+  private bidderInfo: any;
 
   constructor(private navCtrl: NavController, private params: NavParams,
-              private authService: AuthService, private app: App,
-  private toastService: ToastService) {
+              private authService: AuthService, private toastService: ToastService) {
+    this.bids = params.get('bids');
     this.selectedJob = params.get('job');
-  }
-
-  ionViewWillEnter() {
-
+    this.bidderInfo = this.bids[0]._creator.profiles[0];
   }
 
   ionViewCanEnter(): Promise<boolean> {
@@ -47,14 +47,14 @@ export class BidsPage {
     });
   }
 
-  viewBidDetails() {
-      this.navCtrl.push(BidDetailsPage, {job: this.selectedJob})
-        .catch(() => {
-          this.authService.logout()
-            .then(() => {
-              this.toastService.presentToast("Could not reach PIYP servers. Check your data connection and try again.")
-            });
-        });
-    }
+  viewBidDetails(bid) {
+    this.navCtrl.push(BidDetailsPage, {job: this.selectedJob, bid: bid})
+      .catch(() => {
+        this.authService.logout()
+          .then(() => {
+            this.toastService.presentToast("Could not reach PIYP servers. Check your data connection and try again.")
+          });
+      });
+  }
 
 }

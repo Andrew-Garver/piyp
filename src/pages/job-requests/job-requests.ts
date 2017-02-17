@@ -62,9 +62,6 @@ export class JobRequestsPage {
             });
         });
     }
-    else {
-      this.navCtrl.push(ErrorPage);
-    }
   }
 
 }

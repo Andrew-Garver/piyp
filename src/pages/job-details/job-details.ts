@@ -88,7 +88,8 @@ export class JobDetailsPage {
           this.navCtrl.setRoot(JobRequestsPage);
         }
       })
-      .catch(() => {
+      .catch((err) => {
+        console.log(err);
         this.toastService.presentToast("Could not delete job at this time. Please try again later.");
       });
   }
@@ -110,12 +111,18 @@ export class JobDetailsPage {
 
   private viewBids(selectedJob) {
     if (selectedJob) {
-      this.navCtrl.push(BidsPage, {job: selectedJob})
-        .catch(() => {
-          this.authService.logout()
-            .then(() => {
-              this.logout();
+      this.bidService.getBids(selectedJob._id)
+        .then((bids) => {
+          this.navCtrl.push(BidsPage, {job: this.selectedJob, bids: bids})
+            .catch((err) => {
+              console.log(err);
+              this.toastService.presentToast("Could not reach PIYP servers. Please check your data connection and try again.");
             });
+        })
+        .catch((err) => {
+          console.log("get bids bad");
+          console.log(err);
+          this.toastService.presentToast("Could not reach PIYP servers. Please check your data connection and try again.");
         });
     }
     else {

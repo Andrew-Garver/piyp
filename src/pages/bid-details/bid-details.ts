@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 
 import {NavController, NavParams, App} from 'ionic-angular';
 import {AuthService} from "../../services/auth.service";
@@ -22,11 +22,13 @@ import {JobService} from "../../services/job.service";
 export class BidDetailsPage {
 
   selectedJob: any;
+  bidInfo: any;
 
   constructor(public navCtrl: NavController, private authService: AuthService,
               private params: NavParams, private loadingService: LoadingService,
               private toastService: ToastService, private jobService: JobService) {
     this.selectedJob = params.get('job');
+    this.bidInfo = params.get('bid');
   }
 
   ionViewCanEnter(): Promise<boolean> {
