@@ -1,12 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 
-import {NavController, NavParams, App} from "ionic-angular";
+import {NavController, NavParams} from "ionic-angular";
 import {AuthService} from "../../services/auth.service";
-import {Bid} from "../../entities/bid";
-import {DatabaseService} from "../../services/database.service";
 import {BidDetailsPage} from "../bid-details/bid-details";
-import {LoginPage} from "../login/login";
-import {ErrorPage} from "../error/error";
 import {ToastService} from "../../services/toast.service";
 import {ProfileService} from "../../services/profile.service";
 
@@ -20,13 +16,13 @@ export class BidsPage {
 
   private bids: any;
   private selectedJob: any;
-  private bidderInfo: any;
+  private keys: any;
 
   constructor(private navCtrl: NavController, private params: NavParams,
               private authService: AuthService, private toastService: ToastService) {
     this.bids = params.get('bids');
     this.selectedJob = params.get('job');
-    this.bidderInfo = this.bids[0]._creator.profiles[0];
+    this.keys = Object.keys(this.bids);
   }
 
   ionViewCanEnter(): Promise<boolean> {

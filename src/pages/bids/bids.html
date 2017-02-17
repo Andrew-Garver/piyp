@@ -10,8 +10,8 @@
   <div *ngIf="selectedJob.bids">
     <h3>Check out your bids!</h3>
     <ion-list>
-      <button ion-item *ngFor="let bid of selectedJob.bids" (click)="viewBidDetails(bid)">
-        {{bidderInfo.businessAddress.businessName}}: ${{bid.amount}}
+      <button ion-item *ngFor="let key of keys" (click)="viewBidDetails(bids[key])">
+        {{bids[key]._creator.profiles[0].businessAddress.businessName}}: {{bids[key].amount | currency:'USD':true}}
       </button>
     </ion-list>
   </div>

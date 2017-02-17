@@ -1,15 +1,7 @@
 import {Component} from '@angular/core';
 
-import {NavController, NavParams, App} from 'ionic-angular';
+import {NavController, NavParams} from 'ionic-angular';
 import {AuthService} from "../../services/auth.service";
-import {DatabaseService} from "../../services/database.service";
-import {ErrorPage} from "../error/error";
-import {LoginPage} from "../login/login";
-import {Customer} from "../../entities/customer";
-import {CustomerDetailsPage} from "../customer-details/customer-details";
-import {Pro} from "../../entities/pro";
-import {ProDetailsPage} from "../pro-details/pro-details";
-import {Bid} from "../../entities/bid";
 import {LoadingService} from "../../services/loading.service";
 import {ToastService} from "../../services/toast.service";
 import {JobService} from "../../services/job.service";
@@ -21,14 +13,23 @@ import {JobService} from "../../services/job.service";
 })
 export class BidDetailsPage {
 
-  selectedJob: any;
-  bidInfo: any;
+  private selectedJob: any;
+  private selectedBid: any;
+  private businessInfo: any;
+  private rating: number;
 
   constructor(public navCtrl: NavController, private authService: AuthService,
               private params: NavParams, private loadingService: LoadingService,
               private toastService: ToastService, private jobService: JobService) {
     this.selectedJob = params.get('job');
-    this.bidInfo = params.get('bid');
+    this.selectedBid = params.get('bid');
+    this.businessInfo = this.selectedBid._creator.profiles[0];
+
+    console.log(this.selectedBid);
+  }
+
+  ionViewWillEnter() {
+    this.rating = this.getAverageRating();
   }
 
   ionViewCanEnter(): Promise<boolean> {
@@ -70,5 +71,20 @@ export class BidDetailsPage {
       acceptedBidId: this.selectedJob.bids[0]._id
     };
     return this.jobService.acceptBid(jobId, params);
+  }
+
+  getAverageRating() {
+    if (!this.businessInfo.reviews) {
+      return 0;
+    }
+
+    let avgRating = 0;
+    let totalReviews = 0;
+    for (let i = 0; i < this.businessInfo.reviews.length; i++) {
+      avgRating += this.businessInfo.reviews[i].rating;
+      totalReviews++;
+    }
+
+    return avgRating / totalReviews;
   }
 }

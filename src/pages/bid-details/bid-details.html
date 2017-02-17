@@ -7,10 +7,11 @@
 </ion-header>
 
 <ion-content padding>
-  <h3>Andrew's Tech Company</h3>
-  <h4>Bid amount: $34.00</h4>
-  <p>We strive to be the global leader in the sporting goods industry with brands built on a passion for sports and a
-    sporting lifestyle!</p>
+  <h3>{{businessInfo.businessAddress.businessName}}</h3>
+  <h4>Bid amount: {{selectedBid.amount | currency:'USD':true}}</h4>
+  <br>
+  <p class="center-text">Average Rating</p>
+  <rating [(ngModel)]="rating" readOnly="true"></rating>
   <div class="bottom-button">
     <button ion-button full (click)="acceptBid()">Accept bid</button>
   </div>

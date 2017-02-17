@@ -42,7 +42,6 @@ export class JobRequestsPage {
             this.bidsPerJob[job._id] = job.bids.length;
           }
         }
-        console.log(jobs);
       })
       .catch((err) => {
         this.loadingService.hideLoading();

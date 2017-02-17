@@ -5,10 +5,7 @@ import {FormBuilder, FormGroup} from "@angular/forms";
 import {LoadingService} from "../../services/loading.service";
 import {ToastService} from "../../services/toast.service";
 import {AuthService} from "../../services/auth.service";
-import {LoginPage} from "../login/login";
 import {JobService} from "../../services/job.service";
-import {TabsPage} from "../tabs/tabs";
-import {FindJobFormPage} from "../find-job-form/find-job-form";
 
 @Component({
   selector: 'page-rate-user',
@@ -23,9 +20,8 @@ export class RateUserPage {
   private currentProfile: any;
 
   constructor(public navCtrl: NavController, private formBuilder: FormBuilder,
-              private authService: AuthService, private loadingService: LoadingService,
-              private toastService: ToastService, private navParams: NavParams,
-              private jobService: JobService) {
+              private loadingService: LoadingService, private jobService: JobService,
+              private toastService: ToastService, private navParams: NavParams,) {
     this.currentProfile = JSON.parse(localStorage.getItem('current_profile'));
     this.jobId = navParams.get('jobId');
     this.formUserReview = formBuilder.group({
