@@ -5,18 +5,18 @@ import {AuthService} from "../../services/auth.service";
 import {Pro} from "../../entities/pro";
 
 @Component({
-  selector: 'page-pro-details',
-  templateUrl: 'pro-details.html',
+  selector: 'page-review-details',
+  templateUrl: 'review-details.html',
   providers: [AuthService]
 })
 
-export class ProDetailsPage {
+export class ReviewDetailsPage {
 
-  businessInfo: any;
+  review: any;
 
   constructor(private navCtrl: NavController, private params: NavParams,
               private authService: AuthService) {
-    this.businessInfo = params.get("businessInfo");
+    this.review = params.get("review");
   }
 
   ionViewCanEnter(): Promise<boolean> {

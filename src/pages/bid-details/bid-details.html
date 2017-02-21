@@ -12,7 +12,18 @@
   <br>
   <p class="center-text">Average Rating</p>
   <rating [(ngModel)]="rating" readOnly="true"></rating>
+
+  <div class="scrollable-content">
+    <ion-list>
+      <button ion-item (click)="viewReview(review)" *ngFor="let review of reviews">
+        <rating class="list-rating" [(ngModel)]="review.rating" readonly="true"></rating>
+        <h5>{{review.review}}</h5>
+      </button>
+    </ion-list>
+  </div>
+
   <div class="bottom-button">
-    <button ion-button full (click)="acceptBid()">Accept bid</button>
+    <button ion-button full (click)="viewBusinessCard()">View Business Card</button>
+    <button ion-button full (click)="acceptBid()">Accept Bid</button>
   </div>
 </ion-content>

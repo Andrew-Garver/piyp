@@ -5,6 +5,9 @@ import {AuthService} from "../../services/auth.service";
 import {LoadingService} from "../../services/loading.service";
 import {ToastService} from "../../services/toast.service";
 import {JobService} from "../../services/job.service";
+import {ProDetailsPage} from "../pro-details/pro-details";
+import {LoginPage} from "../login/login";
+import {ReviewDetailsPage} from "../review-details/review-details";
 
 @Component({
   selector: 'page-bid-details',
@@ -17,6 +20,7 @@ export class BidDetailsPage {
   private selectedBid: any;
   private businessInfo: any;
   private rating: number;
+  private reviews: any[];
 
   constructor(public navCtrl: NavController, private authService: AuthService,
               private params: NavParams, private loadingService: LoadingService,
@@ -24,6 +28,7 @@ export class BidDetailsPage {
     this.selectedJob = params.get('job');
     this.selectedBid = params.get('bid');
     this.businessInfo = this.selectedBid._creator.profiles[0];
+    this.reviews = this.businessInfo.reviews;
 
     console.log(this.selectedBid);
   }
@@ -71,6 +76,22 @@ export class BidDetailsPage {
       acceptedBidId: this.selectedJob.bids[0]._id
     };
     return this.jobService.acceptBid(jobId, params);
+  }
+
+  viewBusinessCard() {
+    this.navCtrl.push(ProDetailsPage, {businessInfo: this.businessInfo})
+      .catch(() => {
+        this.navCtrl.setRoot(LoginPage);
+        this.toastService.presentToast("Your session has expired. Please login again.");
+      });
+  }
+
+  viewReview(review) {
+    this.navCtrl.push(ReviewDetailsPage, {review: review})
+      .catch(() => {
+        this.navCtrl.setRoot(LoginPage);
+        this.toastService.presentToast("Your session has expired. Please login again.");
+      });
   }
 
   getAverageRating() {

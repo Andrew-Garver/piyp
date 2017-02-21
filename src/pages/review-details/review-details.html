@@ -1,0 +1,15 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Review
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <h5 class="center-text">Consumer's Review</h5>
+  <br>
+  <rating [(ngModel)]="review.rating" readOnly="true"></rating>
+  <br>
+  <p>{{review.review}}</p>
+</ion-content>

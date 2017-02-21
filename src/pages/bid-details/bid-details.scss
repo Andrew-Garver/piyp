@@ -11,7 +11,17 @@ page-bid-details {
     color: #FFC200;
   }
 
+  rating.list-rating * {
+    font-size: 25%;
+    padding: 0 !important;
+  }
+
   .center-text {
     text-align: center;
+  }
+
+  .scrollable-content {
+    overflow-y: scroll;
+    height: 42%;
   }
 }

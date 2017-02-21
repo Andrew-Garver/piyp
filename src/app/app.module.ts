@@ -46,6 +46,7 @@ import {RateUserPage} from "../pages/rate-user/rate-user";
 import {IntroSlidesPage} from "../pages/into-slides/intro-slides";
 import {PhoneNumberPage} from "../pages/phone-number/phone-number";
 import {HistoricalJobsPage} from "../pages/historical-jobs/historical-jobs";
+import {ReviewDetailsPage} from "../pages/review-details/review-details";
 
 export function getAuthHttp(http) {
   return new AuthHttp(new AuthConfig({
@@ -104,7 +105,8 @@ export function getAuthHttp(http) {
     RateUserPage,
     IntroSlidesPage,
     PhoneNumberPage,
-    HistoricalJobsPage
+    HistoricalJobsPage,
+    ReviewDetailsPage
   ],
   imports: [
     IonicModule.forRoot(MyApp, {tabsHideOnSubPages:"true"}),
@@ -154,7 +156,8 @@ export function getAuthHttp(http) {
     RateUserPage,
     IntroSlidesPage,
     PhoneNumberPage,
-    HistoricalJobsPage
+    HistoricalJobsPage,
+    ReviewDetailsPage
   ],
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},
