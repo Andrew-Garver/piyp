@@ -26,7 +26,7 @@
       {{selectedJob.request.description}}
     </p>
 
-    <ion-searchbar *ngIf="questions && questions.length > 0" (ionInput)="filterQuestions($event)"></ion-searchbar>
+    <ion-searchbar *ngIf="totalQuestions > 0" (ionInput)="filterQuestions($event)"></ion-searchbar>
     <ion-list>
       <button ion-item (click)="viewQuestion(question)" *ngFor="let question of questions">
         <h5>Q: {{question.question}}</h5>

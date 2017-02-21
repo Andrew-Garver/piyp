@@ -29,6 +29,7 @@ export class JobDetailsPage {
   private selectedJob: any;
   private currentProfile: any;
   private questions: any;
+  private totalQuestions: number;
   private winningBid: any;
   private historical: boolean;
 
@@ -53,6 +54,7 @@ export class JobDetailsPage {
 
   getQuestions() {
     this.questions = this.selectedJob.qa || [];
+    this.totalQuestions = this.questions.length;
   }
 
   ionViewCanEnter(): Promise<boolean> {
