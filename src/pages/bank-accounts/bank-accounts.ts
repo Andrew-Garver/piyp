@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 
-import {NavController, App} from 'ionic-angular';
+import {NavController, App, NavParams} from 'ionic-angular';
 import {LoginPage} from "../login/login";
 import {AuthService} from "../../services/auth.service";
 import {JobService} from "../../services/job.service";
@@ -16,15 +16,19 @@ import {BankInfoForm} from "../profile-bank-info-forms/bank-info/bank-info";
 export class BankAccountsPage {
 
   private bankAccounts: any;
+  private edit: boolean;
 
   constructor(public navCtrl: NavController, private app: App, private authService: AuthService,
-              private toastService: ToastService) {
+              private toastService: ToastService, private navParams: NavParams) {
+    this.edit = navParams.get("edit");
+  }
+
+  ionViewWillEnter() {
     this.bankAccounts = JSON.parse(localStorage.getItem('current_profile')).stripeAccount.external_accounts.data;
   }
 
-  private addNewBank() {
-    //TODO: Right now, this just updates the one bank they already have
-    this.navCtrl.push(BankInfoForm)
+  private updateBank() {
+    this.navCtrl.push(BankInfoForm, {edit: this.edit})
       .catch(() => {
         this.authService.logout()
           .then(() => {
@@ -32,14 +36,6 @@ export class BankAccountsPage {
             this.toastService.presentToast("Your session has expired. Please login again.");
           });
       });
-  }
-
-  deleteBank(bankId) {
-    console.log("Deleting bank");
-  }
-
-  makeBankPrimary(bankId) {
-    console.log("Primary bank");
   }
 
 }

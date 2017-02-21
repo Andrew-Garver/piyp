@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 
-import {NavController} from 'ionic-angular';
+import {NavController, NavParams} from 'ionic-angular';
 import {StripeTosPage} from "../stripe-tos/stripe-tos";
 import {ProfilePage} from "../../profile/profile";
 import {Validators, FormBuilder, FormGroup} from "@angular/forms";
@@ -18,10 +18,14 @@ export class BankInfoForm {
 
   private bankAccountInfoForm: FormGroup;
   private formFieldsMissing: boolean;
+  private edit: boolean;
 
   constructor(public navCtrl: NavController, private formBuilder: FormBuilder,
               private externalAccountService: ExternalAccountService, private loadingService: LoadingService,
-              private authService: AuthService, private toastService: ToastService) {
+              private authService: AuthService, private toastService: ToastService,
+              private navParams: NavParams) {
+    this.edit = this.navParams.get("edit");
+
     this.bankAccountInfoForm = formBuilder.group({
       accountHolderName: ['', Validators.required],
       accountType: ['', Validators.required],
@@ -37,7 +41,14 @@ export class BankInfoForm {
       this.postData()
         .then(() => {
           this.loadingService.hideLoading();
-          this.navCtrl.setRoot(ProfilePage);
+          if (this.edit) {
+            console.log("popping");
+            this.navCtrl.pop();
+          }
+          else {
+            console.log("rooting");
+            this.navCtrl.setRoot(ProfilePage);
+          }
         })
         .catch((err) => {
           console.log(err);

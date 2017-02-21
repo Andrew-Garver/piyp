@@ -34,7 +34,6 @@ export class CreditCardPage {
 
     this.edit = this.navParams.get('edit');
     this.currentProfile = JSON.parse(localStorage.getItem('current_profile'));
-    console.log(this.currentProfile);
     this.formFieldsMissing = false;
 
     let creditCardValidator = (control) => {

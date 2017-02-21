@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 
-import {NavController, App} from 'ionic-angular';
+import {NavController, App, NavParams} from 'ionic-angular';
 import {LoginPage} from "../login/login";
 import {AuthService} from "../../services/auth.service";
 import {JobService} from "../../services/job.service";
@@ -16,15 +16,19 @@ import {CreditCardPage} from "../profile-payment-info-forms/credit-card/credit-c
 export class CreditCardsPage {
 
   private creditCards: any;
+  private edit: boolean;
 
   constructor(public navCtrl: NavController, private app: App, private authService: AuthService,
-              private toastService: ToastService) {
+              private toastService: ToastService, private navParams: NavParams) {
+    this.edit = navParams.get("edit");
+  }
+
+  ionViewWillEnter() {
     this.creditCards = JSON.parse(localStorage.getItem('current_profile')).stripeAccount.sources.data;
   }
 
-  private addNewCard() {
-    //TODO: Right now, this just updates the one card they already have
-    this.navCtrl.push(CreditCardPage)
+  private updateCard() {
+    this.navCtrl.push(CreditCardPage, {edit: this.edit})
       .catch(() => {
         this.authService.logout()
           .then(() => {
@@ -32,14 +36,6 @@ export class CreditCardsPage {
             this.toastService.presentToast("Your session has expired. Please login again.");
           });
       });
-  }
-
-  deleteCard(cardId) {
-    console.log("Deleting card");
-  }
-
-  makeCardPrimary(cardId) {
-    console.log("Primary card");
   }
 
 }

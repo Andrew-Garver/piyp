@@ -1,12 +1,12 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Credit Cards
+      Bank Account
     </ion-title>
     <ion-buttons end>
       <div class="nav-button-right">
-        <button ion-button (click)="addNewBank()">
-          New
+        <button ion-button (click)="updateBank()">
+          Update
         </button>
       </div>
     </ion-buttons>
@@ -16,18 +16,10 @@
 <ion-content padding>
   <div *ngIf="bankAccounts">
     <ion-list>
-      <ion-item-sliding *ngFor="let bank of bankAccounts">
-        <ion-item>
-          <h5>{{bank.bank_name}}</h5>
-          <p>xxxxxx{{bank.last4}}</p>
-        </ion-item>
-        <ion-item-options>
-          <button ion-button color="danger" (click)="deleteBank(bank.id)">Delete</button>
-        </ion-item-options>
-        <ion-item-options side="left">
-          <button ion-button color="secondary" (click)="makeBankPrimary(bank.id)">Make Primary</button>
-        </ion-item-options>
-      </ion-item-sliding>
+      <ion-item *ngFor="let bank of bankAccounts">
+        <h5>{{bank.bank_name}}</h5>
+        <p>xxxxxx{{bank.last4}}</p>
+      </ion-item>
     </ion-list>
   </div>
 </ion-content>
