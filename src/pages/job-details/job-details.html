@@ -17,7 +17,7 @@
   <h3>{{selectedJob.request.title}}</h3>
   <span *ngIf="currentProfile.type === 'pro' && selectedJob.distance" style="float: right">{{selectedJob.distance}} miles from you</span>
   <span>{{selectedJob._service.name}}</span>
-  <h5 *ngIf="currentProfile.type === 'pro' && selectedJob.bids.length > 0">Your current bid: ${{selectedJob.bids[0].amount}}</h5>
+  <h5 *ngIf="currentProfile.type === 'pro' && selectedJob.bids.length > 0">Your bid: ${{selectedJob.bids[0].amount}}</h5>
   <h5 *ngIf="currentProfile.type === 'consumer' && winningBid">Your selected bid: ${{winningBid.amount}}</h5>
 
   <div [ngClass]="determineClass()">
@@ -26,7 +26,7 @@
       {{selectedJob.request.description}}
     </p>
 
-    <ion-searchbar (ionInput)="filterQuestions($event)"></ion-searchbar>
+    <ion-searchbar *ngIf="questions && questions.length > 0" (ionInput)="filterQuestions($event)"></ion-searchbar>
     <ion-list>
       <button ion-item (click)="viewQuestion(question)" *ngFor="let question of questions">
         <h5>Q: {{question.question}}</h5>
@@ -35,11 +35,12 @@
           A: {{question.answer}}
         </h5>
       </button>
-      <button *ngIf="currentProfile.type === 'pro'" ion-button full (click)="askQuestion(selectedJob.id)">Ask Question
+      <button *ngIf="currentProfile.type === 'pro' && !historical" ion-button full (click)="askQuestion(selectedJob.id)">Ask Question
       </button>
     </ion-list>
   </div>
 
+  <div *ngIf="!historical">
   <div *ngIf="currentProfile.type === 'pro'" class="bottom-button">
     <button *ngIf="selectedJob.acceptedBid" ion-button full (click)="viewCustomerDetails()">View Customer Profile</button>
     <button *ngIf="selectedJob.acceptedBid && !selectedJob.proMarkedComplete" ion-button full (click)="markJobComplete()">Mark Job Complete</button>
@@ -53,5 +54,6 @@
     <button *ngIf="selectedJob.acceptedBid" ion-button full (click)="viewProDetails(selectedJob)">View Pro Profile</button>
     <button *ngIf="selectedJob.acceptedBid  && !selectedJob.consumerLeftFeedback" ion-button full (click)="confirmJobComplete()" [attr.disabled]="selectedJob.proMarkedComplete ? null : ''">Confirm Job Complete</button>
     <button *ngIf="selectedJob.acceptedBid && selectedJob.consumerLeftFeedback" ion-button full disabled>Transferring Funds</button>
+  </div>
   </div>
 </ion-content>

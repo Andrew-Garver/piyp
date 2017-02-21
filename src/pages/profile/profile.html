@@ -136,8 +136,8 @@
         <h5 class="center">Check out your stats!</h5>
 
         <button ion-item (click)="pushPage()">PIYP Account Total: ${{amountInAccount}}</button>
-        <button ion-item (click)="pushPage()">Bids Won: {{bidsWon.length}}</button>
-        <button ion-item (click)="pushPage()">Bids Lost: {{bidsLost.length}}</button>
+        <button ion-item (click)="pushPage(historicalJobsPage, bidsWon)">Bids Won: {{bidsWon.length}}</button>
+        <button ion-item (click)="pushPage(historicalJobsPage, bidsLost)">Bids Lost: {{bidsLost.length}}</button>
 
         <br><br>
         <ion-list-header>Account Actions</ion-list-header>

@@ -20,6 +20,7 @@ import {SelectInfoToEditPage} from "../settings/personal-info/select-info-to-edi
 import {Camera} from "ionic-native";
 import {JobService} from "../../services/job.service";
 import {BidsPage} from "../bids/bids";
+import {HistoricalJobsPage} from "../historical-jobs/historical-jobs";
 
 @Component({
   selector: 'page-profile',
@@ -36,6 +37,7 @@ export class ProfilePage {
   private profilePic: any;
   private selectInfoPage: any = SelectInfoToEditPage;
   private bidsPage: any = BidsPage;
+  private historicalJobsPage: any = HistoricalJobsPage;
 
   /*
    * 0: empty
@@ -240,9 +242,9 @@ export class ProfilePage {
     }
   }
 
-  pushPage(page) {
+  pushPage(page, params) {
     if (page) {
-      this.navCtrl.push(page)
+      this.navCtrl.push(page, {params: params})
         .catch(() => {
           this.authService.logout()
             .then(() => {

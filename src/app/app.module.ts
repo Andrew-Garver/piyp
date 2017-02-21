@@ -45,6 +45,7 @@ import {Ionic2RatingModule} from "ionic2-rating";
 import {RateUserPage} from "../pages/rate-user/rate-user";
 import {IntroSlidesPage} from "../pages/into-slides/intro-slides";
 import {PhoneNumberPage} from "../pages/phone-number/phone-number";
+import {HistoricalJobsPage} from "../pages/historical-jobs/historical-jobs";
 
 export function getAuthHttp(http) {
   return new AuthHttp(new AuthConfig({
@@ -102,7 +103,8 @@ export function getAuthHttp(http) {
     AskQuestionFormPage,
     RateUserPage,
     IntroSlidesPage,
-    PhoneNumberPage
+    PhoneNumberPage,
+    HistoricalJobsPage
   ],
   imports: [
     IonicModule.forRoot(MyApp, {tabsHideOnSubPages:"true"}),
@@ -151,7 +153,8 @@ export function getAuthHttp(http) {
     AskQuestionFormPage,
     RateUserPage,
     IntroSlidesPage,
-    PhoneNumberPage
+    PhoneNumberPage,
+    HistoricalJobsPage
   ],
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},

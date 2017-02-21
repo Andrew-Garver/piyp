@@ -30,12 +30,14 @@ export class JobDetailsPage {
   private currentProfile: any;
   private questions: any;
   private winningBid: any;
+  private historical: boolean;
 
   constructor(public navCtrl: NavController, private authService: AuthService,
               private params: NavParams, private app: App, private toastService: ToastService,
               private jobService: JobService, private loadingService: LoadingService, private bidService: BidService) {
     this.currentProfile = JSON.parse(localStorage.getItem('current_profile'));
     this.selectedJob = this.params.get("job");
+    this.historical = this.params.get("historical");
   }
 
   ionViewWillEnter() {
