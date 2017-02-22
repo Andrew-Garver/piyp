@@ -10,7 +10,7 @@ export class AccountCreationService {
 
   constructor(private http: Http, private authHttp: AuthHttp) {}
 
-  createAccount(body): Promise<string> {
+  createAccount(body): Promise<any> {
     return new Promise((resolve, reject) => {
       this.http.post('http://localhost:3000/api/registration/register', body)
         .map(res => res.json())
@@ -29,7 +29,7 @@ export class AccountCreationService {
     });
   }
 
-  testPaymentInfo(paymentInfo): Promise<string> {
+  testPaymentInfo(paymentInfo): Promise<any> {
     return new Promise((resolve, reject) => {
       Stripe.setPublishableKey('pk_test_qYKaD4TLqQdNtStg3FZ237uL');
       Stripe.card.createToken({

@@ -1,7 +1,7 @@
 import {Component, ViewChild} from '@angular/core';
 
 import {NavController, Slides, Checkbox, App} from 'ionic-angular';
-import {FormBuilder, Validators, FormGroup, FormControl} from "@angular/forms";
+import {FormBuilder, Validators, FormGroup} from "@angular/forms";
 import {SignUpValidator} from "./sign-up.validator";
 import {AuthService} from "../../services/auth.service";
 import {AccountCreationService} from "../../services/account-creation.service";
@@ -10,7 +10,6 @@ import {SelectProfilePage} from "../select-profile/select-profile";
 import {UserService} from "../../services/user.service";
 import {LoadingService} from "../../services/loading.service";
 import {ToastService} from "../../services/toast.service";
-import {IntroSlidesPage} from "../into-slides/intro-slides";
 import {ProfileService} from "../../services/profile.service";
 
 @Component({
@@ -98,7 +97,7 @@ export class SignUpPage {
   formIsSubmittable(): boolean {
     this.checkIfAccountTypeSelected();
     this.checkPasswords();
-    if (this.formLoginInformation.valid && !this.noAccountTypeSelected && !this.invalidPassword && this.passwordsMatch) { //&& this.formPersonalInformation.valid && this.formCreditCardInformation.valid && !this.invalidPassword /*&& !this.invalidCvc && !this.invalidBillingZip && !this.showCreditCardError) {
+    if (this.formLoginInformation.valid && !this.noAccountTypeSelected && !this.invalidPassword && this.passwordsMatch) {
       return true;
     }
     else {

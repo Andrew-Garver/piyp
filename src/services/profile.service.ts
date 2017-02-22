@@ -30,6 +30,24 @@ export class ProfileService {
     });
   }
 
+  addProfile(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.authHttp.post('http://localhost:3000/api/user/profile', {})
+        .map(res => res.json())
+        .subscribe(
+          data => {
+            localStorage.setItem('current_user', JSON.stringify(data.user));
+            resolve(true);
+          },
+          error => {
+            console.log("createAccount Failed");
+            console.log(error);
+            reject(error);
+          }
+        );
+    });
+  }
+
   updateUserProfile(profileId, params): Promise<any> {
     return new Promise((resolve, reject) => {
       this.authHttp.post('http://localhost:3000/api/user/profile/' + profileId, params)

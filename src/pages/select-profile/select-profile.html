@@ -13,7 +13,7 @@
     <h5>Which profile would you like to use?</h5>
   </div>
   <div class="buttons">
-    <button ion-button full (click)="setProfile(0)">Visit my Pro dashboard</button>
-    <button ion-button full (click)="setProfile(1)">Visit my Consumer dashboard</button>
+    <button ion-button full (click)="setProfile(user.profiles[0].type === 'pro' ? 0 : 1)">Visit my Pro dashboard</button>
+    <button ion-button full (click)="setProfile(user.profiles[0].type === 'consumer' ? 0 : 1)">Visit my Consumer dashboard</button>
   </div>
 </ion-content>

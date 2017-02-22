@@ -1,8 +1,7 @@
 import {Component} from '@angular/core';
-import {NavController, LoadingController, App} from "ionic-angular";
+import {NavController, App} from "ionic-angular";
 import {ProfileDOBForm} from "../profile-personal-info-forms/dob/dob";
 import {StripeTosPage} from "../profile-tos-forms/stripe-tos/stripe-tos";
-import {PiypTosPage} from "../profile-tos-forms/piyp-tos/piyp-tos";
 import {BusinessTypeForm} from "../profile-business-info-forms/business-type/business-type";
 import {BankInfoForm} from "../profile-bank-info-forms/bank-info/bank-info";
 import {UserService} from "../../services/user.service";
@@ -13,7 +12,6 @@ import {AuthService} from "../../services/auth.service";
 import {LoginPage} from "../login/login";
 import {ToastService} from "../../services/toast.service";
 import {ProfilePersonalAddressForm} from "../profile-personal-info-forms/address/address";
-import {RateUserPage} from "../rate-user/rate-user";
 import {ErrorPage} from "../error/error";
 import {SelectProfilePage} from "../select-profile/select-profile";
 import {SelectInfoToEditPage} from "../settings/personal-info/select-info-to-edit";
@@ -25,7 +23,7 @@ import {HistoricalJobsPage} from "../historical-jobs/historical-jobs";
 @Component({
   selector: 'page-profile',
   templateUrl: 'profile.html',
-  providers: [UserService, ProfileService, LoadingService, AuthService, ToastService]
+  providers: [UserService, ProfileService, LoadingService, AuthService, ToastService, JobService]
 })
 export class ProfilePage {
 
@@ -271,25 +269,22 @@ export class ProfilePage {
     });
   }
 
-  setupNewProfile(type): Promise<any> {
-    this.navCtrl.setRoot(ProfilePage);
-    return Promise.resolve(true);
-    // return new Promise((resolve, reject) => {
-    //   this.loadingService.presentLoading();
-    //   this.registrationService.addProfile({profileType: type})
-    //     .then((data) => {
-    //       this.loadingService.hideLoading();
-    //       localStorage.setItem('current_profile', JSON.stringify(data.profile));
-    //       this.app.getRootNav().setRoot(ProfilePage);
-    //       resolve(data.profile);
-    //     })
-    //     .catch((err) => {
-    //       this.loadingService.hideLoading();
-    //       this.toastService.presentToast("Could not reach PIYP servers. Check your data connection and try again.");
-    //       console.log(err.message);
-    //       reject(err);
-    //     });
-    // });
+  addProfile(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.loadingService.presentLoading();
+      this.profileService.addProfile()
+        .then((data) => {
+          this.loadingService.hideLoading();
+          this.app.getRootNav().setRoot(ProfilePage);
+          resolve(data.profile);
+        })
+        .catch((err) => {
+          this.loadingService.hideLoading();
+          this.toastService.presentToast("Could not reach PIYP servers. Check your data connection and try again.");
+          console.log(err.message);
+          reject(err);
+        });
+    });
   }
 
   switchProfile() {

@@ -11,6 +11,7 @@ import {AuthService} from "../../../services/auth.service";
 import {ToastService} from "../../../services/toast.service";
 import {LoginPage} from "../../login/login";
 import {BusinessNameForm} from "../business-name/business-name";
+import {BusinessSummaryForm} from "../business-summary/business-summary";
 
 @Component({
   selector: 'page-business-type-form',
@@ -63,7 +64,7 @@ export class BusinessTypeForm {
              });
           }
           else {
-            this.navCtrl.push(this.businessTypeForm.value.businessType === 'company' ? BusinessNameForm : BusinessAddressForm)
+            this.navCtrl.push(this.businessTypeForm.value.businessType === 'company' ? BusinessNameForm : BusinessSummaryForm)
               .catch(() => {
                 this.logout();
               });

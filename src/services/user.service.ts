@@ -37,13 +37,5 @@ export class UserService {
     let profiles = JSON.parse(localStorage.getItem('current_user')).profiles;
 
     return profiles.length;
-
-    // if (profiles.length === 1) {
-    //   localStorage.setItem('current_profile', JSON.stringify(profiles[0]));
-    //   return 1;
-    // }
-    // else {
-    //   return 2;
-    // }
   }
 }

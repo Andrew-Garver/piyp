@@ -23,6 +23,7 @@ export class BidsPage {
     this.bids = params.get('bids');
     this.selectedJob = params.get('job');
     this.keys = Object.keys(this.bids);
+    console.log(this.bids);
   }
 
   ionViewCanEnter(): Promise<boolean> {

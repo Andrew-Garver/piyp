@@ -16,6 +16,11 @@
           Switch
         </button>
       </div>
+      <div *ngIf="user && user.profiles && user.profiles.length < 2" class="nav-button-left">
+        <button ion-button (click)="addProfile()">
+          Add
+        </button>
+      </div>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
