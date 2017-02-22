@@ -12,11 +12,17 @@ import {Pro} from "../../entities/pro";
 
 export class ProDetailsPage {
 
-  businessInfo: any;
+  private businessInfo: any;
+  private avgRating: number;
 
   constructor(private navCtrl: NavController, private params: NavParams,
               private authService: AuthService) {
     this.businessInfo = params.get("businessInfo");
+    console.log(this.businessInfo);
+  }
+
+  ionViewWillEnter() {
+    this.avgRating = this.getAverageRating();
   }
 
   ionViewCanEnter(): Promise<boolean> {
@@ -35,6 +41,21 @@ export class ProDetailsPage {
           reject(err);
         });
     });
+  }
+
+  getAverageRating() {
+    if (!this.businessInfo.reviews) {
+      return 0;
+    }
+
+    let avgRating = 0;
+    let totalReviews = 0;
+    for (let i = 0; i < this.businessInfo.reviews.length; i++) {
+      avgRating += this.businessInfo.reviews[i].rating;
+      totalReviews++;
+    }
+
+    return avgRating / totalReviews;
   }
 
 }

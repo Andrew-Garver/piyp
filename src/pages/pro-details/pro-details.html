@@ -10,5 +10,8 @@
   <h3>{{businessInfo.businessAddress.businessName}}</h3>
   <br>
   <p class="center-text">Average Rating</p>
-  <!--<rating [(ngModel)]="rating" readOnly="true"></rating>-->
+  <rating [(ngModel)]="avgRating" readOnly="true"></rating>
+  <br>
+  <h5>About</h5>
+  <p>{{businessInfo.businessSummary}}</p>
 </ion-content>

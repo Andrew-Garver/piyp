@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Business Type</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <div *ngIf="!edit">
+    <h5>Save an executive summary.</h5>
+    <p>This is your executive summary, mission statement, etc. Let your clients know who you are and what you do.</p>
+  </div>
+  <h5 *ngIf="edit">Does this need to change?</h5>
+
+  <form #f="ngForm" [formGroup]="businessSummaryForm" (ngSubmit)="nextForm()">
+
+    <ion-item>
+      <ion-textarea type="text" formControlName="businessSummary"></ion-textarea>
+    </ion-item>
+
+    <div class="bottom-button">
+      <button *ngIf="!edit" type="submit" ion-button full>Next</button>
+      <button *ngIf="edit" type="submit" ion-button full>Update</button>
+    </div>
+  </form>
+</ion-content>

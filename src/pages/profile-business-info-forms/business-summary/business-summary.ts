@@ -7,17 +7,16 @@ import {LoadingService} from "../../../services/loading.service";
 import {AuthService} from "../../../services/auth.service";
 import {ToastService} from "../../../services/toast.service";
 import {LoginPage} from "../../login/login";
-import {BusinessSummaryForm} from "../business-summary/business-summary";
+import {BusinessAddressForm} from "../business-address/business-address";
 
 @Component({
-  selector: 'page-business-name-form',
-  templateUrl: 'business-name.html',
+  selector: 'page-business-summary-form',
+  templateUrl: 'business-summary.html',
   providers: [ProfileService, LoadingService, AuthService, ToastService]
 })
-export class BusinessNameForm {
+export class BusinessSummaryForm {
 
-  private businessNameForm: FormGroup;
-  private formFieldsMissing: boolean = false;
+  private businessSummaryForm: FormGroup;
   private edit: boolean;
 
   constructor(public navCtrl: NavController, private formBuilder: FormBuilder,
@@ -25,19 +24,15 @@ export class BusinessNameForm {
               private authService: AuthService, private toastService: ToastService,
               private navParams: NavParams) {
     this.edit = this.navParams.get('edit');
-    let businessName = JSON.parse(localStorage.getItem('current_profile')).stripeAccount.legal_entity.business_name;
+    let businessSummary = JSON.parse(localStorage.getItem('current_profile')).businessSummary;
 
-    this.businessNameForm = formBuilder.group({
-      businessName: [businessName, Validators.required],
+    this.businessSummaryForm = formBuilder.group({
+      businessSummary: [businessSummary, Validators.required],
     });
   }
 
   nextForm() {
-    if (!this.businessNameForm.valid) {
-      this.formFieldsMissing = true;
-    }
-    else {
-      this.formFieldsMissing = false;
+    if (this.businessSummaryForm.valid) {
       this.loadingService.presentLoading();
       this.postData()
         .then(() => {
@@ -49,7 +44,7 @@ export class BusinessNameForm {
               });
           }
           else {
-            this.navCtrl.push(BusinessSummaryForm)
+            this.navCtrl.push(BusinessAddressForm)
               .catch(() => {
                 this.logout();
               });
@@ -66,7 +61,7 @@ export class BusinessNameForm {
   postData(): Promise<any> {
     let profileId = JSON.parse(localStorage.getItem('current_profile'))._id;
     let params = {
-      businessName: this.businessNameForm.value.businessName,
+      businessSummary: this.businessSummaryForm.value.businessSummary,
     };
     return this.profileService.updateUserProfile(profileId, params);
   }
