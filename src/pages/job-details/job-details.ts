@@ -18,11 +18,12 @@ import {AskQuestionFormPage} from "../ask-question-form/ask-question-form";
 import {RateUserPage} from "../rate-user/rate-user";
 import {LoadingService} from "../../services/loading.service";
 import {BidService} from "../../services/bid.service";
+import {ProfileService} from "../../services/profile.service";
 
 @Component({
   selector: 'page-job-details',
   templateUrl: 'job-details.html',
-  providers: [AuthService, ToastService, JobService, LoadingService, BidService]
+  providers: [AuthService, ToastService, JobService, LoadingService, BidService, ProfileService]
 })
 export class JobDetailsPage {
 
@@ -35,7 +36,8 @@ export class JobDetailsPage {
 
   constructor(public navCtrl: NavController, private authService: AuthService,
               private params: NavParams, private app: App, private toastService: ToastService,
-              private jobService: JobService, private loadingService: LoadingService, private bidService: BidService) {
+              private jobService: JobService, private loadingService: LoadingService, private bidService: BidService,
+              private profileService: ProfileService) {
     this.currentProfile = JSON.parse(localStorage.getItem('current_profile'));
     this.selectedJob = this.params.get("job");
     this.historical = this.params.get("historical");
@@ -173,28 +175,37 @@ export class JobDetailsPage {
   }
 
   private viewCustomerDetails() {
-    this.navCtrl.push(CustomerDetailsPage, {customer: this.selectedJob._creator})
-      .catch(() => {
-        this.authService.logout()
-          .then(() => {
-            this.logout();
+    this.profileService.getUserPublicProfile(this.selectedJob._creator._id, {type: "consumer", hired: false})
+      .then((profile) => {
+        this.navCtrl.push(CustomerDetailsPage, {consumerInfo: profile})
+          .catch(() => {
+            this.authService.logout()
+              .then(() => {
+                this.logout();
+              });
           });
+      })
+      .catch((err) => {
+        this.toastService.presentToast("Something went wrong getting the Consumer's information.");
+        console.log(err);
       });
   }
 
-  private viewProDetails(pro: Pro) {
-    if (pro) {
-      this.navCtrl.push(ProDetailsPage, {pro: pro})
-        .catch(() => {
-          this.authService.logout()
-            .then(() => {
-              this.logout();
-            });
-        });
-    }
-    else {
-      this.navCtrl.push(ErrorPage);
-    }
+  private viewBusinessCard(type) {
+    this.profileService.getUserPublicProfile(this.winningBid._creator, {type: type})
+      .then((profile) => {
+        this.navCtrl.push(ProDetailsPage, {businessInfo: profile})
+          .catch(() => {
+            this.authService.logout()
+              .then(() => {
+                this.logout();
+              });
+          });
+      })
+      .catch((err) => {
+        this.toastService.presentToast("Something went wrong getting the Pro's information.");
+        console.log(err);
+      });
   }
 
   viewQuestion(question) {

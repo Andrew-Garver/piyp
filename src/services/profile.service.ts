@@ -30,6 +30,31 @@ export class ProfileService {
     });
   }
 
+  getUserPublicProfile(profileId, data): Promise<any> {
+    let params = "";
+    if (data) {
+      params += "?";
+      for (let key in data) {
+        params += key + "=" + data[key] + "&";
+      }
+      params = params.slice(0, -1);
+    }
+
+    return new Promise((resolve, reject) => {
+      this.authHttp.get(`http://localhost:3000/api/user/profile/${profileId}/public` + params)
+        .map(res => res.json())
+        .subscribe(
+          data => {
+            resolve(data.profile);
+          },
+          err => {
+            console.log(err);
+            reject(err);
+          }
+        );
+    });
+  }
+
   addProfile(): Promise<any> {
     return new Promise((resolve, reject) => {
       this.authHttp.post('http://localhost:3000/api/user/profile', {})

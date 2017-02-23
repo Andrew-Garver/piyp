@@ -12,11 +12,12 @@ import {AuthService} from "../../services/auth.service";
 
 export class CustomerDetailsPage {
 
-  private customer: any;
+  private consumer: any;
 
   constructor(private navCtrl: NavController, private params: NavParams,
               private authService: AuthService) {
-    this.customer = params.get("customer");
+    this.consumer = params.get("consumerInfo");
+    console.log(this.consumer)
   }
 
   ionViewCanEnter(): Promise<boolean> {
