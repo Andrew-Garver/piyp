@@ -7,8 +7,8 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-list>
-    <!--<button ion-item>Name: {{consumer.firstName}}</button>-->
-    <!--<button ion-item>Location: {{customer.location}}</button>-->
-  </ion-list>
+  <h3 ion-item>{{consumer.firstName}} {{consumer.lastName}}</h3>
+  <br>
+  <p class="center-text">Average Rating</p>
+  <rating [(ngModel)]="avgRating" readOnly="true"></rating>
 </ion-content>

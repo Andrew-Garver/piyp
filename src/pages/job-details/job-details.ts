@@ -175,7 +175,7 @@ export class JobDetailsPage {
   }
 
   private viewCustomerDetails() {
-    this.profileService.getUserPublicProfile(this.selectedJob._creator._id, {type: "consumer", hired: false})
+    this.profileService.getUserPublicProfile(this.selectedJob._creator._id, {type: "consumer", hired: !!this.winningBid})
       .then((profile) => {
         this.navCtrl.push(CustomerDetailsPage, {consumerInfo: profile})
           .catch(() => {

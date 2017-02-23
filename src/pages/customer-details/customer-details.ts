@@ -13,11 +13,18 @@ import {AuthService} from "../../services/auth.service";
 export class CustomerDetailsPage {
 
   private consumer: any;
+  private consumerProfile: any;
+  private avgRating: any;
 
   constructor(private navCtrl: NavController, private params: NavParams,
               private authService: AuthService) {
     this.consumer = params.get("consumerInfo");
+    this.consumerProfile = this.consumer.profiles[0];
     console.log(this.consumer)
+  }
+
+  ionViewWillEnter() {
+    this.avgRating = this.getAverageRating();
   }
 
   ionViewCanEnter(): Promise<boolean> {
@@ -36,6 +43,21 @@ export class CustomerDetailsPage {
           reject(err);
         });
     });
+  }
+
+  getAverageRating() {
+    if (!this.consumerProfile.reviews) {
+      return 0;
+    }
+
+    let avgRating = 0;
+    let totalReviews = 0;
+    for (let i = 0; i < this.consumerProfile.reviews.length; i++) {
+      avgRating += this.consumerProfile.reviews[i].rating;
+      totalReviews++;
+    }
+
+    return avgRating / totalReviews;
   }
 
 }
