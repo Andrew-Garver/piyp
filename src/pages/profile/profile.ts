@@ -66,7 +66,6 @@ export class ProfilePage {
               private authService: AuthService, private toastService: ToastService, private app: App,
               private jobService: JobService) {
     this.tabBarElement = document.querySelector('.tabbar');
-    this.profilePic = localStorage.getItem('profile_picture');
   }
 
   ionViewWillEnter() {
@@ -79,6 +78,7 @@ export class ProfilePage {
       })
       .then((profile) => {
         this.currentProfile = profile;
+        console.log(profile);
         this.loadingService.hideLoading();
         if (this.currentProfile.type === 'pro') {
           this.calculateProProgress();
@@ -108,6 +108,15 @@ export class ProfilePage {
               }
             }
           }
+        }
+        if (this.currentProfile.profilePicture) {
+          return this.profileService.getProfilePicture(this.currentProfileId, {pictureURI: this.currentProfile.profilePicture})
+        }
+        return null;
+      })
+      .then((profilePic) => {
+        if (profilePic) {
+          this.profilePic = profilePic;
         }
       })
       .catch((err) => {
@@ -257,16 +266,24 @@ export class ProfilePage {
   }
 
   accessGallery() {
+    let profileId = JSON.parse(localStorage.getItem('current_profile'))._id;
+
     Camera.getPicture({
       sourceType: Camera.PictureSourceType.SAVEDPHOTOALBUM,
       destinationType: Camera.DestinationType.DATA_URL
-    }).then((imageData) => {
-      this.profilePic = 'data:image/jpeg;base64,' + imageData;
-      localStorage.setItem('profile_picture', this.profilePic);
-    }, (err) => {
-      this.toastService.presentToast("Something went wrong when trying to access your photos. Please try again.");
-      console.log(err);
-    });
+    })
+      .then((imageData) => {
+        let profilePicture = imageData;
+
+        return this.profileService.updateUserProfile(profileId, {profilePicture: profilePicture});
+      })
+      .then((data) => {
+        this.navCtrl.setRoot(ProfilePage);
+      })
+      .catch((err) => {
+        this.toastService.presentToast("Something went wrong when trying to access your photos. Please try again.");
+        console.log(err);
+      });
   }
 
   addProfile(): Promise<any> {
