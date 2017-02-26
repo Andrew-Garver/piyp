@@ -41,12 +41,18 @@ $font-path: "../assets/fonts";
   color: white !important;
 }
 
+.toolbar-pro * {
+  color: white !important;
+  border-color: white !important;
+}
+
 .toolbar-consumer .toolbar-background {
   background: linear-gradient(to right, #FF265A, #FF5232) !important;
 }
 
 .toolbar-consumer * {
   color: white !important;
+  border-color: white !important;
 }
 
 // Named Color Variables

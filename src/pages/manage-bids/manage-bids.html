@@ -1,20 +1,41 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar
+    [ngClass]="{'toolbar-pro': currentProfile && currentProfile.type === 'pro', 'toolbar-consumer': currentProfile && currentProfile.type === 'consumer'}">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
     <ion-title>
-      Manage Bids
+      Bids
     </ion-title>
   </ion-navbar>
+  <ion-toolbar no-border-top
+               [ngClass]="{'toolbar-pro': currentProfile && currentProfile.type === 'pro', 'toolbar-consumer': currentProfile && currentProfile.type === 'consumer'}">
+    <ion-segment [(ngModel)]="segment">
+      <ion-segment-button value="bidsPending" (click)="fetchBidData()">
+        Pending
+      </ion-segment-button>
+      <ion-segment-button value="bidsWon" (click)="fetchBidData()">
+        Won
+      </ion-segment-button>
+      <ion-segment-button value="bidsLost" (click)="fetchBidData()">
+        Lost
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
-  <div *ngIf="!jobsWithBids || jobsWithBids.length === 0">
-    <h4>You haven't bid on any jobs!.</h4>
-    <h5>Head over to the Find Jobs tab to start bidding!</h5>
-  </div>
+  <div [ngSwitch]="segment">
+    <ion-list *ngSwitchCase="'bidsPending'">
+      <button ion-item *ngFor="let job of bidsPending" (click)="viewJobDetails(job)">{{job.request.title}}</button>
+    </ion-list>
 
-  <div *ngIf="jobsWithBids">
-    <ion-list>
-      <button ion-item *ngFor="let job of jobsWithBids" (click)="viewJobDetails(job)">{{job.request.title}}</button>
+    <ion-list *ngSwitchCase="'bidsWon'">
+      <button ion-item *ngFor="let job of bidsWon" (click)="viewJobDetails(job)">{{job.request.title}}</button>
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'bidsLost'">
+      <button ion-item *ngFor="let job of bidsLost" (click)="viewJobDetails(job)">{{job.request.title}}</button>
     </ion-list>
   </div>
 </ion-content>

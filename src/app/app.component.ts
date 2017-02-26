@@ -18,6 +18,7 @@ import {BidsPage} from "../pages/bids/bids";
 import {HiredJobsPage} from "../pages/hired-jobs/hired-jobs";
 import {EarningsPage} from "../pages/earnings/earnings";
 import {ProfileService} from "../services/profile.service";
+import {ManageBidsPage} from "../pages/manage-bids/manage-bids";
 
 
 @Component({
@@ -33,7 +34,7 @@ export class MyApp implements DoCheck, OnInit {
   private numProfiles: number;
   private profilePic: any;
   private findNewProjects: any = FindJobFormPage;
-  private bids: any = BidsPage;
+  private bids: any = ManageBidsPage;
   private projects: any = HiredJobsPage;
   private earnings: any = EarningsPage;
   private account: any = SelectProfilePage;
@@ -41,8 +42,7 @@ export class MyApp implements DoCheck, OnInit {
   private settings: any = SelectInfoToEditPage;
 
   constructor(private platform: Platform, private authService: AuthService, private app: App,
-              private toastService: ToastService, private loadingService: LoadingService,
-              private profileService: ProfileService) {
+              private toastService: ToastService, private profileService: ProfileService) {
     // localStorage.clear();
   }
 
