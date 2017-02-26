@@ -1,9 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 
-import {DatabaseService} from "../../services/database.service";
 import {NavController, App} from "ionic-angular";
 import {AuthService} from "../../services/auth.service";
-import {Bid} from "../../entities/bid";
 import {LoginPage} from "../login/login";
 import {JobDetailsPage} from "../job-details/job-details";
 import {ErrorPage} from "../error/error";

@@ -29,22 +29,21 @@ export class MyApp implements DoCheck, OnInit {
   rootPage: any = LoginPage;
 
   private currentProfile: any;
+  private currentUser: any;
   private numProfiles: number;
   private profilePic: any;
   private findNewProjects: any = FindJobFormPage;
   private bids: any = BidsPage;
   private projects: any = HiredJobsPage;
   private earnings: any = EarningsPage;
-  private account: any = ProfilePage;
+  private account: any = SelectProfilePage;
   private findAPro: any = RequestJobFormPage;
+  private settings: any = SelectInfoToEditPage;
 
   constructor(private platform: Platform, private authService: AuthService, private app: App,
               private toastService: ToastService, private loadingService: LoadingService,
               private profileService: ProfileService) {
     // localStorage.clear();
-    if (!localStorage.getItem('has_seen_intro')) {
-      this.rootPage = IntroSlidesPage;
-    }
   }
 
   ngOnInit() {
@@ -58,25 +57,28 @@ export class MyApp implements DoCheck, OnInit {
           else {
             this.rootPage = FindJobFormPage
           }
+          if (this.currentProfile.profilePicture) {
+            return this.profileService.getProfilePicture(this.currentProfile._id, {pictureURI: this.currentProfile.profilePicture});
+          }
+          else {
+            return null;
+          }
         }
         else {
-          this.rootPage = LoginPage;
+          if (!localStorage.getItem('has_seen_intro')) {
+            this.rootPage = IntroSlidesPage;
+          }
+          else {
+            this.rootPage = LoginPage;
+          }
+          return null;
         }
+      })
+      .then(() => {
         return this.platform.ready().then(() => {
           StatusBar.styleDefault();
           Splashscreen.hide();
         });
-      })
-      .then(() => {
-        if (this.currentProfile.profilePicture) {
-          return this.profileService.getProfilePicture(this.currentProfile._id, {pictureURI: this.currentProfile.profilePicture})
-        }
-        return null;
-      })
-      .then((profilePic) => {
-        if (profilePic) {
-          this.profilePic = profilePic;
-        }
       })
       .catch((err) => {
         console.log(err);
@@ -88,11 +90,13 @@ export class MyApp implements DoCheck, OnInit {
     if (localStorage.getItem('current_profile')) {
       let profile = JSON.parse(localStorage.getItem('current_profile'));
       this.currentProfile = profile;
+      this.profilePic = localStorage.getItem('profile_picture');
     }
 
     if (localStorage.getItem('current_user')) {
       let userProfiles = JSON.parse(localStorage.getItem('current_user')).profiles;
       this.numProfiles = userProfiles.length;
+      this.currentUser = JSON.parse(localStorage.getItem('current_user'));
     }
   }
 

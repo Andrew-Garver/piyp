@@ -88,6 +88,12 @@ export class ProfileService {
         .map(res => res.json())
         .subscribe(
           data => {
+            if (data.profilePicture) {
+              localStorage.setItem('profile_picture', data.profilePicture);
+            }
+            else {
+              localStorage.removeItem('profile_picture');
+            }
             resolve(data.profilePicture);
           },
           err => {

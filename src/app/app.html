@@ -1,16 +1,16 @@
-<ion-menu swipeEnabled="false" [content]="content">
-  <ion-content class="menu">
-    <ion-icon class="top-left" name="settings"></ion-icon>
-    <span class="top-right">Sign out</span>
-    <div *ngIf="!profilePic" class="profile_pic">
+<ion-menu *ngIf="currentProfile" swipeEnabled="false" [content]="content">
+  <ion-content [ngClass]="{'menu-pro': currentProfile.type === 'pro', 'menu-consumer': currentProfile.type === 'consumer'}">
+    <ion-icon menuClose class="top-left" name="settings" (click)="goToPage(settings)"></ion-icon>
+    <span menuClose class="top-right" (click)="logout()">Sign out</span>
+    <div *ngIf="!profilePic" class="profile_pic" style="font-size: 500%; text-align: center;">
       <ion-icon name="contact"></ion-icon>
     </div>
     <div *ngIf="profilePic">
       <img class="img-circular" [src]=profilePic>
     </div>
-    <h5 class="center">Justin Waite</h5>
+    <h5 *ngIf="currentUser" class="center">{{currentUser.firstName}} {{currentUser.lastName}}</h5>
     <div class="center">
-      <span style="padding: 5px;">Business Card</span>
+      <span *ngIf="currentProfile.type === 'pro'" style="padding: 5px;">Business Card</span>
       <span style="padding: 5px;">Reviews/Ratings</span>
     </div>
     <hr style="border-top: 1px solid white">
@@ -34,7 +34,7 @@
           <ion-icon name="cash" item-left></ion-icon>
           Earnings
         </ion-item>
-        <ion-item class="custom-item" ion-item menuClose (click)="goToPage(account)">
+        <ion-item *ngIf="numProfiles > 1" class="custom-item" ion-item menuClose (click)="goToPage(account)">
           <ion-icon name="contact" item-left></ion-icon>
           Account
         </ion-item>
@@ -42,15 +42,15 @@
     </div>
     <div *ngIf="currentProfile.type === 'consumer'">
       <ion-list no-lines>
-        <ion-item ion-item menuClose (click)="goToPage(findAPro)">
-          <ion-icon class="custom-item" name="search" item-left></ion-icon>
+        <ion-item class="custom-item" ion-item menuClose (click)="goToPage(findAPro)">
+          <ion-icon name="search" item-left></ion-icon>
           Find a Pro
         </ion-item>
         <ion-item class="custom-item" ion-item menuClose (click)="goToPage(projects)">
           <ion-icon name="construct" item-left></ion-icon>
           My Projects
         </ion-item>
-        <ion-item class="custom-item" ion-item menuClose (click)="goToPage(account)">
+        <ion-item *ngIf="numProfiles > 1" class="custom-item" ion-item menuClose (click)="goToPage(account)">
           <ion-icon name="contact" item-left></ion-icon>
           Account
         </ion-item>

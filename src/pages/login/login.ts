@@ -10,6 +10,8 @@ import {ToastService} from "../../services/toast.service";
 import {LoadingService} from "../../services/loading.service";
 import {IntroSlidesPage} from "../into-slides/intro-slides";
 import {ProfileService} from "../../services/profile.service";
+import {FindJobFormPage} from "../find-job-form/find-job-form";
+import {RequestJobFormPage} from "../request-job-form/request-job-form";
 
 @Component({
   selector: 'page-login',
@@ -22,7 +24,6 @@ export class LoginPage {
   constructor(private authService: AuthService, private navCtrl: NavController,
               private userService: UserService, private toastService: ToastService,
               private loadingService: LoadingService, private profileService: ProfileService) {
-
   }
 
   login(credentials): void {
@@ -35,20 +36,35 @@ export class LoginPage {
         if (user.profiles && user.profiles.length > 0) {
           return this.profileService.getUserProfile(user.profiles[0]._id);
         }
+        return null;
       })
-      .then((result) => {
-        this.loadingService.hideLoading();
+      .then((profile) => {
+        if (!profile) {
+          throw Error("No Profiles Found when logging in");
+        }
         if (this.userService.getNumberOfUserProfiles() === 1) {
-          this.navCtrl.push(TabsPage);
+          if (profile.type === 'consumer') {
+            this.navCtrl.setRoot(RequestJobFormPage)
+          }
+          else {
+            this.navCtrl.setRoot(FindJobFormPage);
+          }
         }
         else {
-          this.navCtrl.push(SelectProfilePage);
+          this.navCtrl.setRoot(SelectProfilePage);
+        }
+        this.loadingService.hideLoading();
+        return profile;
+      })
+      .then((profile) => {
+        if (profile.profilePicture) {
+          this.profileService.getProfilePicture(profile._id, {pictureURI: profile.profilePicture});
         }
       })
       .catch((err) => {
         console.log(err);
         this.loadingService.hideLoading();
-        this.toastService.presentTimedToast("That username or password is incorrect. Please try again")
+        this.toastService.presentTimedToast(err);
       });
   }
 

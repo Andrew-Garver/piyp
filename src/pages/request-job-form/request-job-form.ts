@@ -17,10 +17,13 @@ export class RequestJobFormPage {
   private formJobRequest: FormGroup;
   private services: any;
   private formSubmitted: boolean = false;
+  private currentProfile: any = false;
 
   constructor(public navCtrl: NavController, private formBuilder: FormBuilder,
               private toastService: ToastService, private jobService: JobService,
               private loadingService: LoadingService, private servicesService: ServicesService) {
+
+    this.currentProfile = JSON.parse(localStorage.getItem('current_profile'));
 
     this.formJobRequest = formBuilder.group({
       jobName: ['', Validators.required],

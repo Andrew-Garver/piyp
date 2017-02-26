@@ -9,6 +9,10 @@ import {NavController} from "ionic-angular";
 
 export class EarningsPage{
 
-  constructor(private navCtrl: NavController) {}
+  private currentProfile: any;
+
+  constructor(private navCtrl: NavController) {
+    this.currentProfile = JSON.parse(localStorage.getItem('current_profile'));
+  }
 
 }

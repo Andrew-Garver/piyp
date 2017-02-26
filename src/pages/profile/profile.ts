@@ -78,8 +78,6 @@ export class ProfilePage {
       })
       .then((profile) => {
         this.currentProfile = profile;
-        console.log(profile);
-        this.loadingService.hideLoading();
         if (this.currentProfile.type === 'pro') {
           this.calculateProProgress();
           let params = {
@@ -118,6 +116,7 @@ export class ProfilePage {
         if (profilePic) {
           this.profilePic = profilePic;
         }
+        this.loadingService.hideLoading();
       })
       .catch((err) => {
         this.loadingService.hideLoading();

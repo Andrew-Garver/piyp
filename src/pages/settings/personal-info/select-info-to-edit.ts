@@ -21,7 +21,7 @@ import {PhoneNumberPage} from "../../phone-number/phone-number";
 })
 export class SelectInfoToEditPage {
 
-  private currentProfileType: any;
+  private currentProfile: any;
   private personalAddressPage: any = ProfilePersonalAddressForm;
   private servicesOfferedPage: any = BusinessServicesForm;
   private creditCardsPage: any = CreditCardsPage;
@@ -33,7 +33,7 @@ export class SelectInfoToEditPage {
 
   constructor(public navCtrl: NavController, private app: App, private authService: AuthService,
               private toastService: ToastService) {
-    this.currentProfileType = JSON.parse(localStorage.getItem('current_profile')).type;
+    this.currentProfile = JSON.parse(localStorage.getItem('current_profile'));
   }
 
   private pushPage(page) {

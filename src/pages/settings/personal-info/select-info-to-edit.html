@@ -1,5 +1,8 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar [ngClass]="{'toolbar-pro': currentProfile && currentProfile.type === 'pro', 'toolbar-consumer': currentProfile && currentProfile.type === 'consumer'}">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
     <ion-title>
       Review
     </ion-title>
@@ -10,16 +13,16 @@
   <ion-list-header>Personal Info</ion-list-header>
   <ion-list>
     <button ion-item (click)="pushPage(personalAddressPage)">Personal Address</button>
-    <button *ngIf="currentProfileType === 'consumer'" ion-item (click)="pushPage(phoneNumberPage)">Phone Number</button>
+    <button *ngIf="currentProfile.type === 'consumer'" ion-item (click)="pushPage(phoneNumberPage)">Phone Number</button>
   </ion-list>
 
-  <div *ngIf="currentProfileType === 'pro'">
+  <div *ngIf="currentProfile.type === 'pro'">
     <ion-list-header>Business Info</ion-list-header>
     <ion-list>
       <button ion-item (click)="pushPage(businessTypePage)">Business Type</button>
       <button ion-item (click)="pushPage(businessNamePage)">Business Name</button>
       <button ion-item (click)="pushPage(businessAddressPage)">Business Address</button>
-      <button *ngIf="currentProfileType === 'pro'" ion-item (click)="pushPage(phoneNumberPage)">Phone Number</button>
+      <button ion-item (click)="pushPage(phoneNumberPage)">Phone Number</button>
       <button ion-item (click)="pushPage(servicesOfferedPage)">Services Offered</button>
     </ion-list>
 
@@ -28,7 +31,7 @@
       <button ion-item (click)="pushPage(bankAccountsPage)">Bank Accounts</button>
     </ion-list>
   </div>
-  <div *ngIf="currentProfileType === 'consumer'">
+  <div *ngIf="currentProfile.type === 'consumer'">
     <ion-list-header>Credit Card Info</ion-list-header>
     <ion-list>
       <button ion-item (click)="pushPage(creditCardsPage)">Credit Cards</button>

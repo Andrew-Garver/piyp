@@ -5,11 +5,12 @@ import {TabsPage} from "../tabs/tabs";
 import {LoadingService} from "../../services/loading.service";
 import {ProfileService} from "../../services/profile.service";
 import {ToastService} from "../../services/toast.service";
+import {RequestJobFormPage} from "../request-job-form/request-job-form";
+import {FindJobFormPage} from "../find-job-form/find-job-form";
 
 @Component({
   selector: 'page-select-profile',
-  templateUrl: 'select-profile.html',
-  providers: [LoadingService, ProfileService, ToastService]
+  templateUrl: 'select-profile.html'
 })
 export class SelectProfilePage {
 
@@ -26,12 +27,18 @@ export class SelectProfilePage {
     this.loadingService.presentLoading();
     this.profileService.getUserProfile(this.user.profiles[profileId]._id)
       .then((profile) => {
+        if (profile && profile.type === "consumer") {
+          this.navCtrl.setRoot(RequestJobFormPage);
+        }
+        else {
+          this.navCtrl.setRoot(FindJobFormPage);
+        }
         this.loadingService.hideLoading();
-        this.navCtrl.setRoot(TabsPage);
+        return this.profileService.getProfilePicture(profile._id, {pictureURI: profile.profilePicture});
       })
       .catch((err) => {
         this.loadingService.hideLoading();
-        this.toastService.presentToast("Could not reach PIYP servers. Check your data connection and try again.")
+        this.toastService.presentToast(err);
         console.log(err);
       });
   }

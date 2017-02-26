@@ -11,12 +11,24 @@ menu-styles {
     padding-right: 5%;
   }
 
-  img {
+  .img-circular{
+    width: 80px;
+    height: 80px;
+    margin: auto;
+    background-size: cover;
+    display: block;
+    position: relative;
+    border-radius: 100px;
     bottom: 7px;
   }
 
-  .menu {
-    background: linear-gradient(#18A1F7 , #1957ED); /* Standard syntax */
+  .menu-pro {
+    background: linear-gradient(#18A1F7 , #1957ED);
+    color: white;
+  }
+
+  .menu-consumer {
+    background: linear-gradient(#FF5232 , #FF265A);
     color: white;
   }
 

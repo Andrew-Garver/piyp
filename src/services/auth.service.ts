@@ -38,6 +38,7 @@ export class AuthService {
           localStorage.removeItem('current_profile');
           localStorage.removeItem('access_token');
           localStorage.removeItem('refresh_token');
+          localStorage.removeItem('profile_picture');
           resolve(true);
         })
         .catch((err) => {

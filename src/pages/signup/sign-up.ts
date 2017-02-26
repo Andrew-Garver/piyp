@@ -11,6 +11,8 @@ import {UserService} from "../../services/user.service";
 import {LoadingService} from "../../services/loading.service";
 import {ToastService} from "../../services/toast.service";
 import {ProfileService} from "../../services/profile.service";
+import {RequestJobFormPage} from "../request-job-form/request-job-form";
+import {FindJobFormPage} from "../find-job-form/find-job-form";
 
 @Component({
   selector: 'page-sign-up',
@@ -127,25 +129,30 @@ export class SignUpPage {
       this.loadingService.presentLoading();
       this.accountCreationService.createAccount(accountInfo)
         .then((result) => {
-          console.log("createAccount success");
           return this.userService.getUser();
         })
         .then((user) => {
           if (user.profiles && user.profiles.length > 0) {
             return this.profileService.getUserProfile(user.profiles[0]._id);
           }
+          return null;
         })
-        .then((result) => {
-          console.log("getUser success");
-          if (result) {
-            this.loadingService.hideLoading();
-            if (this.userService.getNumberOfUserProfiles() === 1) {
-              this.navCtrl.push(TabsPage)
+        .then((profile) => {
+          if (!profile) {
+            throw Error("No Profiles Found when signing up");
+          }
+          if (this.userService.getNumberOfUserProfiles() === 1) {
+            if (profile.type === 'consumer') {
+              this.navCtrl.setRoot(RequestJobFormPage)
             }
             else {
-              this.navCtrl.push(SelectProfilePage);
+              this.navCtrl.setRoot(FindJobFormPage);
             }
           }
+          else {
+            this.navCtrl.push(SelectProfilePage);
+          }
+          this.loadingService.hideLoading();
         })
         .catch((err) => {
           this.loadingService.hideLoading();
