@@ -12,24 +12,26 @@ import {ToastService} from "../../services/toast.service";
 
 @Component({
   selector: 'page-hired-jobs',
-  templateUrl: 'hired-jobs.html',
-  providers: [AuthService, JobService, LoadingService, ToastService]
+  templateUrl: 'hired-jobs.html'
 })
 
 export class HiredJobsPage {
 
-  private profile: any;
-  private hiredJobs: any;
+  private currentProfile: any;
+  private jobsNew: any;
+  private jobsInProgress: any;
+  private jobsCompleted: any;
+  private segment: any = "jobsNew";
 
   constructor(public navCtrl: NavController, private app: App, private authService: AuthService,
               private jobService: JobService, private loadingService: LoadingService,
               private toastService: ToastService) {
-    this.profile = JSON.parse(localStorage.getItem('current_profile'));
+    this.currentProfile = JSON.parse(localStorage.getItem('current_profile'));
   }
 
   ionViewWillEnter() {
     let params = {
-      profile: this.profile._id,
+      profile: this.currentProfile._id,
       queryBy: 'acceptedBids'
     };
 
@@ -37,7 +39,7 @@ export class HiredJobsPage {
     this.jobService.getJobs(params)
       .then((jobs) => {
         this.loadingService.hideLoading();
-        this.hiredJobs = jobs.filter((job) => {
+        this.jobsNew = jobs.filter((job) => {
           return !job.proLeftFeedback;
         });
         console.log(jobs);
@@ -49,7 +51,11 @@ export class HiredJobsPage {
       });
   }
 
-  private viewJobDetails(job: Job) {
+  fetchJobData() {
+    console.log("Fetching job data");
+  }
+
+  private viewJobDetails(job) {
     if (job) {
       this.navCtrl.push(JobDetailsPage, {job: job})
         .catch(() => {

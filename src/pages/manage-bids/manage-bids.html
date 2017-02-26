@@ -1,6 +1,5 @@
 <ion-header>
-  <ion-navbar
-    [ngClass]="{'toolbar-pro': currentProfile && currentProfile.type === 'pro', 'toolbar-consumer': currentProfile && currentProfile.type === 'consumer'}">
+  <ion-navbar [ngClass]="{'toolbar-pro': currentProfile && currentProfile.type === 'pro', 'toolbar-consumer': currentProfile && currentProfile.type === 'consumer'}">
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
@@ -8,8 +7,7 @@
       Bids
     </ion-title>
   </ion-navbar>
-  <ion-toolbar no-border-top
-               [ngClass]="{'toolbar-pro': currentProfile && currentProfile.type === 'pro', 'toolbar-consumer': currentProfile && currentProfile.type === 'consumer'}">
+  <ion-toolbar no-border-top [ngClass]="{'toolbar-pro': currentProfile && currentProfile.type === 'pro', 'toolbar-consumer': currentProfile && currentProfile.type === 'consumer'}">
     <ion-segment [(ngModel)]="segment">
       <ion-segment-button value="bidsPending" (click)="fetchBidData()">
         Pending

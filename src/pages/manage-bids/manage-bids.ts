@@ -11,8 +11,7 @@ import {ToastService} from "../../services/toast.service";
 
 @Component({
   selector: 'page-manage-bids',
-  templateUrl: 'manage-bids.html',
-  providers: [LoadingService, JobService, ToastService]
+  templateUrl: 'manage-bids.html'
 })
 
 export class ManageBidsPage {

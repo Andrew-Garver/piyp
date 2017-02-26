@@ -53,6 +53,13 @@ import {AuthService} from "../services/auth.service";
 import {ToastService} from "../services/toast.service";
 import {LoadingService} from "../services/loading.service";
 import {ProfileService} from "../services/profile.service";
+import {AccountCreationService} from "../services/account-creation.service";
+import {BidService} from "../services/bid.service";
+import {CreditCardService} from "../services/credit-card.service";
+import {ExternalAccountService} from "../services/external-account.service";
+import {JobService} from "../services/job.service";
+import {ServicesService} from "../services/services.service";
+import {UserService} from "../services/user.service";
 
 export function getAuthHttp(http) {
   return new AuthHttp(new AuthConfig({
@@ -172,10 +179,17 @@ export function getAuthHttp(http) {
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     {provide: AuthHttp, useFactory: getAuthHttp, deps: [Http]},
+    AccountCreationService,
     AuthService,
-    ToastService,
+    BidService,
+    CreditCardService,
+    ExternalAccountService,
+    JobService,
     LoadingService,
-    ProfileService
+    ProfileService,
+    ServicesService,
+    ToastService,
+    UserService
     ]
 })
 export class AppModule {}
