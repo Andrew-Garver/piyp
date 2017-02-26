@@ -1,6 +1,6 @@
 import {Component, OnInit, DoCheck} from '@angular/core';
 import {Platform, App, NavController} from 'ionic-angular';
-import {StatusBar, Splashscreen} from 'ionic-native';
+import {StatusBar, Splashscreen, Camera} from 'ionic-native';
 
 import {LoginPage} from "../pages/login/login";
 import {AuthService} from "../services/auth.service";
@@ -12,38 +12,71 @@ import {ProfilePage} from "../pages/profile/profile";
 import {LoadingService} from "../services/loading.service";
 import {IntroSlidesPage} from "../pages/into-slides/intro-slides";
 import {TabsPage} from "../pages/tabs/tabs";
+import {FindJobFormPage} from "../pages/find-job-form/find-job-form";
+import {RequestJobFormPage} from "../pages/request-job-form/request-job-form";
+import {BidsPage} from "../pages/bids/bids";
+import {HiredJobsPage} from "../pages/hired-jobs/hired-jobs";
+import {EarningsPage} from "../pages/earnings/earnings";
+import {ProfileService} from "../services/profile.service";
 
 
 @Component({
-  templateUrl: 'app.html',
-  providers: [AuthService, ToastService, LoadingService]
+  selector: 'menu-styles',
+  templateUrl: 'app.html'
 })
+
 export class MyApp implements DoCheck, OnInit {
   rootPage: any = LoginPage;
 
-  private currentProfileType: any;
+  private currentProfile: any;
   private numProfiles: number;
-  private selectInfoPage: any = SelectInfoToEditPage;
+  private profilePic: any;
+  private findNewProjects: any = FindJobFormPage;
+  private bids: any = BidsPage;
+  private projects: any = HiredJobsPage;
+  private earnings: any = EarningsPage;
+  private account: any = ProfilePage;
+  private findAPro: any = RequestJobFormPage;
 
   constructor(private platform: Platform, private authService: AuthService, private app: App,
-              private toastService: ToastService, private loadingService: LoadingService) {
+              private toastService: ToastService, private loadingService: LoadingService,
+              private profileService: ProfileService) {
     // localStorage.clear();
-    if (!localStorage.getItem('has_seen_intro'))
-    {
+    if (!localStorage.getItem('has_seen_intro')) {
       this.rootPage = IntroSlidesPage;
     }
   }
 
   ngOnInit() {
     this.authService.loggedIn()
-      .then((data) => {
-        if (data) {
-          this.rootPage = TabsPage;
+      .then((loggedIn) => {
+        if (loggedIn) {
+          let profileType = JSON.parse(localStorage.getItem('current_profile')).type;
+          if (profileType && profileType === "consumer") {
+            this.rootPage = RequestJobFormPage;
+          }
+          else {
+            this.rootPage = FindJobFormPage
+          }
         }
-        this.platform.ready().then(() => {
+        else {
+          this.rootPage = LoginPage;
+        }
+        return this.platform.ready().then(() => {
           StatusBar.styleDefault();
           Splashscreen.hide();
         });
+      })
+      .then(() => {
+        if (this.currentProfile.profilePicture) {
+          return this.profileService.getProfilePicture(this.currentProfile._id, {pictureURI: this.currentProfile.profilePicture})
+        }
+        return null;
+      })
+      .then((profilePic) => {
+        if (profilePic) {
+          this.profilePic = profilePic;
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -54,7 +87,7 @@ export class MyApp implements DoCheck, OnInit {
   ngDoCheck() {
     if (localStorage.getItem('current_profile')) {
       let profile = JSON.parse(localStorage.getItem('current_profile'));
-      this.currentProfileType = profile.type;
+      this.currentProfile = profile;
     }
 
     if (localStorage.getItem('current_user')) {
@@ -63,13 +96,9 @@ export class MyApp implements DoCheck, OnInit {
     }
   }
 
-  switchProfile() {
-    this.app.getRootNav().push(SelectProfilePage, {switch_profile: true});
-  }
-
-  pushPage(page) {
+  goToPage(page) {
     if (page) {
-      this.app.getRootNav().push(page)
+      this.app.getRootNav().setRoot(page)
         .catch(() => {
           this.authService.logout()
             .then(() => {
@@ -81,27 +110,6 @@ export class MyApp implements DoCheck, OnInit {
     else {
       this.app.getRootNav().push(ErrorPage);
     }
-  }
-
-  setupNewProfile(type): Promise<any> {
-    this.app.getRootNav().setRoot(ProfilePage);
-    return Promise.resolve(true);
-    // return new Promise((resolve, reject) => {
-    //   this.loadingService.presentLoading();
-    //   this.registrationService.addProfile({profileType: type})
-    //     .then((data) => {
-    //       this.loadingService.hideLoading();
-    //       localStorage.setItem('current_profile', JSON.stringify(data.profile));
-    //       this.app.getRootNav().setRoot(ProfilePage);
-    //       resolve(data.profile);
-    //     })
-    //     .catch((err) => {
-    //       this.loadingService.hideLoading();
-    //       this.toastService.presentToast("Could not reach PIYP servers. Check your data connection and try again.");
-    //       console.log(err.message);
-    //       reject(err);
-    //     });
-    // });
   }
 
   logout() {

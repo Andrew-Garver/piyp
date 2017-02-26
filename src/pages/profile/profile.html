@@ -1,27 +1,30 @@
 <ion-header>
   <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
     <ion-title>
       User Profile
     </ion-title>
-    <ion-buttons end>
-      <div class="nav-button-right">
-        <button ion-button (click)="logoutServer()">
-          Logout
-        </button>
-      </div>
-    </ion-buttons>
-    <ion-buttons start>
-      <div *ngIf="user && user.profiles && user.profiles.length > 1" class="nav-button-left">
-        <button ion-button (click)="switchProfile()">
-          Switch
-        </button>
-      </div>
-      <div *ngIf="user && user.profiles && user.profiles.length < 2" class="nav-button-left">
-        <button ion-button (click)="addProfile()">
-          Add
-        </button>
-      </div>
-    </ion-buttons>
+    <!--<ion-buttons end>-->
+      <!--<div class="nav-button-right">-->
+        <!--<button ion-button (click)="logoutServer()">-->
+          <!--Logout-->
+        <!--</button>-->
+      <!--</div>-->
+    <!--</ion-buttons>-->
+    <!--<ion-buttons start>-->
+      <!--<div *ngIf="user && user.profiles && user.profiles.length > 1" class="nav-button-left">-->
+        <!--<button ion-button (click)="switchProfile()">-->
+          <!--Switch-->
+        <!--</button>-->
+      <!--</div>-->
+      <!--<div *ngIf="user && user.profiles && user.profiles.length < 2" class="nav-button-left">-->
+        <!--<button ion-button (click)="addProfile()">-->
+          <!--Add-->
+        <!--</button>-->
+      <!--</div>-->
+    <!--</ion-buttons>-->
   </ion-navbar>
 </ion-header>
 

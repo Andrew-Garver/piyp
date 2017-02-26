@@ -4,10 +4,6 @@ page-profile {
     text-align: center;
   }
 
-  .center {
-    text-align: center;
-  }
-
   .complete {
     color: #4CD964;
   }
@@ -20,14 +16,5 @@ page-profile {
     ion-content {
       font-size: 70%;
     }
-  }
-
-  .img-circular{
-    width: 80px;
-    height: 80px;
-    margin: auto;
-    background-size: cover;
-    display: block;
-    border-radius: 100px;
   }
 }

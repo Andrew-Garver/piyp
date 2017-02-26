@@ -1,0 +1,28 @@
+menu-styles {
+  .top-left {
+    padding-left: 4%;
+    padding-top: 2%;
+    font-size: 125%;
+  }
+
+  .top-right {
+    float: right;
+    padding-top: 2%;
+    padding-right: 5%;
+  }
+
+  img {
+    bottom: 7px;
+  }
+
+  .menu {
+    background: linear-gradient(#18A1F7 , #1957ED); /* Standard syntax */
+    color: white;
+  }
+
+  .custom-item {
+    background-color: transparent;
+    border:none;
+    color: white;
+  }
+}

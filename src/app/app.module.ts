@@ -48,6 +48,11 @@ import {PhoneNumberPage} from "../pages/phone-number/phone-number";
 import {HistoricalJobsPage} from "../pages/historical-jobs/historical-jobs";
 import {ReviewDetailsPage} from "../pages/review-details/review-details";
 import {BusinessSummaryForm} from "../pages/profile-business-info-forms/business-summary/business-summary";
+import {EarningsPage} from "../pages/earnings/earnings";
+import {AuthService} from "../services/auth.service";
+import {ToastService} from "../services/toast.service";
+import {LoadingService} from "../services/loading.service";
+import {ProfileService} from "../services/profile.service";
 
 export function getAuthHttp(http) {
   return new AuthHttp(new AuthConfig({
@@ -108,7 +113,8 @@ export function getAuthHttp(http) {
     PhoneNumberPage,
     HistoricalJobsPage,
     ReviewDetailsPage,
-    BusinessSummaryForm
+    BusinessSummaryForm,
+    EarningsPage
   ],
   imports: [
     IonicModule.forRoot(MyApp, {tabsHideOnSubPages:"true"}),
@@ -160,11 +166,16 @@ export function getAuthHttp(http) {
     PhoneNumberPage,
     HistoricalJobsPage,
     ReviewDetailsPage,
-    BusinessSummaryForm
+    BusinessSummaryForm,
+    EarningsPage
   ],
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    {provide: AuthHttp, useFactory: getAuthHttp, deps: [Http]}
+    {provide: AuthHttp, useFactory: getAuthHttp, deps: [Http]},
+    AuthService,
+    ToastService,
+    LoadingService,
+    ProfileService
     ]
 })
 export class AppModule {}

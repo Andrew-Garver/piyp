@@ -1,25 +1,66 @@
 <ion-menu swipeEnabled="false" [content]="content">
-  <ion-header>
-    <ion-toolbar>
-      <ion-title>Settings</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-content class="menu">
+    <ion-icon class="top-left" name="settings"></ion-icon>
+    <span class="top-right">Sign out</span>
+    <div *ngIf="!profilePic" class="profile_pic">
+      <ion-icon name="contact"></ion-icon>
+    </div>
+    <div *ngIf="profilePic">
+      <img class="img-circular" [src]=profilePic>
+    </div>
+    <h5 class="center">Justin Waite</h5>
+    <div class="center">
+      <span style="padding: 5px;">Business Card</span>
+      <span style="padding: 5px;">Reviews/Ratings</span>
+    </div>
+    <hr style="border-top: 1px solid white">
+    <br>
 
-  <ion-content>
-    <ion-list>
-      <button ion-item menuClose (click)="switchProfile()">Switch Profile</button>
-      <div *ngIf="numProfiles < 2">
-        <button *ngIf="currentProfileType === 'pro'" menuClose ion-item (click)="setupNewProfile('consumer')">Setup Consumer Profile</button>
-        <button *ngIf="currentProfileType === 'consumer'" menuClose ion-item (click)="setupNewProfile('pro')">Setup Pro Profile</button>
-      </div>
-      <button menuClose ion-item (click)="pushPage(selectInfoPage)">Review Profile Info</button>
-      <button menuClose ion-item>Close Account</button>
-    </ion-list>
+    <div *ngIf="currentProfile.type === 'pro'">
+      <ion-list no-lines>
+        <ion-item class="custom-item" menuClose (click)="goToPage(findNewProjects)">
+          <ion-icon name="search" item-left></ion-icon>
+          Find New Projects
+        </ion-item>
+        <ion-item class="custom-item" ion-item menuClose (click)="goToPage(bids)">
+          <ion-icon name="hammer" item-left></ion-icon>
+          Bids
+        </ion-item>
+        <ion-item class="custom-item" ion-item menuClose (click)="goToPage(projects)">
+          <ion-icon name="construct" item-left></ion-icon>
+          Projects
+        </ion-item>
+        <ion-item class="custom-item" ion-item menuClose (click)="goToPage(earnings)">
+          <ion-icon name="cash" item-left></ion-icon>
+          Earnings
+        </ion-item>
+        <ion-item class="custom-item" ion-item menuClose (click)="goToPage(account)">
+          <ion-icon name="contact" item-left></ion-icon>
+          Account
+        </ion-item>
+      </ion-list>
+    </div>
+    <div *ngIf="currentProfile.type === 'consumer'">
+      <ion-list no-lines>
+        <ion-item ion-item menuClose (click)="goToPage(findAPro)">
+          <ion-icon class="custom-item" name="search" item-left></ion-icon>
+          Find a Pro
+        </ion-item>
+        <ion-item class="custom-item" ion-item menuClose (click)="goToPage(projects)">
+          <ion-icon name="construct" item-left></ion-icon>
+          My Projects
+        </ion-item>
+        <ion-item class="custom-item" ion-item menuClose (click)="goToPage(account)">
+          <ion-icon name="contact" item-left></ion-icon>
+          Account
+        </ion-item>
+      </ion-list>
+    </div>
   </ion-content>
   <ion-footer>
-    <button menuClose ion-item (click)="logout()">
-      Logout
-    </button>
+    <ion-item class="custom-item">
+      Pro In Your Pocket
+    </ion-item>
   </ion-footer>
 </ion-menu>
 
