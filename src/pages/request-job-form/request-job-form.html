@@ -1,37 +1,58 @@
 <ion-header>
-  <ion-navbar [ngClass]="{'toolbar-pro': currentProfile && currentProfile.type === 'pro', 'toolbar-consumer': currentProfile && currentProfile.type === 'consumer'}">
+  <ion-navbar
+    [ngClass]="{'toolbar-pro': currentProfile && currentProfile.type === 'pro', 'toolbar-consumer': currentProfile && currentProfile.type === 'consumer'}">
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>
-      Job Request Form
+      Find a Pro
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
+  <h1 class="title colored-text">What can a <strong>Pro</strong> do for you?</h1>
   <form #f="ngForm" [formGroup]="formJobRequest" (ngSubmit)="submitJobRequest()">
     <ion-item>
-      <ion-label>Service Categories</ion-label>
+      <ion-label class="colored-text">Help me with...</ion-label>
       <ion-select formControlName="jobCategory">
         <ion-option *ngFor="let service of services" value="{{service._id}}">{{service.name}}</ion-option>
       </ion-select>
     </ion-item>
 
     <ion-item>
-      <ion-icon *ngIf="validate('jobName')" class="invalid" isActive="false" name="warning" item-left></ion-icon>
-      <ion-input type="text" formControlName="jobName" placeholder="Job Title"></ion-input>
+      <ion-input class="colored-text" type="text" formControlName="jobName"
+                 placeholder="Give your project a name"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-icon *ngIf="validate('jobDescription')" class="invalid" isActive="false" name="warning" item-left></ion-icon>
-      <ion-textarea formControlName="jobDescription" placeholder="Job Description"></ion-textarea>
+      <ion-textarea rows="6" class="colored-text" formControlName="jobDescription"
+                    placeholder="Describe your project"></ion-textarea>
     </ion-item>
-    <p>Note: Try to be as detailed as possible in your description. This will help you attract more bids, quicker.</p>
+    <p class="colored-text">Note: Try to be as detailed as possible in your description. This will help you attract more
+      bids, quicker.</p>
 
+    <ion-icon (click)="addProjectImage()" class="camera colored-text" name="camera"></ion-icon>
+    <span>
+      <ion-icon class="colored-text plus" name="add"></ion-icon>
+    </span>
+
+    <ion-grid *ngIf="projectImages && projectImages.length > 0">
+      <div *ngFor="let image of projectImages; let i = index">
+        <ion-row *ngIf="i % 3 === 0">
+          <ion-col width-33 *ngIf="i < projectImages.length">
+            <img [src]=projectImages[i] (click)="removeProjectImage(i)">
+          </ion-col>
+          <ion-col width-33 *ngIf="i + 1 < projectImages.length">
+            <img [src]=projectImages[i+1] (click)="removeProjectImage(i+1)">
+          </ion-col>
+          <ion-col width-33 *ngIf="i + 2 < projectImages.length">
+            <img [src]=projectImages[i+2] (click)="removeProjectImage(i+2)">
+          </ion-col>
+        </ion-row>
+      </div>
+    </ion-grid>
     <br>
-    <div class="bottom-button">
-      <button type="submit" ion-button full>Find a Pro for the job!</button>
-    </div>
+    <button class="rounded" type="submit" ion-button>Create</button>
   </form>
 </ion-content>

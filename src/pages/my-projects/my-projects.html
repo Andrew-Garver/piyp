@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-navbar [ngClass]="{'toolbar-pro': currentProfile && currentProfile.type === 'pro', 'toolbar-consumer': currentProfile && currentProfile.type === 'consumer'}">
+  <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+      Jobs
+    </ion-title>
+  </ion-navbar>
+  <ion-toolbar no-border-top [ngClass]="{'toolbar-pro': currentProfile && currentProfile.type === 'pro', 'toolbar-consumer': currentProfile && currentProfile.type === 'consumer'}">
+    <ion-segment [(ngModel)]="segment">
+      <ion-segment-button value="jobsNew" (click)="fetchJobData()">
+        New
+      </ion-segment-button>
+      <ion-segment-button value="jobsInProgress" (click)="fetchJobData()">
+        In Progress
+      </ion-segment-button>
+      <ion-segment-button value="jobsCompleted" (click)="fetchJobData()">
+        Completed
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <div [ngSwitch]="segment">
+    <ion-list *ngSwitchCase="'jobsNew'">
+      <button ion-item *ngFor="let job of jobsNew" (click)="viewJobDetails(job)">{{job.request.title}}</button>
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'jobsInProgress'">
+      <button ion-item *ngFor="let job of jobsInProgress" (click)="viewJobDetails(job)">{{job.request.title}}</button>
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'jobsCompleted'">
+      <button ion-item *ngFor="let job of jobsCompleted" (click)="viewJobDetails(job)">{{job.request.title}}</button>
+    </ion-list>
+  </div>
+</ion-content>

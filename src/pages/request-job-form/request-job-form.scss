@@ -1,9 +1,28 @@
 page-request-job-form {
-  .bottom-button {
-    padding: $content-padding;
-    position: fixed;
-    bottom: 10%;
-    left: 0;
-    right: 0;
+  .title {
+    font-size: 225%;
+    text-align: center;
+  }
+
+  .rounded {
+    float: right;
+    border-radius: 25px !important;
+    height: 2% !important;
+    padding: 2% 8%;
+    font-size: 100%;
+    background-color: #FE2347;
+  }
+
+  .colored-text {
+    color: #FE2347;
+  }
+
+  .camera {
+    font-size: 350%;
+  }
+
+  .plus {
+    position: relative;
+    bottom: .6em;
   }
 }

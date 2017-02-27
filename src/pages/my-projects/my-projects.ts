@@ -11,11 +11,11 @@ import {LoadingService} from "../../services/loading.service";
 import {ToastService} from "../../services/toast.service";
 
 @Component({
-  selector: 'page-hired-jobs',
-  templateUrl: 'hired-jobs.html'
+  selector: 'page-my-projects',
+  templateUrl: 'my-projects.html'
 })
 
-export class HiredJobsPage {
+export class MyProjectsPage {
 
   private currentProfile: any;
   private jobsNew: any;
@@ -60,7 +60,10 @@ export class HiredJobsPage {
       this.navCtrl.push(JobDetailsPage, {job: job})
         .catch(() => {
           this.authService.logout()
-            .then(() => this.app.getRootNav().setRoot(LoginPage));
+            .then(() => {
+              this.app.getRootNav().setRoot(LoginPage);
+              this.toastService.presentToast("Your session has expired. Please login again.");
+            });
         });
     }
     else {
