@@ -1,12 +1,11 @@
 import {Component} from '@angular/core';
 
 import {NavController, NavParams} from 'ionic-angular';
-import {TabsPage} from "../tabs/tabs";
 import {LoadingService} from "../../services/loading.service";
 import {ProfileService} from "../../services/profile.service";
 import {ToastService} from "../../services/toast.service";
-import {RequestJobFormPage} from "../request-job-form/request-job-form";
-import {FindJobFormPage} from "../find-job-form/find-job-form";
+import {FindAProPage} from "../find-a-pro/find-a-pro";
+import {FindNewProjectsPage} from "../find-new-projects/find-new-projects";
 
 @Component({
   selector: 'page-select-profile',
@@ -28,10 +27,10 @@ export class SelectProfilePage {
     this.profileService.getUserProfile(this.user.profiles[profileId]._id)
       .then((profile) => {
         if (profile && profile.type === "consumer") {
-          this.navCtrl.setRoot(RequestJobFormPage);
+          this.navCtrl.setRoot(FindAProPage);
         }
         else {
-          this.navCtrl.setRoot(FindJobFormPage);
+          this.navCtrl.setRoot(FindNewProjectsPage);
         }
         this.loadingService.hideLoading();
         return this.profileService.getProfilePicture(profile._id, {pictureURI: profile.profilePicture});

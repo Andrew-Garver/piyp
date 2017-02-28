@@ -17,8 +17,8 @@ import {SelectProfilePage} from "../select-profile/select-profile";
 import {SelectInfoToEditPage} from "../settings/personal-info/select-info-to-edit";
 import {Camera} from "ionic-native";
 import {JobService} from "../../services/job.service";
-import {BidsPage} from "../bids/bids";
-import {HistoricalJobsPage} from "../historical-jobs/historical-jobs";
+// import {BidsPage} from "../../trash/bids/bids";
+// import {HistoricalJobsPage} from "../../trash/historical-jobs/historical-jobs";
 
 @Component({
   selector: 'page-profile',
@@ -34,8 +34,8 @@ export class ProfilePage {
   private currentProfileId: any;
   private profilePic: any;
   private selectInfoPage: any = SelectInfoToEditPage;
-  private bidsPage: any = BidsPage;
-  private historicalJobsPage: any = HistoricalJobsPage;
+  // private bidsPage: any = BidsPage;
+  // private historicalJobsPage: any = HistoricalJobsPage;
 
   /*
    * 0: empty

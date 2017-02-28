@@ -3,8 +3,6 @@ import {Component} from '@angular/core';
 import {NavController} from 'ionic-angular';
 import {ProfilePersonalAddressForm} from "../address/address";
 import {Validators, FormBuilder, FormGroup} from "@angular/forms";
-import {TabsPage} from "../../tabs/tabs";
-import {ProfilePage} from "../../profile/profile";
 import {ProfileService} from "../../../services/profile.service";
 import {LoadingService} from "../../../services/loading.service";
 import {AuthService} from "../../../services/auth.service";

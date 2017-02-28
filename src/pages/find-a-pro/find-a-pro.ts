@@ -1,6 +1,6 @@
-import {Component, DoCheck} from '@angular/core';
+import {Component} from '@angular/core';
 
-import {NavController, NavParams, AlertController} from 'ionic-angular';
+import {NavController, AlertController} from 'ionic-angular';
 import {FormBuilder, Validators, FormGroup} from "@angular/forms";
 import {ToastService} from "../../services/toast.service";
 import {JobService} from "../../services/job.service";
@@ -12,10 +12,10 @@ import {LoginPage} from "../login/login";
 import {AuthService} from "../../services/auth.service";
 
 @Component({
-  selector: 'page-request-job-form',
-  templateUrl: 'request-job-form.html'
+  selector: 'page-find-a-pro',
+  templateUrl: 'find-a-pro.html'
 })
-export class RequestJobFormPage {
+export class FindAProPage {
 
   private formJobRequest: FormGroup;
   private services: any;

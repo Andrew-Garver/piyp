@@ -3,21 +3,18 @@ import {Component, ViewChild} from '@angular/core';
 import {NavController, Slides, Checkbox, App} from 'ionic-angular';
 import {FormBuilder, Validators, FormGroup} from "@angular/forms";
 import {SignUpValidator} from "./sign-up.validator";
-import {AuthService} from "../../services/auth.service";
 import {AccountCreationService} from "../../services/account-creation.service";
-import {TabsPage} from "../tabs/tabs";
 import {SelectProfilePage} from "../select-profile/select-profile";
 import {UserService} from "../../services/user.service";
 import {LoadingService} from "../../services/loading.service";
 import {ToastService} from "../../services/toast.service";
 import {ProfileService} from "../../services/profile.service";
-import {RequestJobFormPage} from "../request-job-form/request-job-form";
-import {FindJobFormPage} from "../find-job-form/find-job-form";
+import {FindAProPage} from "../find-a-pro/find-a-pro";
+import {FindNewProjectsPage} from "../find-new-projects/find-new-projects";
 
 @Component({
   selector: 'page-sign-up',
-  templateUrl: 'sign-up.html',
-  providers: [AuthService, AccountCreationService, SignUpValidator, UserService, LoadingService, ToastService, ProfileService]
+  templateUrl: 'sign-up.html'
 })
 
 export class SignUpPage {
@@ -143,10 +140,10 @@ export class SignUpPage {
           }
           if (this.userService.getNumberOfUserProfiles() === 1) {
             if (profile.type === 'consumer') {
-              this.navCtrl.setRoot(RequestJobFormPage)
+              this.navCtrl.setRoot(FindAProPage)
             }
             else {
-              this.navCtrl.setRoot(FindJobFormPage);
+              this.navCtrl.setRoot(FindNewProjectsPage);
             }
           }
           else {

@@ -1,19 +1,15 @@
 import {Component} from '@angular/core';
 
-import {NavController, NavParams, App} from "ionic-angular";
-import {AuthService} from "../../services/auth.service";
+import {NavController, NavParams} from "ionic-angular";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {LoadingService} from "../../services/loading.service";
-import {ManageBidsPage} from "../manage-bids/manage-bids";
-import {LoginPage} from "../login/login";
 import {ToastService} from "../../services/toast.service";
 import {BidService} from "../../services/bid.service";
-import {TabsPage} from "../tabs/tabs";
+import {ManageBidsPage} from "../manage-bids/manage-bids";
 
 @Component({
   selector: 'page-place-bid',
   templateUrl: 'place-bid.html',
-  providers: [AuthService, LoadingService, ToastService, BidService]
 })
 
 export class PlaceBidPage {
@@ -22,10 +18,9 @@ export class PlaceBidPage {
   private selectedJob: any;
   private edit: boolean;
 
-  constructor(private navCtrl: NavController, private authService: AuthService,
+  constructor(private navCtrl: NavController, private bidService: BidService,
               private navParams: NavParams, private formBuilder: FormBuilder,
-              private loadingService: LoadingService, private toastService: ToastService,
-              private bidService: BidService, private app: App) {
+              private loadingService: LoadingService, private toastService: ToastService) {
     this.selectedJob = this.navParams.get('job');
     this.edit = this.navParams.get('edit');
 
@@ -41,8 +36,7 @@ export class PlaceBidPage {
       this.postData()
         .then(() => {
           this.loadingService.hideLoading();
-          this.navCtrl.popToRoot();
-          this.navCtrl.parent.select(1);
+          this.navCtrl.push(ManageBidsPage);
         })
         .catch((err) => {
           console.log(err);

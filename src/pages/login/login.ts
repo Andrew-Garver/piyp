@@ -1,17 +1,15 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 
-import {ModalController, NavController, ActionSheetController, App} from 'ionic-angular';
+import {NavController} from 'ionic-angular';
 import {SignUpPage} from "../signup/sign-up";
 import {AuthService} from "../../services/auth.service";
-import {TabsPage} from "../tabs/tabs";
 import {SelectProfilePage} from "../select-profile/select-profile";
 import {UserService} from "../../services/user.service";
 import {ToastService} from "../../services/toast.service";
 import {LoadingService} from "../../services/loading.service";
-import {IntroSlidesPage} from "../into-slides/intro-slides";
 import {ProfileService} from "../../services/profile.service";
-import {FindJobFormPage} from "../find-job-form/find-job-form";
-import {RequestJobFormPage} from "../request-job-form/request-job-form";
+import {FindNewProjectsPage} from "../find-new-projects/find-new-projects";
+import {FindAProPage} from "../find-a-pro/find-a-pro";
 
 @Component({
   selector: 'page-login',
@@ -44,10 +42,10 @@ export class LoginPage {
         }
         if (this.userService.getNumberOfUserProfiles() === 1) {
           if (profile.type === 'consumer') {
-            this.navCtrl.setRoot(RequestJobFormPage)
+            this.navCtrl.setRoot(FindAProPage)
           }
           else {
-            this.navCtrl.setRoot(FindJobFormPage);
+            this.navCtrl.setRoot(FindNewProjectsPage);
           }
         }
         else {

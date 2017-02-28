@@ -12,11 +12,10 @@ import {ServicesService} from "../../services/services.service";
 import {ProfileService} from "../../services/profile.service";
 
 @Component({
-  selector: 'page-find-job-form',
-  templateUrl: 'find-job-form.html',
-  providers: [AuthService, LoadingService, ToastService, ProfileService]
+  selector: 'page-find-new-projects',
+  templateUrl: 'find-new-projects.html'
 })
-export class FindJobFormPage {
+export class FindNewProjectsPage {
 
   private formFindJobs: FormGroup;
   private currentProfile: any;

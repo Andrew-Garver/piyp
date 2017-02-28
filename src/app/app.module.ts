@@ -1,11 +1,11 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import {IonicApp, IonicModule, IonicErrorHandler} from 'ionic-angular';
 import { MyApp } from './app.component';
-import { JobRequestsPage } from '../pages/job-requests/job-requests';
+// import { JobRequestsPage } from '../trash/job-requests/job-requests';
 import { HiredJobsPage } from '../pages/hired-jobs/hired-jobs';
-import { RequestJobsPage } from '../pages/request-jobs/request-jobs';
+// import { RequestJobsPage } from '../trash/request-jobs/request-jobs';
 import { ProfilePage } from '../pages/profile/profile';
-import { TabsPage } from '../pages/tabs/tabs';
+// import { TabsPage } from '../trash/tabs/tabs';
 import { LoginPage } from '../pages/login/login'
 import {SignUpPage} from "../pages/signup/sign-up";
 import {HttpModule, Http} from "@angular/http";
@@ -13,12 +13,12 @@ import {JobDetailsPage} from "../pages/job-details/job-details";
 import {ErrorPage} from "../pages/error/error";
 import {CustomerDetailsPage} from "../pages/customer-details/customer-details";
 import {ProDetailsPage} from "../pages/pro-details/pro-details";
-import {RequestJobFormPage} from "../pages/request-job-form/request-job-form";
-import {BidsPage} from "../pages/bids/bids";
+import {FindAProPage} from "../pages/find-a-pro/find-a-pro";
+// import {BidsPage} from "../trash/bids/bids";
 import {BidDetailsPage} from "../pages/bid-details/bid-details";
-import {FindJobsPage} from "../pages/find-jobs/find-jobs";
+// import {FindJobsPage} from "../trash/find-jobs/find-jobs";
 import {ManageBidsPage} from "../pages/manage-bids/manage-bids";
-import {FindJobFormPage} from "../pages/find-job-form/find-job-form";
+import {FindNewProjectsPage} from "../pages/find-new-projects/find-new-projects";
 import {AuthConfig, AuthHttp} from "angular2-jwt";
 import {SelectProfilePage} from "../pages/select-profile/select-profile";
 import {ProgressBarComponent} from "../components/progress-bar/progress-bar";
@@ -45,7 +45,7 @@ import {Ionic2RatingModule} from "ionic2-rating";
 import {RateUserPage} from "../pages/rate-user/rate-user";
 import {IntroSlidesPage} from "../pages/into-slides/intro-slides";
 import {PhoneNumberPage} from "../pages/phone-number/phone-number";
-import {HistoricalJobsPage} from "../pages/historical-jobs/historical-jobs";
+// import {HistoricalJobsPage} from "../trash/historical-jobs/historical-jobs";
 import {ReviewDetailsPage} from "../pages/review-details/review-details";
 import {BusinessSummaryForm} from "../pages/profile-business-info-forms/business-summary/business-summary";
 import {EarningsPage} from "../pages/earnings/earnings";
@@ -78,22 +78,22 @@ export function getAuthHttp(http) {
 @NgModule({
   declarations: [
     MyApp,
-    JobRequestsPage,
+    // JobRequestsPage,
     HiredJobsPage,
-    RequestJobsPage,
+    // RequestJobsPage,
     ProfilePage,
     LoginPage,
-    TabsPage,
+    // TabsPage,
     SignUpPage,
     JobDetailsPage,
     CustomerDetailsPage,
     ProDetailsPage,
-    RequestJobFormPage,
-    BidsPage,
+    FindAProPage,
+    // BidsPage,
     BidDetailsPage,
-    FindJobsPage,
+    // FindJobsPage,
     ManageBidsPage,
-    FindJobFormPage,
+    FindNewProjectsPage,
     SelectProfilePage,
     ErrorPage,
     ProgressBarComponent,
@@ -119,7 +119,7 @@ export function getAuthHttp(http) {
     RateUserPage,
     IntroSlidesPage,
     PhoneNumberPage,
-    HistoricalJobsPage,
+    // HistoricalJobsPage,
     ReviewDetailsPage,
     BusinessSummaryForm,
     EarningsPage,
@@ -133,22 +133,22 @@ export function getAuthHttp(http) {
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    JobRequestsPage,
+    // JobRequestsPage,
     HiredJobsPage,
-    RequestJobsPage,
+    // RequestJobsPage,
     ProfilePage,
     LoginPage,
-    TabsPage,
+    // TabsPage,
     SignUpPage,
     JobDetailsPage,
     CustomerDetailsPage,
     ProDetailsPage,
-    RequestJobFormPage,
-    BidsPage,
+    FindAProPage,
+    // BidsPage,
     BidDetailsPage,
-    FindJobsPage,
+    // FindJobsPage,
     ManageBidsPage,
-    FindJobFormPage,
+    FindNewProjectsPage,
     SelectProfilePage,
     ErrorPage,
     ProfilePersonalAddressForm,
@@ -173,7 +173,7 @@ export function getAuthHttp(http) {
     RateUserPage,
     IntroSlidesPage,
     PhoneNumberPage,
-    HistoricalJobsPage,
+    // HistoricalJobsPage,
     ReviewDetailsPage,
     BusinessSummaryForm,
     EarningsPage,

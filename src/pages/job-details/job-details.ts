@@ -7,18 +7,18 @@ import {LoginPage} from "../login/login";
 import {CustomerDetailsPage} from "../customer-details/customer-details";
 import {Pro} from "../../entities/pro";
 import {ProDetailsPage} from "../pro-details/pro-details";
-import {BidsPage} from "../bids/bids";
+// import {BidsPage} from "../../trash/bids/bids";
 import {ToastService} from "../../services/toast.service";
 import {PlaceBidPage} from "../place-bid/place-bid";
-import {RequestJobFormPage} from "../request-job-form/request-job-form";
+import {FindAProPage} from "../find-a-pro/find-a-pro";
 import {JobService} from "../../services/job.service";
-import {JobRequestsPage} from "../job-requests/job-requests";
 import {QuestionDetailsPage} from "../../question-details/question-details";
 import {AskQuestionFormPage} from "../ask-question-form/ask-question-form";
 import {RateUserPage} from "../rate-user/rate-user";
 import {LoadingService} from "../../services/loading.service";
 import {BidService} from "../../services/bid.service";
 import {ProfileService} from "../../services/profile.service";
+import {ManageBidsPage} from "../manage-bids/manage-bids";
 
 @Component({
   selector: 'page-job-details',
@@ -91,7 +91,7 @@ export class JobDetailsPage {
     this.jobService.confirmDelete(this.selectedJob._id)
       .then((data) => {
         if (data) {
-          this.navCtrl.setRoot(JobRequestsPage);
+          this.navCtrl.setRoot(FindAProPage);
         }
       })
       .catch((err) => {
@@ -119,7 +119,7 @@ export class JobDetailsPage {
     if (selectedJob) {
       this.bidService.getBids(selectedJob._id)
         .then((bids) => {
-          this.navCtrl.push(BidsPage, {job: this.selectedJob, bids: bids})
+          this.navCtrl.push(ManageBidsPage, {job: this.selectedJob, bids: bids})
             .catch((err) => {
               console.log(err);
               this.toastService.presentToast("Could not reach PIYP servers. Please check your data connection and try again.");

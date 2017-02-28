@@ -1,6 +1,6 @@
 import {Component, OnInit, DoCheck} from '@angular/core';
-import {Platform, App, NavController} from 'ionic-angular';
-import {StatusBar, Splashscreen, Camera} from 'ionic-native';
+import {Platform, App} from 'ionic-angular';
+import {StatusBar, Splashscreen} from 'ionic-native';
 
 import {LoginPage} from "../pages/login/login";
 import {AuthService} from "../services/auth.service";
@@ -8,13 +8,9 @@ import {SelectProfilePage} from "../pages/select-profile/select-profile";
 import {SelectInfoToEditPage} from "../pages/settings/personal-info/select-info-to-edit";
 import {ErrorPage} from "../pages/error/error";
 import {ToastService} from "../services/toast.service";
-import {ProfilePage} from "../pages/profile/profile";
-import {LoadingService} from "../services/loading.service";
 import {IntroSlidesPage} from "../pages/into-slides/intro-slides";
-import {TabsPage} from "../pages/tabs/tabs";
-import {FindJobFormPage} from "../pages/find-job-form/find-job-form";
-import {RequestJobFormPage} from "../pages/request-job-form/request-job-form";
-import {BidsPage} from "../pages/bids/bids";
+import {FindNewProjectsPage} from "../pages/find-new-projects/find-new-projects";
+import {FindAProPage} from "../pages/find-a-pro/find-a-pro";
 import {HiredJobsPage} from "../pages/hired-jobs/hired-jobs";
 import {EarningsPage} from "../pages/earnings/earnings";
 import {ProfileService} from "../services/profile.service";
@@ -34,13 +30,13 @@ export class MyApp implements DoCheck, OnInit {
   private currentUser: any;
   private numProfiles: number;
   private profilePic: any;
-  private findNewProjects: any = FindJobFormPage;
+  private findNewProjects: any = FindNewProjectsPage;
   private bids: any = ManageBidsPage;
   private projects: any = HiredJobsPage;
   private myProjects: any = MyProjectsPage;
   private earnings: any = EarningsPage;
   private account: any = SelectProfilePage;
-  private findAPro: any = RequestJobFormPage;
+  private findAPro: any = FindAProPage;
   private settings: any = SelectInfoToEditPage;
 
   constructor(private platform: Platform, private authService: AuthService, private app: App,
@@ -54,10 +50,10 @@ export class MyApp implements DoCheck, OnInit {
         if (loggedIn) {
           let profileType = JSON.parse(localStorage.getItem('current_profile')).type;
           if (profileType && profileType === "consumer") {
-            this.rootPage = RequestJobFormPage;
+            this.rootPage = FindAProPage;
           }
           else {
-            this.rootPage = FindJobFormPage
+            this.rootPage = FindNewProjectsPage
           }
           if (this.currentProfile.profilePicture) {
             return this.profileService.getProfilePicture(this.currentProfile._id, {pictureURI: this.currentProfile.profilePicture});

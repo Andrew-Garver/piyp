@@ -1,22 +1,17 @@
 import {Component} from '@angular/core';
 
 import {NavController, NavParams} from 'ionic-angular';
-import {TabsPage} from "../../tabs/tabs";
 import {Validators, FormBuilder, FormGroup} from "@angular/forms";
-import {ProfilePage} from "../../profile/profile";
-import {BusinessServicesForm} from "../business-services/business-services";
 import {ProfileService} from "../../../services/profile.service";
 import {LoadingService} from "../../../services/loading.service";
 import {AuthService} from "../../../services/auth.service";
 import {ToastService} from "../../../services/toast.service";
 import {LoginPage} from "../../login/login";
-import {BusinessTaxIdForm} from "../business-tax-id/business-tax-id";
 import {PhoneNumberPage} from "../../phone-number/phone-number";
 
 @Component({
   selector: 'page-business-address-form',
-  templateUrl: 'business-address.html',
-  providers: [ProfileService, LoadingService, AuthService, ToastService]
+  templateUrl: 'business-address.html'
 })
 export class BusinessAddressForm {
   private businessAddressForm: FormGroup;
