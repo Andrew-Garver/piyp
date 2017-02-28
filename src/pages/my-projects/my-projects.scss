@@ -2,4 +2,28 @@ page-my-projects {
   .segment-ios .segment-button.segment-activated{
     background-color: #FF999B;
   }
+
+  ion-col {
+    padding: 0px !important;
+  }
+
+  .job-title {
+    color: #FF6F89;
+    position: relative;
+    left: 2%;
+  }
+
+  .faded {
+    color: grey;
+    font-size: 90%;
+  }
+
+  .right-side {
+    float: right;
+  }
+
+  .left-side {
+    position: relative;
+    left: 3%;
+  }
 }

@@ -49,6 +49,7 @@ export class MyProjectsPage {
         this.jobsCompleted = jobs.filter((job) => {
           return job.proLeftFeedback;
         });
+        console.log(this.jobsListed);
         this.loadingService.hideLoading();
         // return Promise.resolve(jobs);
       })

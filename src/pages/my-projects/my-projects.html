@@ -33,7 +33,25 @@
             <ion-col width-25 style="background: blue">
         <!--<img *ngIf="projectImages" [src]=projectImages[job._id]>-->
             </ion-col>
-            <ion-col>{{job.request.title}}</ion-col>
+            <ion-col width-75>
+              <ion-row>
+                <ion-col width-75 class="job-title">
+                  <strong>{{job.request.title}}</strong>
+                </ion-col>
+                <ion-col width-25>
+                  <span class="faded right-side">1 hr ago</span>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col width-70>
+                  <span class="faded left-side">{{job._service.name}}</span>
+                </ion-col>
+                <ion-col width-30>
+                  <span *ngIf="!job.bids || job.bids.length < 1" class="faded right-side">Open for bids</span>
+                  <span *ngIf="job.bids && job.bids.length > 0" class="faded right-side">{{job.bids.length}} bids</span>
+                </ion-col>
+              </ion-row>
+            </ion-col>
           </ion-row>
         </ion-grid>
       </div>
