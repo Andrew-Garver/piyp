@@ -19,6 +19,7 @@ import {HiredJobsPage} from "../pages/hired-jobs/hired-jobs";
 import {EarningsPage} from "../pages/earnings/earnings";
 import {ProfileService} from "../services/profile.service";
 import {ManageBidsPage} from "../pages/manage-bids/manage-bids";
+import {MyProjectsPage} from "../pages/my-projects/my-projects";
 
 
 @Component({
@@ -36,6 +37,7 @@ export class MyApp implements DoCheck, OnInit {
   private findNewProjects: any = FindJobFormPage;
   private bids: any = ManageBidsPage;
   private projects: any = HiredJobsPage;
+  private myProjects: any = MyProjectsPage;
   private earnings: any = EarningsPage;
   private account: any = SelectProfilePage;
   private findAPro: any = RequestJobFormPage;

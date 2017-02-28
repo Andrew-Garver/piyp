@@ -38,6 +38,10 @@ export class RequestJobFormPage {
   }
 
   addProjectImage() {
+    if (this.projectImages && this.projectImages.length > 2) {
+      return;
+    }
+    this.loadingService.presentLoading();
     Camera.getPicture({
       sourceType: Camera.PictureSourceType.SAVEDPHOTOALBUM,
       destinationType: Camera.DestinationType.DATA_URL
@@ -48,8 +52,10 @@ export class RequestJobFormPage {
           this.projectImages = [];
         }
         this.projectImages.push(image);
+        this.loadingService.hideLoading();
       })
       .catch((err) => {
+        this.loadingService.hideLoading();
         this.toastService.presentToast("Something went wrong when trying to access your photos. Please try again.");
         console.log(err);
       });

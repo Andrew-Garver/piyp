@@ -32,10 +32,12 @@
     <p class="colored-text">Note: Try to be as detailed as possible in your description. This will help you attract more
       bids, quicker.</p>
 
-    <ion-icon (click)="addProjectImage()" class="camera colored-text" name="camera"></ion-icon>
-    <span>
+    <div *ngIf="!projectImages || (projectImages && projectImages.length < 3)">
+      <ion-icon (click)="addProjectImage()" class="camera colored-text" name="camera"></ion-icon>
+      <span>
       <ion-icon class="colored-text plus" name="add"></ion-icon>
     </span>
+    </div>
 
     <ion-grid *ngIf="projectImages && projectImages.length > 0">
       <div *ngFor="let image of projectImages; let i = index">

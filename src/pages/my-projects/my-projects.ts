@@ -18,10 +18,11 @@ import {ToastService} from "../../services/toast.service";
 export class MyProjectsPage {
 
   private currentProfile: any;
-  private jobsNew: any;
-  private jobsInProgress: any;
+  private jobsListed: any;
+  private jobsContracted: any;
   private jobsCompleted: any;
-  private segment: any = "jobsNew";
+  private segment: any = "jobsListed";
+  // private projectImages: any;
 
   constructor(public navCtrl: NavController, private app: App, private authService: AuthService,
               private jobService: JobService, private loadingService: LoadingService,
@@ -30,29 +31,40 @@ export class MyProjectsPage {
   }
 
   ionViewWillEnter() {
+    this.fetchJobData();
+  }
+
+  fetchJobData() {
     let params = {
       profile: this.currentProfile._id,
-      queryBy: 'acceptedBids'
+      queryBy: 'creator'
     };
 
     this.loadingService.presentLoading();
     this.jobService.getJobs(params)
       .then((jobs) => {
-        this.loadingService.hideLoading();
-        this.jobsNew = jobs.filter((job) => {
+        this.jobsListed = jobs.filter((job) => {
           return !job.proLeftFeedback;
         });
-        console.log(jobs);
+        this.jobsCompleted = jobs.filter((job) => {
+          return job.proLeftFeedback;
+        });
+        this.loadingService.hideLoading();
+        // return Promise.resolve(jobs);
       })
+      // .then((jobs) => {
+      //   return this.jobService.getProjectImages(jobs);
+      // })
+      // .then((images) => {
+      //   this.loadingService.hideLoading();
+      //   this.projectImages = images;
+      //   console.log(this.projectImages);
+      // })
       .catch((err) => {
         this.loadingService.hideLoading();
         console.log(err);
         this.toastService.presentToast("Could not reach PIYP servers. Check your data connection and try again.")
       });
-  }
-
-  fetchJobData() {
-    console.log("Fetching job data");
   }
 
   private viewJobDetails(job) {

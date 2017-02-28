@@ -1,19 +1,21 @@
 <ion-header>
-  <ion-navbar [ngClass]="{'toolbar-pro': currentProfile && currentProfile.type === 'pro', 'toolbar-consumer': currentProfile && currentProfile.type === 'consumer'}">
-  <button ion-button menuToggle>
+  <ion-navbar
+    [ngClass]="{'toolbar-pro': currentProfile && currentProfile.type === 'pro', 'toolbar-consumer': currentProfile && currentProfile.type === 'consumer'}">
+    <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>
       Jobs
     </ion-title>
   </ion-navbar>
-  <ion-toolbar no-border-top [ngClass]="{'toolbar-pro': currentProfile && currentProfile.type === 'pro', 'toolbar-consumer': currentProfile && currentProfile.type === 'consumer'}">
+  <ion-toolbar no-border-top
+               [ngClass]="{'toolbar-pro': currentProfile && currentProfile.type === 'pro', 'toolbar-consumer': currentProfile && currentProfile.type === 'consumer'}">
     <ion-segment [(ngModel)]="segment">
-      <ion-segment-button value="jobsNew" (click)="fetchJobData()">
-        New
+      <ion-segment-button value="jobsListed" (click)="fetchJobData()">
+        Listed
       </ion-segment-button>
-      <ion-segment-button value="jobsInProgress" (click)="fetchJobData()">
-        In Progress
+      <ion-segment-button value="jobsContracted" (click)="fetchJobData()">
+        Contracted
       </ion-segment-button>
       <ion-segment-button value="jobsCompleted" (click)="fetchJobData()">
         Completed
@@ -24,12 +26,21 @@
 
 <ion-content padding>
   <div [ngSwitch]="segment">
-    <ion-list *ngSwitchCase="'jobsNew'">
-      <button ion-item *ngFor="let job of jobsNew" (click)="viewJobDetails(job)">{{job.request.title}}</button>
+    <ion-list *ngSwitchCase="'jobsListed'">
+      <div *ngFor="let job of jobsListed" (click)="viewJobDetails(job)">
+        <ion-grid>
+          <ion-row>
+            <ion-col width-25 style="background: blue">
+        <!--<img *ngIf="projectImages" [src]=projectImages[job._id]>-->
+            </ion-col>
+            <ion-col>{{job.request.title}}</ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
     </ion-list>
 
-    <ion-list *ngSwitchCase="'jobsInProgress'">
-      <button ion-item *ngFor="let job of jobsInProgress" (click)="viewJobDetails(job)">{{job.request.title}}</button>
+    <ion-list *ngSwitchCase="'jobsContracted'">
+      <button ion-item *ngFor="let job of jobsContracted" (click)="viewJobDetails(job)">{{job.request.title}}</button>
     </ion-list>
 
     <ion-list *ngSwitchCase="'jobsCompleted'">

@@ -85,6 +85,31 @@ export class JobService {
     });
   }
 
+  getProjectImages(jobs): Promise<any> {
+    let params = "";
+    if (jobs) {
+      params += "?";
+      for (let i = 0; i < jobs.length; i++) {
+        params += "projects[]=" + jobs[i]._id + "&";
+      }
+      params = params.slice(0, -1);
+    }
+
+    return new Promise((resolve, reject) => {
+      this.authHttp.get('http://localhost:3000/api/jobs/images' + params)
+        .map(res => res.json())
+        .subscribe(
+          data => {
+            resolve(data.projectImages);
+          },
+          err => {
+            console.log(err);
+            reject(err);
+          }
+        );
+    });
+  }
+
   confirmDelete(jobId): Promise<any> {
     return new Promise((resolve, reject) => {
       let confirm = this.alertCtrl.create({
