@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Filters
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <form #f="ngForm" [formGroup]="formFilters" (ngSubmit)="searchForOpenJobs()">
+
+    <ion-item>
+      <ion-label>Sort By</ion-label>
+      <ion-select formControlName="sortBy">
+        <ion-option value="distance">Distance</ion-option>
+        <ion-option value="budget">Estimated Budget</ion-option>
+        <ion-option value="rating">Consumer Rating</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Within</ion-label>
+      <ion-select formControlName="radius">
+        <ion-option value="10">10 miles</ion-option>
+        <ion-option value="20">20 miles</ion-option>
+        <ion-option value="30">30 miles</ion-option>
+        <ion-option value="50">50 miles</ion-option>
+        <ion-option value="100">100 miles</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Of which location?</ion-label>
+      <ion-select formControlName="locType">
+        <ion-option value="current">My Location</ion-option>
+        <ion-option value="business">My Business Address</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Service Categories</ion-label>
+      <ion-select formControlName="serviceCategories" multiple="true">
+        <ion-option *ngFor="let service of services" value="{{service._id}}">{{service.name}}</ion-option>
+      </ion-select>
+    </ion-item>
+  </form>
+</ion-content>

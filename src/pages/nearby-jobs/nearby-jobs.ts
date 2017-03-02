@@ -11,8 +11,7 @@ import {ToastService} from "../../services/toast.service";
 
 @Component({
   selector: 'page-nearby-jobs',
-  templateUrl: 'nearby-jobs.html',
-  providers: [AuthService, JobService, LoadingService, ToastService]
+  templateUrl: 'nearby-jobs.html'
 })
 export class NearbyJobsPage {
 
@@ -26,23 +25,23 @@ export class NearbyJobsPage {
   }
 
   ionViewWillEnter() {
-    let params = this.navParams.get('params');
-    params.queryBy = "radius";
-
-    this.loadingService.presentLoading();
-    this.jobService.getJobs(params)
-      .then((jobs) => {
-        this.loadingService.hideLoading();
-        console.log(jobs);
-        this.nearbyJobs = jobs.filter((job) => {
-          return job.bids.length === 0 && !job.acceptedBid; // TODO: This might get kind of heavy as things go on. We probably want to filter out completed jobs on the backend.
-        });
-      })
-      .catch((err) => {
-        this.loadingService.hideLoading();
-        console.log(err);
-        this.toastService.presentToast("Could not reach PIYP servers. Check your data connection and try again.")
-      });
+    // let params = this.navParams.get('params');
+    // params.queryBy = "radius";
+    //
+    // this.loadingService.presentLoading();
+    // this.jobService.getJobs(params)
+    //   .then((jobs) => {
+    //     this.loadingService.hideLoading();
+    //     console.log(jobs);
+    //     this.nearbyJobs = jobs.filter((job) => {
+    //       return job.bids.length === 0 && !job.acceptedBid;
+    //     });
+    //   })
+    //   .catch((err) => {
+    //     this.loadingService.hideLoading();
+    //     console.log(err);
+    //     this.toastService.presentToast("Could not reach PIYP servers. Check your data connection and try again.")
+    //   });
   }
 
   private viewJobDetails(selectedJob) {

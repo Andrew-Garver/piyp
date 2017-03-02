@@ -4,43 +4,60 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>
-      Find a Job
+      Project Search
     </ion-title>
   </ion-navbar>
+  <ion-toolbar no-border-top [ngClass]="{'toolbar-pro': currentProfile && currentProfile.type === 'pro', 'toolbar-consumer': currentProfile && currentProfile.type === 'consumer'}">
+    <ion-segment [(ngModel)]="segment">
+      <ion-segment-button value="projectsAll" (click)="fetchProjectData()">
+        All
+      </ion-segment-button>
+      <ion-segment-button value="projectsWatching" (click)="fetchProjectData()">
+        Watching
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
-  <form #f="ngForm" [formGroup]="formFindJobs" (ngSubmit)="searchForOpenJobs()">
+  <div [ngSwitch]="segment">
+    <ion-list *ngSwitchCase="'projectsAll'">
+      <div *ngFor="let job of allProjects" (click)="viewJobDetails(job)">
+        <ion-grid>
+          <ion-row>
+            <ion-col width-25 style="background: green">
+              <!--<img *ngIf="projectImages" [src]=projectImages[job._id]>-->
+            </ion-col>
+            <ion-col width-75>
+              <ion-row>
+                <ion-col width-75>
+                  <span class="faded left-side">10 mi</span>
+                </ion-col>
+                <ion-col width-25>
+                  <span class="faded right-side">1 hr ago</span>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col width-75 class="job-title">
+                  <strong>{{job.request.title}}</strong>
+                </ion-col>
+                <ion-col width-25>
+                  <ion-icon name="star" class="star"></ion-icon>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <span class="faded left-side">{{job._service.name}}</span>
+                </ion-col>
+              </ion-row>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+    </ion-list>
 
-    <ion-item>
-      <ion-label>Within</ion-label>
-      <ion-select formControlName="radius">
-        <ion-option value="10">10 miles</ion-option>
-        <ion-option value="20">20 miles</ion-option>
-        <ion-option value="30">30 miles</ion-option>
-        <ion-option value="50">50 miles</ion-option>
-        <ion-option value="100">100 miles</ion-option>
-      </ion-select>
-    </ion-item>
-
-    <ion-item>
-      <ion-label>Of which location?</ion-label>
-      <ion-select formControlName="locType">
-        <ion-option value="current">My Location</ion-option>
-        <ion-option value="business">My Business Address</ion-option>
-      </ion-select>
-    </ion-item>
-
-    <ion-item>
-      <ion-label>Service Categories</ion-label>
-      <ion-select formControlName="serviceCategories" multiple="true">
-        <ion-option *ngFor="let service of services" value="{{service._id}}">{{service.name}}</ion-option>
-      </ion-select>
-    </ion-item>
-
-    <br>
-    <div class="bottom-button">
-      <button type="submit" ion-button full>Search</button>
-    </div>
-  </form>
+    <ion-list *ngSwitchCase="'projectsWatching'">
+      <button ion-item *ngFor="let job of watchedProjects" (click)="viewJobDetails(job)">{{job.request.title}}</button>
+    </ion-list>
+  </div>
 </ion-content>

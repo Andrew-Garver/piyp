@@ -1,9 +1,42 @@
 page-find-new-projects {
-  .bottom-button {
-    padding: $content-padding;
-    position: fixed;
-    bottom: 10%;
-    left: 0;
-    right: 0;
+  .toolbar-ios .segment-button {
+    max-width: none !important;
+    margin-left: 2%;
+    margin-right: 2%;
+  }
+
+  .segment-ios .segment-button.segment-activated{
+    background-color: #FF999B;
+  }
+
+  ion-col {
+    padding: 0px !important;
+  }
+
+  .job-title {
+    color: #006eff;
+    position: relative;
+    left: 2%;
+  }
+
+  .faded {
+    color: grey;
+    font-size: 90%;
+  }
+
+  .right-side {
+    float: right;
+  }
+
+  .left-side {
+    position: relative;
+    left: 3%;
+  }
+
+  .star {
+    position: absolute;
+    right: 6%;
+    font-size: 215%;
+    color: #006eff;
   }
 }
