@@ -1,5 +1,6 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar
+    [ngClass]="{'toolbar-pro': currentProfile && currentProfile.type === 'pro', 'toolbar-consumer': currentProfile && currentProfile.type === 'consumer'}">
     <ion-title>
       Job Details
     </ion-title>
@@ -14,46 +15,120 @@
 </ion-header>
 
 <ion-content padding>
-  <h3>{{selectedJob.request.title}}</h3>
-  <span *ngIf="currentProfile.type === 'pro' && selectedJob.distance" style="float: right">{{selectedJob.distance}} miles from you</span>
-  <span>{{selectedJob._service.name}}</span>
-  <h5 *ngIf="currentProfile.type === 'pro' && selectedJob.bids.length > 0">Your bid: ${{selectedJob.bids[0].amount}}</h5>
-  <h5 *ngIf="currentProfile.type === 'consumer' && winningBid">Your selected bid: ${{winningBid.amount}}</h5>
+  <!--<div *ngIf="currentProfile.type === 'pro' && selectedJob.bids.length > 0" [ngClass]="banner-pending">-->
+  <!--<span>Your bid is currently pending</span>-->
+  <!--<span class="banner-button">View ></span>-->
+  <!--</div>-->
 
-  <div [ngClass]="determineClass()">
-    <h5 class="sub-heading">Job Description</h5>
-    <p class="description">
-      {{selectedJob.request.description}}
-    </p>
+  <!--<h5 *ngIf="currentProfile.type === 'pro' && selectedJob.bids.length > 0">Your bid:-->
+  <!--${{selectedJob.bids[0].amount}}</h5>-->
+  <!--<h5 *ngIf="currentProfile.type === 'consumer' && winningBid">Your selected bid: ${{winningBid.amount}}</h5>-->
 
-    <ion-searchbar *ngIf="totalQuestions > 0" (ionInput)="filterQuestions($event)"></ion-searchbar>
-    <ion-list>
-      <button ion-item (click)="viewQuestion(question)" *ngFor="let question of questions">
-        <h5>Q: {{question.question}}</h5>
-        <h5>
-          <ion-icon *ngIf="currentProfile.type === 'consumer' && !question.answer" class="alert" isActive="false" name="warning" item-left></ion-icon>
-          A: {{question.answer}}
-        </h5>
-      </button>
-      <button *ngIf="currentProfile.type === 'pro' && !historical" ion-button full (click)="askQuestion(selectedJob.id)">Ask Question
-      </button>
-    </ion-list>
-  </div>
+  <ion-grid>
+    <ion-row>
+      <ion-col width-70 class="job-title">
+        <strong>{{selectedJob.request.title}}</strong>
+      </ion-col>
+      <ion-col width-30>
+        <span class="username right-side">Username (stars)</span>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col width-75>
+        <span class="faded left-side">{{selectedJob._service.name}}</span>
+      </ion-col>
+      <ion-col width-25>
+        <span class="faded right-side">1 hr ago</span>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col width-75>
+        <span class="faded left-side">Estimated Budget: $35</span>
+      </ion-col>
+      <ion-col width-25>
+        <span class="faded right-side">10 mi</span>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
-  <div *ngIf="!historical">
-  <div *ngIf="currentProfile.type === 'pro'" class="bottom-button">
-    <button *ngIf="selectedJob.acceptedBid" ion-button full (click)="viewCustomerDetails()">View Customer Profile</button>
-    <button *ngIf="selectedJob.acceptedBid && !selectedJob.proMarkedComplete" ion-button full (click)="markJobComplete()">Mark Job Complete</button>
-    <button *ngIf="selectedJob.acceptedBid && selectedJob.proMarkedComplete" ion-button full (click)="leaveReview()" [attr.disabled]="selectedJob.consumerLeftFeedback ? null : ''">Review Consumer</button>
-    <button *ngIf="selectedJob.bids.length > 0 && !selectedJob.acceptedBid" ion-button full color="danger" (click)="deleteBid(selectedJob)">Delete Bid</button>
-    <button *ngIf="selectedJob.bids.length === 0" ion-button full (click)="placeBid(selectedJob)">Place Bid</button>
-  </div>
+  <br>
+  <p class="description">
+    {{selectedJob.request.description}}
+  </p>
 
-  <div *ngIf="currentProfile.type === 'consumer'" class="bottom-button">
-    <button *ngIf="!selectedJob.acceptedBid" ion-button full (click)="viewBids(selectedJob)">View bids ({{selectedJob.bids.length}})</button>
-    <button *ngIf="selectedJob.acceptedBid" ion-button full (click)="viewBusinessCard('pro')">View Pro Business Card</button>
-    <button *ngIf="selectedJob.acceptedBid  && !selectedJob.consumerLeftFeedback" ion-button full (click)="confirmJobComplete()" [attr.disabled]="selectedJob.proMarkedComplete ? null : ''">Confirm Job Complete</button>
-    <button *ngIf="selectedJob.acceptedBid && selectedJob.consumerLeftFeedback" ion-button full disabled>Transferring Funds</button>
-  </div>
-  </div>
+  <ion-grid *ngIf="projectImages && projectImages.length > 0">
+    <div *ngFor="let image of projectImages; let i = index">
+      <ion-row *ngIf="i % 3 === 0">
+        <ion-col width-33 *ngIf="i < projectImages.length" style="background: green">
+          <!--<img [src]=projectImages[i] (click)="removeProjectImage(i)">-->
+          <br>
+          <br>
+          <br>
+        </ion-col>
+        <ion-col width-33 *ngIf="i + 1 < projectImages.length" style="background: lawngreen">
+          <!--<img [src]=projectImages[i+1] (click)="removeProjectImage(i+1)">-->
+          <br>
+          <br>
+          <br>
+        </ion-col>
+        <ion-col width-33 *ngIf="i + 2 < projectImages.length" style="background: yellowgreen">
+          <!--<img [src]=projectImages[i+2] (click)="removeProjectImage(i+2)">-->
+          <br>
+          <br>
+          <br>
+        </ion-col>
+      </ion-row>
+    </div>
+  </ion-grid>
+
+  <hr>
+  <h4>Pro Questions</h4>
+  <ion-searchbar *ngIf="totalQuestions > 0" (ionInput)="filterQuestions($event)" placeholder="Have a question? Get an answer"></ion-searchbar>
+  <br>
+
+  <ion-list>
+    <div (click)="viewQuestion(question)" *ngFor="let question of questions" class="q-a">
+      <p>Q: {{question.question}}</p>
+      <p>
+        <!--<ion-icon *ngIf="currentProfile.type === 'consumer' && !question.answer" class="alert" isActive="false"-->
+        <!--name="warning" item-left></ion-icon>-->
+        A: {{question.answer}}
+      </p>
+    </div>
+    <!--<button *ngIf="currentProfile.type === 'pro' && !historical" ion-button full-->
+    <!--(click)="askQuestion(selectedJob.id)">Ask Question-->
+    <!--</button>-->
+  </ion-list>
+
+  <!--<div *ngIf="!historical">-->
+    <!--<div *ngIf="currentProfile.type === 'pro'" class="bottom-button">-->
+      <!--<button *ngIf="selectedJob.acceptedBid" ion-button full (click)="viewCustomerDetails()">View Customer Profile-->
+      <!--</button>-->
+      <!--<button *ngIf="selectedJob.acceptedBid && !selectedJob.proMarkedComplete" ion-button full-->
+              <!--(click)="markJobComplete()">Mark Job Complete-->
+      <!--</button>-->
+      <!--<button *ngIf="selectedJob.acceptedBid && selectedJob.proMarkedComplete" ion-button full (click)="leaveReview()"-->
+              <!--[attr.disabled]="selectedJob.consumerLeftFeedback ? null : ''">Review Consumer-->
+      <!--</button>-->
+      <!--<button *ngIf="selectedJob.bids.length > 0 && !selectedJob.acceptedBid" ion-button full color="danger"-->
+              <!--(click)="deleteBid(selectedJob)">Delete Bid-->
+      <!--</button>-->
+      <!--<button *ngIf="selectedJob.bids.length === 0" ion-button full (click)="placeBid(selectedJob)">Place Bid</button>-->
+    <!--</div>-->
+
+    <!--<div *ngIf="currentProfile.type === 'consumer'" class="bottom-button">-->
+      <!--<button *ngIf="!selectedJob.acceptedBid" ion-button full (click)="viewBids(selectedJob)">View bids-->
+        <!--({{selectedJob.bids.length}})-->
+      <!--</button>-->
+      <!--<button *ngIf="selectedJob.acceptedBid" ion-button full (click)="viewBusinessCard('pro')">View Pro Business Card-->
+      <!--</button>-->
+      <!--<button *ngIf="selectedJob.acceptedBid  && !selectedJob.consumerLeftFeedback" ion-button full-->
+              <!--(click)="confirmJobComplete()" [attr.disabled]="selectedJob.proMarkedComplete ? null : ''">Confirm Job-->
+        <!--Complete-->
+      <!--</button>-->
+      <!--<button *ngIf="selectedJob.acceptedBid && selectedJob.consumerLeftFeedback" ion-button full disabled>Transferring-->
+        <!--Funds-->
+      <!--</button>-->
+    <!--</div>-->
+  <!--</div>-->
 </ion-content>

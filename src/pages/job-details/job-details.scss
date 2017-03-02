@@ -20,32 +20,55 @@ page-job-details {
     color: #FF9500;
   }
 
-  @media (max-width: 340px) {
-    .page-content-78 {
-      overflow-y: scroll;
-      height: 50%;
-    }
-
-    .page-content-66 {
-      overflow-y: scroll;
-      height: 66%;
-    }
-
-    .page-content-76 {
-      overflow-y: scroll;
-      height: 76%;
-    }
+  .username {
+    font-size: 80%;
+    color: #006eff;
+    position: relative;
+    top: 40%;
   }
 
-  @media (min-width: 341px) {
-    .page-content-one {
-      overflow-y: scroll;
-      height: 73%;
-    }
+  ion-col {
+    padding: 0px !important;
+  }
 
-    .page-content-consumer {
-      overflow-y: scroll;
-      height: 80%;
-    }
+  .job-title {
+    font-size: 125%;
+  }
+
+  .faded {
+    color: grey;
+    font-size: 90%;
+  }
+
+  .right-side {
+    float: right;
+  }
+
+  .banner-button {
+    float: right;
+  }
+
+  .banner-pending {
+    background-color: darkorange;
+  }
+
+  .q-a {
+    border: 1px solid lightgrey;
+    padding-left: 2%;
+    padding-right: 2%;
+  }
+
+  .question {
+    font-weight: 500;
+  }
+
+  .searchbar-ios {
+    min-height: 0px;
+    border-bottom: 1px solid lightgrey;
+    background: transparent !important;
+  }
+
+  .list-ios {
+    margin: 0px 0px 5px 0;
   }
 }

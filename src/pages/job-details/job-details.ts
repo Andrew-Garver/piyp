@@ -33,6 +33,7 @@ export class JobDetailsPage {
   private totalQuestions: number;
   private winningBid: any;
   private historical: boolean;
+  private projectImages: any = [0, 1, 2];
 
   constructor(public navCtrl: NavController, private authService: AuthService,
               private params: NavParams, private app: App, private toastService: ToastService,
@@ -242,28 +243,6 @@ export class JobDetailsPage {
       this.questions = this.questions.filter((question) => {
         return (question.question.toLowerCase().indexOf(val.toLowerCase()) > -1);
       })
-    }
-  }
-
-  determineClass() {
-    if (this.currentProfile.type === 'pro') {
-      if (!this.selectedJob.acceptedBid) { // Not hired
-        if (this.selectedJob.bids) { // placed a bid
-          return "page-content-76";
-        }
-        else { // not yet placed a bid
-          return "page-content-78";
-        }
-      }
-      else { // Hired
-        return "page-content-66";
-      }
-    }
-    else if (this.currentProfile.type === 'consumer' && !this.selectedJob.acceptedBid) {
-      return "page-content-76"
-    }
-    else {
-      return "page-content-66";
     }
   }
 
