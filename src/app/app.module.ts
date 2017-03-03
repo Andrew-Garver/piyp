@@ -61,6 +61,7 @@ import {JobService} from "../services/job.service";
 import {ServicesService} from "../services/services.service";
 import {UserService} from "../services/user.service";
 import {MyProjectsPage} from "../pages/my-projects/my-projects";
+import {ProjectFiltersPage} from "../pages/project-filters/project-filters";
 
 export function getAuthHttp(http) {
   return new AuthHttp(new AuthConfig({
@@ -123,7 +124,8 @@ export function getAuthHttp(http) {
     ReviewDetailsPage,
     BusinessSummaryForm,
     EarningsPage,
-    MyProjectsPage
+    MyProjectsPage,
+    ProjectFiltersPage
   ],
   imports: [
     IonicModule.forRoot(MyApp, {tabsHideOnSubPages:"true"}),
@@ -177,7 +179,8 @@ export function getAuthHttp(http) {
     ReviewDetailsPage,
     BusinessSummaryForm,
     EarningsPage,
-    MyProjectsPage
+    MyProjectsPage,
+    ProjectFiltersPage
   ],
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},

@@ -1,16 +1,15 @@
 import {Component} from '@angular/core';
 
-import {NavController} from 'ionic-angular';
-import {FormBuilder} from "@angular/forms";
+import {NavController, ModalController, NavParams} from 'ionic-angular';
 import {Geolocation} from "ionic-native";
-import {LoadingService} from "../../services/loading.service";
 import {ToastService} from "../../services/toast.service";
 import {LoginPage} from "../login/login";
 import {AuthService} from "../../services/auth.service";
-import {ProfileService} from "../../services/profile.service";
 import {JobService} from "../../services/job.service";
 import {JobDetailsPage} from "../job-details/job-details";
 import {ErrorPage} from "../error/error";
+import {ProjectFiltersPage} from "../project-filters/project-filters";
+import {LoadingService} from "../../services/loading.service";
 
 @Component({
   selector: 'page-find-new-projects',
@@ -25,12 +24,15 @@ export class FindNewProjectsPage {
   private watchedProjects: any;
   private filters: any = {};
 
-  constructor(public navCtrl: NavController, private formBuilder: FormBuilder,
-              private authService: AuthService, private loadingService: LoadingService,
-              private toastService: ToastService, private profileService: ProfileService,
-              private jobService: JobService) {
+  constructor(public navCtrl: NavController, private authService: AuthService,
+              private toastService: ToastService, private jobService: JobService,
+              private modalCtrl: ModalController, private navParams: NavParams,
+              private loadingService: LoadingService) {
     this.currentProfile = JSON.parse(localStorage.getItem('current_profile'));
     this.services = this.currentProfile.registeredServices;
+
+    this.filters = this.navParams.get("filters");
+    console.log(this.filters);
 
     let serviceString = "";
     for (let service of this.services) {
@@ -38,20 +40,41 @@ export class FindNewProjectsPage {
     }
     serviceString = serviceString.slice(0, -1);
 
-    this.filters = {
-      profile: this.currentProfile._id,
-      services: serviceString,
-      locType: "business",
-      radius: 100,
-      queryBy: "radius"
-    };
+    if (!this.filters) {
+      this.filters = {
+        profile: this.currentProfile._id,
+        services: serviceString,
+        locType: "business",
+        radius: 100,
+        queryBy: "radius"
+      };
+    }
+
   }
 
   ionViewDidEnter() {
     this.fetchProjectData();
   }
 
+  presentFilterModal() {
+    let filterModal = this.modalCtrl.create(ProjectFiltersPage);
+
+    filterModal.onDidDismiss(data => {
+      if (data) {
+        for (let key of Object.keys(data)) {
+          if (data[key] && data[key].length > 0) {
+            this.filters[key] = data[key];
+          }
+        }
+        this.fetchProjectData();
+      }
+    });
+
+    filterModal.present();
+  }
+
   fetchProjectData() {
+    this.loadingService.presentLoading();
     return new Promise((resolve, reject) => {
       if (this.filters.locType === "current") {
         Geolocation.getCurrentPosition()
@@ -87,12 +110,14 @@ export class FindNewProjectsPage {
                 })
               }
             }
+            this.loadingService.hideLoading();
           })
-          .catch((err) => {
-            console.log(err);
-            this.toastService.presentToast("Could not reach PIYP servers. Check your data connection and try again.")
-          });
       })
+      .catch((err) => {
+        this.loadingService.hideLoading();
+        console.log(err);
+        this.toastService.presentToast("Could not reach PIYP servers. Check your data connection and try again.")
+      });
   }
 
   private viewJobDetails(selectedJob) {

@@ -1,5 +1,6 @@
 <ion-header>
-  <ion-navbar [ngClass]="{'toolbar-pro': currentProfile && currentProfile.type === 'pro', 'toolbar-consumer': currentProfile && currentProfile.type === 'consumer'}">
+  <ion-navbar
+    [ngClass]="{'toolbar-pro': currentProfile && currentProfile.type === 'pro', 'toolbar-consumer': currentProfile && currentProfile.type === 'consumer'}">
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
@@ -7,7 +8,8 @@
       Project Search
     </ion-title>
   </ion-navbar>
-  <ion-toolbar no-border-top [ngClass]="{'toolbar-pro': currentProfile && currentProfile.type === 'pro', 'toolbar-consumer': currentProfile && currentProfile.type === 'consumer'}">
+  <ion-toolbar no-border-top
+               [ngClass]="{'toolbar-pro': currentProfile && currentProfile.type === 'pro', 'toolbar-consumer': currentProfile && currentProfile.type === 'consumer'}">
     <ion-segment [(ngModel)]="segment">
       <ion-segment-button value="projectsAll" (click)="fetchProjectData()">
         All
@@ -61,3 +63,9 @@
     </ion-list>
   </div>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-icon class="filter" name="ios-funnel-outline" (click)="presentFilterModal()"></ion-icon>
+  </ion-toolbar>
+</ion-footer>

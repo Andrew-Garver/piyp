@@ -1,11 +1,7 @@
 import {Component} from '@angular/core';
 
-import {NavController} from 'ionic-angular';
+import {NavController, ViewController} from 'ionic-angular';
 import {FormBuilder, FormGroup} from "@angular/forms";
-import {LoadingService} from "../../services/loading.service";
-import {ToastService} from "../../services/toast.service";
-import {AuthService} from "../../services/auth.service";
-import {ProfileService} from "../../services/profile.service";
 
 @Component({
   selector: 'page-project-filters',
@@ -18,14 +14,23 @@ export class ProjectFiltersPage {
   private services: any;
 
   constructor(public navCtrl: NavController, private formBuilder: FormBuilder,
-              private authService: AuthService, private loadingService: LoadingService,
-              private toastService: ToastService, private profileService: ProfileService) {
+              private viewCtrl: ViewController) {
     this.formFilters = formBuilder.group({
       sortBy: [''],
       radius: [''],
       locType: [''],
       serviceCategories: ['']
     });
+  }
+
+  dismissModal() {
+    let data = {
+      sortBy: this.formFilters.value.sortBy,
+      radius: this.formFilters.value.radius,
+      locType: this.formFilters.value.locType,
+      serviceCategories: this.formFilters.value.serviceCategories
+    }
+    this.viewCtrl.dismiss(data);
   }
 
   ionViewWillEnter() {
