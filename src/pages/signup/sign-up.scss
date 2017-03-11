@@ -1,24 +1,31 @@
 page-sign-up {
-  p {
-   font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
-    font-style: normal;
-    font-weight: 300;
-    font-size: 80%;
-    padding-left: $content-padding;
-    padding-right: $content-padding;
+  .pretty-background {
+    background: linear-gradient(#FF5232 , #FF265A);
+    color: white;
   }
 
-  .invalid {
-    background: #FF4949;
-    color: white;
-    position: relative;
-    top: -17px;
-    text-align: center;
+  ion-item {
+    color: white !important;
+    background-color: transparent !important;
   }
 
-  .invalid-head {
-    background: #FF4949;
+  ion-item .item-inner {
+    border-bottom-color: white !important;
+  }
+
+  ion-list-header {
+    color: white !important;
+    border-bottom-color: white !important;
+  }
+
+  .pretty-button {
+    background: transparent;
     color: white;
-    text-align: center;
+    font-size: 140%;
+  }
+
+  .link {
+    color: white;
+    font-size: 110%
   }
 }

@@ -14,7 +14,8 @@ import {FindNewProjectsPage} from "../find-new-projects/find-new-projects";
 
 @Component({
   selector: 'page-sign-up',
-  templateUrl: 'sign-up.html'
+  templateUrl: 'sign-up.html',
+  providers: [SignUpValidator]
 })
 
 export class SignUpPage {
