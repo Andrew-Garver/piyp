@@ -1,4 +1,9 @@
 page-login {
+  .login-background {
+    background: linear-gradient(#FF5232 , #FF265A);
+    color: white;
+  }
+
   h1 {
     text-align: center;
   }
@@ -7,32 +12,73 @@ page-login {
     text-align: center;
   }
 
-  @media (max-width: 340px) {
+  ion-item {
+    color: white !important;
+    background-color: transparent !important;
+  }
+
+  ion-item .item-inner {
+    border-bottom-color: white !important;
+  }
+
+  ion-icon {
+    position: absolute;
+    top: 2px;
+  }
+
+  .text-input::-moz-placeholder {
+    text-indent: 30px;
+  }
+
+  .text-input:-ms-input-placeholder {
+    text-indent: 30px;
+  }
+
+  .text-input::-webkit-input-placeholder {
+    text-indent: 30px;
+  }
+
+  .sign-in-button {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    background: transparent;
+    color: white;
+    font-size: 140%;
+  }
+
+  @media (max-height: 740px) {
     .logo-img {
-      padding-top:10%;
-      padding-bottom:15%;
+      padding-top:20%;
+      padding-bottom:25%;
       margin-left: auto;
       margin-right: auto;
       display: block;
-      width: 70%;
+      width: 48%;
+    }
+
+    .sign-up-link {
+      text-align: center;
+      position: relative;
+      top: 18%;
     }
   }
 
-  @media (min-width: 341px) {
+  @media (min-height: 741px) {
     .logo-img {
-      padding-top:15%;
+      padding-top:20%;
       padding-bottom:20%;
       margin-left: auto;
       margin-right: auto;
       display: block;
-      width: 75%;
+      width: 36%;
     }
-  }
 
-  .center {
-    margin: auto;
-    text-align: center;
-    padding-top: 20px;
+    .sign-up-link {
+      text-align: center;
+      position: relative;
+      top: 25%;
+    }
   }
 
   .link {

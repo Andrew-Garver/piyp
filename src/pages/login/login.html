@@ -1,24 +1,26 @@
-<ion-content padding class="denim-background">
+<ion-content padding class="login-background">
 
 
-  <img class="logo-img" src="assets/img/icon-sans-background@1x.png">
+  <img class="logo-img" src="assets/img/icon-sans-background.png">
 
   <form #f="ngForm" (ngSubmit)="login(f.value)">
     <ion-item style="position: relative; top: 10px">
+      <ion-icon name="ios-mail-outline" item-left></ion-icon>
       <ion-input type="email" name="email" placeholder="Email" ngModel></ion-input>
     </ion-item>
     <br>
     <ion-item>
+      <ion-icon name="ios-lock-outline" item-left></ion-icon>
       <ion-input type="password" name="password" placeholder="Password" ngModel></ion-input>
     </ion-item>
 
     <br>
-    <button type="submit" ion-button full>Login</button>
+    <button type="submit" class="sign-in-button">Sign In</button>
   </form>
 
-  <div class="center">
+  <div class="sign-up-link screen-offset">
     <a class="link" (click)="launchSignUp()">
-      No Account? Sign Up!
+      Don't have an account? Sign up
     </a>
   </div>
 
