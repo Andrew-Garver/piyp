@@ -20,7 +20,7 @@ export class PhoneNumberPage {
   private phoneNumberForm: FormGroup;
   private currentProfile: any;
   private edit: boolean;
-  private business: any;
+  // private business: any;
 
   constructor(public navCtrl: NavController, private formBuilder: FormBuilder,
               private profileService: ProfileService, private loadingService: LoadingService,
@@ -29,7 +29,7 @@ export class PhoneNumberPage {
 
     this.edit = this.navParams.get('edit');
     this.currentProfile = JSON.parse(localStorage.getItem('current_profile'));
-    this.business = JSON.parse(localStorage.getItem('current_profile')).stripeAccount.legal_entity;
+    // this.business = JSON.parse(localStorage.getItem('current_profile')).stripeAccount.legal_entity;
     let phoneNumber = JSON.parse(localStorage.getItem('current_profile'))[this.currentProfile.type === 'consumer' ? "personalPhone" : "businessPhone"];
 
     this.phoneNumberForm = formBuilder.group({
@@ -58,7 +58,7 @@ export class PhoneNumberPage {
               this.navCtrl.setRoot(ProfilePage);
             }
             else {
-              this.navCtrl.push(this.business.type === 'individual' ? BusinessServicesForm : BusinessTaxIdForm)
+              // this.navCtrl.push(this.business.type === 'individual' ? BusinessServicesForm : BusinessTaxIdForm)
             }
           }
         })

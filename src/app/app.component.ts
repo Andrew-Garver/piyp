@@ -45,43 +45,43 @@ export class MyApp implements DoCheck, OnInit {
   }
 
   ngOnInit() {
-    this.authService.loggedIn()
-      .then((loggedIn) => {
-        if (loggedIn) {
-          let profileType = JSON.parse(localStorage.getItem('current_profile')).type;
-          if (profileType && profileType === "consumer") {
-            this.rootPage = FindAProPage;
-          }
-          else {
-            this.rootPage = FindNewProjectsPage
-          }
-          if (this.currentProfile.profilePicture) {
-            return this.profileService.getProfilePicture(this.currentProfile._id, {pictureURI: this.currentProfile.profilePicture});
-          }
-          else {
-            return null;
-          }
-        }
-        else {
-          if (!localStorage.getItem('has_seen_intro')) {
-            this.rootPage = IntroSlidesPage;
-          }
-          else {
-            this.rootPage = LoginPage;
-          }
-          return null;
-        }
-      })
-      .then(() => {
-        return this.platform.ready().then(() => {
-          StatusBar.styleDefault();
-          Splashscreen.hide();
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-        console.log("something went wrong auto-logging")
-      });
+    // this.authService.loggedIn()
+    //   .then((loggedIn) => {
+    //     if (loggedIn) {
+    //       let profileType = JSON.parse(localStorage.getItem('current_profile')).type;
+    //       if (profileType && profileType === "consumer") {
+    //         this.rootPage = FindAProPage;
+    //       }
+    //       else {
+    //         this.rootPage = FindNewProjectsPage
+    //       }
+    //       if (this.currentProfile.profilePicture) {
+    //         return this.profileService.getProfilePicture(this.currentProfile._id, {pictureURI: this.currentProfile.profilePicture});
+    //       }
+    //       else {
+    //         return null;
+    //       }
+    //     }
+    //     else {
+    //       if (!localStorage.getItem('has_seen_intro')) {
+    //         this.rootPage = IntroSlidesPage;
+    //       }
+    //       else {
+    //         this.rootPage = LoginPage;
+    //       }
+    //       return null;
+    //     }
+    //   })
+    //   .then(() => {
+    //     return this.platform.ready().then(() => {
+    //       StatusBar.styleDefault();
+    //       Splashscreen.hide();
+    //     });
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //     console.log("something went wrong auto-logging")
+    //   });
   }
 
   ngDoCheck() {

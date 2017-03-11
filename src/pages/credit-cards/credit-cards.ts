@@ -24,7 +24,10 @@ export class CreditCardsPage {
   }
 
   ionViewWillEnter() {
-    this.creditCards = JSON.parse(localStorage.getItem('current_profile')).stripeAccount.sources.data;
+    this.creditCards = [{
+      brand: "Visa",
+      last4: "2424"
+    }];
   }
 
   private updateCard() {

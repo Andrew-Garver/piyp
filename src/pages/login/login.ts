@@ -31,12 +31,14 @@ export class LoginPage {
         return this.userService.getUser();
       })
       .then((user) => {
+        console.log(user);
         if (user.profiles && user.profiles.length > 0) {
           return this.profileService.getUserProfile(user.profiles[0]._id);
         }
         return null;
       })
       .then((profile) => {
+        console.log(profile);
         if (!profile) {
           throw Error("No Profiles Found when logging in");
         }
@@ -54,11 +56,11 @@ export class LoginPage {
         this.loadingService.hideLoading();
         return profile;
       })
-      .then((profile) => {
-        if (profile.profilePicture) {
-          this.profileService.getProfilePicture(profile._id, {pictureURI: profile.profilePicture});
-        }
-      })
+      // .then((profile) => {
+      //   if (profile.profilePicture) {
+      //     this.profileService.getProfilePicture(profile._id, {pictureURI: profile.profilePicture});
+      //   }
+      // })
       .catch((err) => {
         console.log(err);
         this.loadingService.hideLoading();

@@ -43,15 +43,17 @@ export class MyProjectsPage {
     this.loadingService.presentLoading();
     this.jobService.getJobs(params)
       .then((jobs) => {
-        this.jobsListed = jobs.filter((job) => {
-          return !job.proLeftFeedback;
-        });
-        this.jobsCompleted = jobs.filter((job) => {
-          return job.proLeftFeedback;
-        });
-        console.log(this.jobsListed);
+      console.log(jobs);
+        // this.jobsListed = jobs.filter((job) => {
+        //   return !job.proLeftFeedback;
+        // });
+        // this.jobsCompleted = jobs.filter((job) => {
+        //   return job.proLeftFeedback;
+        // });
+        // console.log(this.jobsListed);
         this.loadingService.hideLoading();
-        // return Promise.resolve(jobs);
+        this.jobsListed = jobs;
+        return Promise.resolve(jobs);
       })
       // .then((jobs) => {
       //   return this.jobService.getProjectImages(jobs);

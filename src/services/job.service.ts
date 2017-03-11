@@ -9,54 +9,86 @@ import {Observable} from "rxjs";
 @Injectable()
 export class JobService {
 
+  private job: any;
+
   constructor(private authHttp: AuthHttp, private alertCtrl: AlertController) {
+    this.job = [{
+      "_id": "58b4d039f346503a7cb90f44",
+      "_creator": "58ad406a46229286b2b9831c",
+      "_service": {
+        _id: "588a6e868531fc14a2f44cfa",
+        name: "Lawn Care"
+      },
+      "loc": {
+        "_id": "58ad408146229286b2b9831f",
+        "coordinates": [
+          -111.7939737,
+          43.8183494
+        ],
+        "type": "Point"
+      },
+      "request": {
+        "title": "Basic Landscaping",
+        "description": "I need my lawn mowed and trimmed this Friday. If you are experienced with landscaping, I am also looking for someone to put in some decorative rocks.",
+        "_id": "58b4d039f346503a7cb90f45"
+      },
+      "images": [
+        "/Users/andrewgarver/jobPics/58b4d039f346503a7cb90f44/58b4d039f346503a7cb90f44_0.jpg",
+        "/Users/andrewgarver/jobPics/58b4d039f346503a7cb90f44/58b4d039f346503a7cb90f44_1.jpg"
+      ],
+      "proLeftFeedback": false,
+      "consumerLeftFeedback": false,
+      "consumerConfirmedComplete": false,
+      "proMarkedComplete": false,
+      "qa": [
+        {
+          "_creator": "58ad3cf143dacb85b3e53809",
+          "question": "How many square feet is your lawn?",
+          "_id": "58b563af0d9d5e452c73dad6",
+          "dateReplied": null,
+          "dateAsked": "2017-02-28T06:32:26.817Z",
+          "answer": "It is about 1 acre."
+        }
+      ],
+      "bids": [
+        {
+          "_creator": "58ad3cf143dacb85b3e53809",
+          "amount": 11,
+          "message": "yay",
+          "_id": "58b563b40d9d5e452c73dad9",
+          "acceptedDate": null
+        }
+      ],
+      "acceptedBid": null,
+      "__v": 3
+    }];
   }
 
   postJob(formData): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.authHttp.post('http://localhost:3000/api/job', formData)
-          .map(res => res.json())
-          .subscribe(
-              data => {
-                resolve(data.job);
-              },
-              err => {
-                console.log(err);
-                reject(err);
-              }
-          );
+      resolve(this.job);
     });
   }
 
   getJob(jobId): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.authHttp.get(`http://localhost:3000/api/job/${jobId}/bids`)
-        .map(res => res.json())
-        .subscribe(
-          data => {
-            resolve(data.bids);
-          },
-          err => {
-            console.log(err);
-            reject(err);
-          }
-        );
+      resolve(this.job);
     });
   }
 
   acceptBid(jobId, formData): Promise<any> {
     return new Promise((resolve, reject) => {
       this.authHttp.post('http://localhost:3000/api/job/' + jobId, formData)
-          .map(res => res.json())
-          .subscribe(
-              data => {
-                resolve(data.job);
-              },
-              err => {
-                console.log(err);
-                reject(err);
-              }
-          );
+        .map(res => res.json())
+        .subscribe(
+          data => {
+            resolve(data.job);
+          },
+          err => {
+            console.log(err);
+            reject(err);
+          }
+        );
     });
   }
 
@@ -71,17 +103,7 @@ export class JobService {
     }
 
     return new Promise((resolve, reject) => {
-      this.authHttp.get('http://localhost:3000/api/jobs' + params)
-          .map(res => res.json())
-          .subscribe(
-              data => {
-                resolve(data.jobs);
-              },
-              err => {
-                console.log(err);
-                reject(err);
-              }
-          );
+      resolve(this.job);
     });
   }
 
@@ -127,12 +149,12 @@ export class JobService {
             handler: () => {
               console.log('Deleing job: ' + jobId);
               this.deleteJob(jobId)
-                  .then(() => {
-                    resolve(true);
-                  })
-                  .catch(() => {
-                    reject(false);
-                  });
+                .then(() => {
+                  resolve(true);
+                })
+                .catch(() => {
+                  reject(false);
+                });
             }
           }
         ]
@@ -160,89 +182,31 @@ export class JobService {
 
   askQuestion(jobId, question): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.authHttp.post(`http://localhost:3000/api/job/${jobId}/question`, {question: question})
-          .map((response: Response) => {
-            let body = response.json();
-            if (body && body.success) {
-              return body.questions;
-            }
-            throw new Error('success was false.');
-          })
-          .catch((error) => {
-            console.log('Error asking question:', error);
-            return Observable.of(false);
-          })
-          .subscribe((result: any) => {
-            resolve(result);
-          });
+      resolve(true);
     });
   }
 
   answerQuestion(jobId, questionId, answer): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.authHttp.post(`http://localhost:3000/api/job/${jobId}/question/${questionId}/answer`, {answer: answer})
-          .map((response: Response) => {
-            let body = response.json();
-            if (body && body.success) {
-              return body.questions;
-            }
-            throw new Error('success was false.');
-          })
-          .catch((error) => {
-            console.log('Error answering question:', error);
-            return Observable.of(false);
-          })
-          .subscribe((result: any) => {
-            resolve(result);
-          });
+      resolve(true)
     });
   }
 
   proMarkJobComplete(jobId): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.authHttp.post(`http://localhost:3000/api/job/${jobId}`, {proMarkedComplete: true})
-        .map((response: Response) => {
-          let body = response.json();
-        })
-        .catch((error) => {
-          console.log('Error for pro marking job complete:', error);
-          return Observable.of(false);
-        })
-        .subscribe((result: any) => {
-          resolve(result);
-        });
+      resolve(true);
     });
   }
 
   consumerMarkJobComplete(jobId): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.authHttp.post(`http://localhost:3000/api/job/${jobId}`, {consumerConfirmedComplete: true})
-        .map((response: Response) => {
-          let body = response.json();
-        })
-        .catch((error) => {
-          console.log('Error for consumer marking job complete:', error);
-          return Observable.of(false);
-        })
-        .subscribe((result: any) => {
-          resolve(result);
-        });
+      resolve(true);
     });
   }
 
   leaveReview(params): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.authHttp.post(`http://localhost:3000/api/job/${params.jobId}/review/${params.profileType}`, {rating: params.rating, review: params.review})
-        .map((response: Response) => {
-          let body = response.json();
-        })
-        .catch((error) => {
-          console.log('Error leaving review for consumer:', error);
-          return Observable.of(false);
-        })
-        .subscribe((result: any) => {
-          resolve(result);
-        });
+      resolve(true);
     });
   }
 }

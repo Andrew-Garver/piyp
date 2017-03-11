@@ -13,19 +13,22 @@ export class AuthService {
 
   login(credentials): Promise<string> {
     return new Promise((resolve, reject) => {
-      this.http.post('http://localhost:3000/api/authentication/authenticate', credentials)
-        .map(res => res.json())
-        .subscribe(
-          data => {
-            localStorage.setItem('access_token', data.accessToken);
-            localStorage.setItem('refresh_token', data.refreshToken);
-            resolve(true);
-          },
-          error => {
-            console.log(error);
-            reject("error");
-          }
-        );
+      // this.http.post('http://localhost:3000/api/authentication/authenticate', credentials)
+      //   .map(res => res.json())
+      //   .subscribe(
+      //     data => {
+
+            localStorage.setItem('access_token', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IlRlc3QgVXNlciIsImVtYWlsIjoidGVzdEBnbWFpbC5jb20ifQ.UR7rXrr7qwbM4yioVigzVIjY6mItkSbqYAXfJaE8QcE");
+            localStorage.setItem('refresh_token', "eXaRGPCUpGx9BWumA3PW9qTNJhSEeM2OyWAEnrbCadbEChSJjLtwB0dMJ68Cx6lw");
+      //       resolve(true);
+      //     },
+      //     error => {
+      //       console.log(error);
+      //       reject("error");
+      //     }
+      //   );
+
+      resolve(true);
     });
   }
 
@@ -50,22 +53,23 @@ export class AuthService {
 
   destroyToken(): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.authHttp.get('http://localhost:3000/api/authentication/logout')
-        .map(res => res.json())
-        .subscribe(
-          data => {
-            if (data.success) {
-              resolve("Token destroyed");
-            }
-            else {
-              reject("Unable to destroy token");
-            }
-          },
-          err => {
-            console.log(err);
-            reject(err);
-          }
-        );
+      // this.authHttp.get('http://localhost:3000/api/authentication/logout')
+      //   .map(res => res.json())
+      //   .subscribe(
+      //     data => {
+      //       if (data.success) {
+      //         resolve("Token destroyed");
+      //       }
+      //       else {
+      //         reject("Unable to destroy token");
+      //       }
+      //     },
+      //     err => {
+      //       console.log(err);
+      //       reject(err);
+      //     }
+      //   );
+      resolve("did things");
     });
   }
 
@@ -79,36 +83,36 @@ export class AuthService {
   }
 
   isTokenExpired(token) {
-    return this.jwtHelper.isTokenExpired(token);
+    return false;
   }
 
   loggedIn(): Promise<any> {
     return new Promise((resolve, reject) => {
-      let accessToken = localStorage.getItem("access_token");
-      let refreshToken = localStorage.getItem("refresh_token");
+      // let accessToken = localStorage.getItem("access_token");
+      // let refreshToken = localStorage.getItem("refresh_token");
 
-      if (refreshToken && accessToken) {
-        let accessTokenExpiry = this.jwtHelper.getTokenExpirationDate(accessToken);
-        let timeNow = new Date();
+      // if (refreshToken && accessToken) {
+        // let accessTokenExpiry = this.jwtHelper.getTokenExpirationDate(accessToken);
+        // let timeNow = new Date();
 
-        if (accessTokenExpiry.getTime() - timeNow.getTime() < 60000) {
-          console.log("getting new access token");
-          this.renewAccessToken(refreshToken)
-            .then((data) => {
-              resolve(!this.jwtHelper.isTokenExpired(localStorage.getItem("access_token")));
-            })
-            .catch((err) => {
-              console.log(err);
-              reject(err);
-            })
-        }
-        else {
-          resolve(!this.jwtHelper.isTokenExpired(accessToken));
-        }
-      }
-      else {
-        resolve(false);
-      }
+        // if (accessTokenExpiry.getTime() - timeNow.getTime() < 60000) {
+        //   console.log("getting new access token");
+        //   this.renewAccessToken(refreshToken)
+        //     .then((data) => {
+        //       resolve(!this.jwtHelper.isTokenExpired(localStorage.getItem("access_token")));
+        //     })
+        //     .catch((err) => {
+        //       console.log(err);
+        //       reject(err);
+        //     })
+        // }
+        // else {
+        //   resolve(!this.jwtHelper.isTokenExpired(accessToken));
+        // }
+      // }
+      // else {
+        resolve(true);
+      // }
     });
   }
 
