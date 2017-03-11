@@ -1,10 +1,10 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar [ngClass]="{'toolbar-pro': currentProfile && currentProfile.type === 'pro', 'toolbar-consumer': currentProfile && currentProfile.type === 'consumer'}">
     <ion-title>Address</ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content padding class="colored-text">
   <h5 *ngIf="!edit">Where do you live?</h5>
   <h5 *ngIf="edit">How does this look?</h5>
 
@@ -14,22 +14,22 @@
 
   <form #f="ngForm" [formGroup]="addressForm" (ngSubmit)="nextPage()">
 
-    <ion-item>
+    <ion-item class="colored-text">
       <ion-label floating>Address Line 1</ion-label>
       <ion-input type="text" formControlName="addressLine1"></ion-input>
     </ion-item>
 
-    <ion-item>
+    <ion-item class="colored-text">
       <ion-label floating>Address Line 2</ion-label>
       <ion-input type="text" formControlName="addressLine2"></ion-input>
     </ion-item>
 
-    <ion-item>
+    <ion-item class="colored-text">
       <ion-label floating>City</ion-label>
       <ion-input type="text" formControlName="city"></ion-input>
     </ion-item>
 
-    <ion-item>
+    <ion-item class="colored-text">
       <ion-label floating>State</ion-label>
       <ion-select formControlName="state">
         <ion-option value="AL">Alabama</ion-option>
@@ -86,7 +86,7 @@
       </ion-select>
     </ion-item>
 
-    <ion-item>
+    <ion-item class="colored-text">
       <ion-label floating>Zip Code</ion-label>
       <ion-input #zip id="zipcode" type="number" formControlName="zipCode"
                  (blur)="checkZip(zip.value)"></ion-input>
@@ -95,9 +95,9 @@
       <p class="invalid">Zip code must be 5 numbers long</p>
     </div>
 
-    <div class="bottom-button">
+    <div>
       <button *ngIf="!edit" type="submit" ion-button full>Next</button>
-      <button *ngIf="edit" type="submit" ion-button full>Update</button>
+      <button class="pretty-button" *ngIf="edit" type="submit">Update</button>
     </div>
   </form>
 </ion-content>

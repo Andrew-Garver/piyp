@@ -1,18 +1,18 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar class="toolbar-consumer">
     <ion-title>Terms of Service</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <h5>Let's hook up your credit card</h5>
+  <h5 class="colored-text">Do we need to update your card?</h5>
 
   <div *ngIf="formFieldsMissing">
     <p class="invalid-head">Please fill out all form fields carefully</p>
   </div>
 
   <form #f="ngForm" [formGroup]="creditCardInfoForm" (ngSubmit)="nextForm()">
-    <ion-item>
+    <ion-item class="colored-text">
       <ion-input id="creditCardNumber" type="number" placeholder="Credit Card Number"
                  formControlName="creditCardNumber"
                  (blur)="toggleCreditCardError(false)" (focus)="toggleCreditCardError(true)"></ion-input>
@@ -23,20 +23,20 @@
       <p class="invalid">Invalid credit card number</p>
     </div>
 
-    <ion-item>
+    <ion-item class="colored-text">
       <ion-input type="number" placeholder="CVC" formControlName="cvc" (blur)="checkCvc()"></ion-input>
     </ion-item>
     <div *ngIf="invalidCvc">
       <p class="invalid">CVC must be 3 or 4 numbers</p>
     </div>
 
-    <ion-item>
+    <ion-item class="colored-text">
       <ion-label>Expiration Date</ion-label>
       <ion-datetime displayFormat="MMM YYYY" pickerFormat="MMM YYYY" min="2017" max="2100"
                     formControlName="expirationDate"></ion-datetime>
     </ion-item>
 
-    <ion-item>
+    <ion-item class="colored-text">
       <ion-input #billingZip type="number" placeholder="Billing Zip Code" formControlName="billingZipCode"
                  (blur)="checkZip(creditCardInfoForm, billingZip.value)" (focus)="clearBillingZipError()"></ion-input>
     </ion-item>
@@ -45,8 +45,8 @@
     </div>
 
     <br>
-    <div class="bottom-button">
-      <button type="submit" ion-button full>Sign up</button>
+    <div>
+      <button class="pretty-button" type="submit">Update</button>
     </div>
   </form>
 

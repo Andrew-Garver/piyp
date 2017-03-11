@@ -11,7 +11,7 @@
     <h5 *ngIf="currentUser" class="center">{{currentUser.firstName}} {{currentUser.lastName}}</h5>
     <div class="center">
       <span *ngIf="currentProfile.type === 'pro'" style="padding: 5px;">Business Card</span>
-      <span style="padding: 5px;">Reviews/Ratings</span>
+      <!--<span style="padding: 5px;">Reviews/Ratings</span>-->
     </div>
     <hr style="border-top: 1px solid white">
     <br>
@@ -50,10 +50,10 @@
           <ion-icon name="construct" item-left></ion-icon>
           My Projects
         </ion-item>
-        <ion-item *ngIf="numProfiles > 1" class="custom-item" ion-item menuClose (click)="goToPage(account)">
-          <ion-icon name="contact" item-left></ion-icon>
-          Account
-        </ion-item>
+        <!--<ion-item *ngIf="numProfiles > 1" class="custom-item" ion-item menuClose (click)="goToPage(account)">-->
+          <!--<ion-icon name="contact" item-left></ion-icon>-->
+          <!--Account-->
+        <!--</ion-item>-->
       </ion-list>
     </div>
   </ion-content>

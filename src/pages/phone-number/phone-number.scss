@@ -31,4 +31,66 @@ page-phone-number {
   .nav-button-right {
     padding-right: 10%;
   }
+
+  p {
+    font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 80%;
+  }
+
+  .invalid {
+    background: #FF4949;
+    color: white;
+    position: relative;
+    top: -17px;
+    text-align: center;
+  }
+
+  .invalid-head {
+    background: #FF4949;
+    color: white;
+    text-align: center;
+  }
+
+  .bottom-button {
+    padding: $content-padding;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+
+  .nav-button-right {
+    padding-right: 10%;
+  }
+
+  .colored-text {
+    color: #FE2347;
+  }
+
+  .text-input::-moz-placeholder {
+    color: #FE2347;
+    opacity: .50;
+  }
+
+  .text-input:-ms-input-placeholder {
+    color: #FE2347;
+    opacity: .50;
+  }
+
+  .text-input::-webkit-input-placeholder {
+    text-indent: 0;
+    color: #FE2347;
+    opacity: .50;
+  }
+
+  .pretty-button {
+    background: transparent;
+    color: #FE2347;
+    font-size: 140%;
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+  }
 }

@@ -1,3 +1,30 @@
 page-credit-cards {
+  .colored-text {
+    color: #FE2347;
+  }
 
+  .text-input::-moz-placeholder {
+    color: #FE2347;
+    opacity: .50;
+  }
+
+  .text-input:-ms-input-placeholder {
+    color: #FE2347;
+    opacity: .50;
+  }
+
+  .text-input::-webkit-input-placeholder {
+    text-indent: 0;
+    color: #FE2347;
+    opacity: .50;
+  }
+
+  .pretty-button {
+    background: transparent;
+    color: #FE2347;
+    font-size: 140%;
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+  }
 }

@@ -1,3 +1,35 @@
 page-select-info-to-edit {
+    .title {
+      font-size: 225%;
+      text-align: center;
+    }
 
+    .rounded {
+      float: right;
+      border-radius: 25px !important;
+      height: 2% !important;
+      padding: 2% 8%;
+      font-size: 100%;
+      background-color: #FE2347;
+    }
+
+    .colored-text {
+      color: #FE2347;
+    }
+
+    .text-input::-moz-placeholder {
+      color: #FE2347;
+      opacity: .50;
+    }
+
+    .text-input:-ms-input-placeholder {
+      color: #FE2347;
+      opacity: .50;
+    }
+
+    .text-input::-webkit-input-placeholder {
+      text-indent: 0;
+      color: #FE2347;
+      opacity: .50;
+    }
 }

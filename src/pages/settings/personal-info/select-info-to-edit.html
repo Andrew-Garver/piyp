@@ -10,10 +10,10 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-list-header>Personal Info</ion-list-header>
+  <ion-list-header class="colored-text">Personal Info</ion-list-header>
   <ion-list>
-    <button ion-item (click)="pushPage(personalAddressPage)">Personal Address</button>
-    <button *ngIf="currentProfile.type === 'consumer'" ion-item (click)="pushPage(phoneNumberPage)">Phone Number</button>
+    <button ion-item (click)="pushPage(personalAddressPage)" class="colored-text">Personal Address</button>
+    <button *ngIf="currentProfile.type === 'consumer'" ion-item class="colored-text" (click)="pushPage(phoneNumberPage)">Phone Number</button>
   </ion-list>
 
   <div *ngIf="currentProfile.type === 'pro'">
@@ -32,9 +32,9 @@
     </ion-list>
   </div>
   <div *ngIf="currentProfile.type === 'consumer'">
-    <ion-list-header>Credit Card Info</ion-list-header>
+    <ion-list-header class="colored-text">Credit Card Info</ion-list-header>
     <ion-list>
-      <button ion-item (click)="pushPage(creditCardsPage)">Credit Cards</button>
+      <button ion-item class="colored-text" (click)="pushPage(creditCardsPage)">Credit Cards</button>
     </ion-list>
   </div>
 </ion-content>

@@ -58,11 +58,13 @@
     </ion-list>
 
     <ion-list *ngSwitchCase="'jobsContracted'">
-      <button ion-item *ngFor="let job of jobsContracted" (click)="viewJobDetails(job)">{{job.request.title}}</button>
+      <!--<button ion-item *ngFor="let job of jobsContracted" (click)="viewJobDetails(job)">{{job.request.title}}</button>-->
+      <h5 class="colored-text">Looks like you don't have any contracted jobs yet!</h5>
     </ion-list>
 
     <ion-list *ngSwitchCase="'jobsCompleted'">
-      <button ion-item *ngFor="let job of jobsCompleted" (click)="viewJobDetails(job)">{{job.request.title}}</button>
+      <!--<button ion-item *ngFor="let job of jobsCompleted" (click)="viewJobDetails(job)">{{job.request.title}}</button>-->
+      <h5 class="colored-text">You don't have any completed jobs yet!</h5>
     </ion-list>
   </div>
 </ion-content>
