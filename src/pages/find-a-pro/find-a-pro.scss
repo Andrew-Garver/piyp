@@ -30,4 +30,20 @@ page-find-a-pro {
     margin-left: 4px;
     margin-right: 4px;
   }
+
+  .text-input::-moz-placeholder {
+    color: #FE2347;
+    opacity: .50;
+  }
+
+  .text-input:-ms-input-placeholder {
+    color: #FE2347;
+    opacity: .50;
+  }
+
+  .text-input::-webkit-input-placeholder {
+    text-indent: 0;
+    color: #FE2347;
+    opacity: .50;
+  }
 }

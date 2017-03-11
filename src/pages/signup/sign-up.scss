@@ -28,4 +28,20 @@ page-sign-up {
     color: white;
     font-size: 110%
   }
+
+  .text-input::-moz-placeholder {
+    color: white;
+    opacity: .50;
+  }
+
+  .text-input:-ms-input-placeholder {
+    color: white;
+    opacity: .50;
+  }
+
+  .text-input::-webkit-input-placeholder {
+    text-indent: 0;
+    color: white;
+    opacity: .50;
+  }
 }

@@ -15,7 +15,7 @@
   <form #f="ngForm" [formGroup]="formJobRequest" (ngSubmit)="submitJobRequest()">
     <ion-item>
       <ion-label class="colored-text">Help me with...</ion-label>
-      <ion-select formControlName="jobCategory">
+      <ion-select formControlName="jobCategory" class="colored-text">
         <ion-option *ngFor="let service of services" value="{{service._id}}">{{service.name}}</ion-option>
       </ion-select>
     </ion-item>

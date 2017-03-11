@@ -27,14 +27,21 @@ page-login {
   }
 
   .text-input::-moz-placeholder {
+    color: white;
+    opacity: .50;
     text-indent: 30px;
   }
 
   .text-input:-ms-input-placeholder {
+    color: white;
+    opacity: .50;
     text-indent: 30px;
   }
 
   .text-input::-webkit-input-placeholder {
+    text-indent: 0;
+    color: white;
+    opacity: .50;
     text-indent: 30px;
   }
 
