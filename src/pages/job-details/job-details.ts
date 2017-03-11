@@ -33,7 +33,7 @@ export class JobDetailsPage {
   private totalQuestions: number;
   private winningBid: any;
   private historical: boolean;
-  private projectImages: any = [0, 1, 2];
+  private projectImages: any;
 
   constructor(public navCtrl: NavController, private authService: AuthService,
               private params: NavParams, private app: App, private toastService: ToastService,
@@ -41,6 +41,7 @@ export class JobDetailsPage {
               private profileService: ProfileService) {
     this.currentProfile = JSON.parse(localStorage.getItem('current_profile'));
     this.selectedJob = this.params.get("job");
+    this.projectImages = this.selectedJob.images;
     this.historical = this.params.get("historical");
   }
 

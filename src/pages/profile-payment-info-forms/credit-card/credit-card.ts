@@ -127,22 +127,23 @@ export class CreditCardPage {
     };
 
     return new Promise((resolve, reject) => {
-      let currentProfileId = JSON.parse(localStorage.getItem('current_profile'))._id;
-      this.creditCardService.getToken(paymentInfo)
-        .then((token) => {
-          console.log("We got the card token");
-          return this.creditCardService.updateCard(currentProfileId, token);
-        })
-        .then((data) => {
-          console.log("successfully did the credit card thing");
-          console.log(data);
-          resolve(data.profile);
-        })
-        .catch((err) => {
-          console.log("ERROR");
-          console.log(err.message);
-          reject(err);
-        });
+      let currentProfileId = JSON.parse(localStorage.getItem('current_profile'));
+      resolve(currentProfileId);
+      // this.creditCardService.getToken(paymentInfo)
+      //   .then((token) => {
+      //     console.log("We got the card token");
+      //     return this.creditCardService.updateCard(currentProfileId, token);
+      //   })
+      //   .then((data) => {
+      //     console.log("successfully did the credit card thing");
+      //     console.log(data);
+      //     resolve(data.profile);
+      //   })
+      //   .catch((err) => {
+      //     console.log("ERROR");
+      //     console.log(err.message);
+      //     reject(err);
+      //   });
     });
   }
 

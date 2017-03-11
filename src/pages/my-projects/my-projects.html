@@ -30,8 +30,8 @@
       <div *ngFor="let job of jobsListed" (click)="viewJobDetails(job)">
         <ion-grid>
           <ion-row>
-            <ion-col width-25 style="background: blue">
-        <!--<img *ngIf="projectImages" [src]=projectImages[job._id]>-->
+            <ion-col width-25>
+              <img *ngIf="job.images.length > 0" [src]=job.images[0]>
             </ion-col>
             <ion-col width-75>
               <ion-row>

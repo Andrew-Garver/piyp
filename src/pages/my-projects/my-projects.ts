@@ -22,7 +22,7 @@ export class MyProjectsPage {
   private jobsContracted: any;
   private jobsCompleted: any;
   private segment: any = "jobsListed";
-  // private projectImages: any;
+  private projectImages: any;
 
   constructor(public navCtrl: NavController, private app: App, private authService: AuthService,
               private jobService: JobService, private loadingService: LoadingService,

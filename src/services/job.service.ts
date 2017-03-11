@@ -33,8 +33,9 @@ export class JobService {
         "_id": "58b4d039f346503a7cb90f45"
       },
       "images": [
-        "/Users/andrewgarver/jobPics/58b4d039f346503a7cb90f44/58b4d039f346503a7cb90f44_0.jpg",
-        "/Users/andrewgarver/jobPics/58b4d039f346503a7cb90f44/58b4d039f346503a7cb90f44_1.jpg"
+        "https://media.angieslist.com/s3fs-public/styles/widescreen_large/public/lush_green_lawn_10655747.jpg?itok=R4slUZkN",
+        "http://blog.lawneq.com/wp-content/uploads/2013/09/Green-Lawn.jpg",
+        "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSJWyNxpJlz8TnKGsBFsOZ-6SB5J8y20Eyac07_cd8uXZJJ5aYU"
       ],
       "proLeftFeedback": false,
       "consumerLeftFeedback": false,
@@ -48,6 +49,22 @@ export class JobService {
           "dateReplied": null,
           "dateAsked": "2017-02-28T06:32:26.817Z",
           "answer": "It is about 1 acre."
+        },
+        {
+          "_creator": "58ad3cf143dacb85b3e53809",
+          "question": "Is your lawn in good condition now or does it need some love?",
+          "_id": "58b563af0d9d5e452c73dad6",
+          "dateReplied": null,
+          "dateAsked": "2017-02-28T06:32:26.817Z",
+          "answer": "It is in good condition. It just needs to be maintained"
+        },
+        {
+          "_creator": "58ad3cf143dacb85b3e53809",
+          "question": "What kind of decorative rocks have you looked at?",
+          "_id": "58b563af0d9d5e452c73dad6",
+          "dateReplied": null,
+          "dateAsked": "2017-02-28T06:32:26.817Z",
+          "answer": "I like granite. Marble is pretty too."
         }
       ],
       "bids": [
