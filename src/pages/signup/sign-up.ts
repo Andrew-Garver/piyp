@@ -106,59 +106,59 @@ export class SignUpPage {
   }
 
   signUp() {
-    if (!this.formLoginInformation.valid) {
-      this.loginFieldsMissing = true;
-    }
-    else if (this.formIsSubmittable()) {
-      this.loginFieldsMissing = false;
-      this.invalidPassword = false;
-      this.noAccountTypeSelected = false;
-      this.passwordsMatch = true;
-
-      let accountInfo = {
-        firstName: this.formLoginInformation.value.firstName,
-        lastName: this.formLoginInformation.value.lastName,
-        isPro: !!this.formLoginInformation.value.checkboxPro,
-        isConsumer: !!this.formLoginInformation.value.checkboxConsumer,
-        email: this.formLoginInformation.value.email,
-        password: this.formLoginInformation.value.password1,
-      };
-
-      this.loadingService.presentLoading();
-      this.accountCreationService.createAccount(accountInfo)
-        .then((result) => {
-          return this.userService.getUser();
-        })
-        .then((user) => {
-          if (user.profiles && user.profiles.length > 0) {
-            return this.profileService.getUserProfile(user.profiles[0]._id);
-          }
-          return null;
-        })
-        .then((profile) => {
-          if (!profile) {
-            throw Error("No Profiles Found when signing up");
-          }
-          if (this.userService.getNumberOfUserProfiles() === 1) {
-            if (profile.type === 'consumer') {
-              this.navCtrl.setRoot(FindAProPage)
-            }
-            else {
-              this.navCtrl.setRoot(FindNewProjectsPage);
-            }
+    // if (!this.formLoginInformation.valid) {
+    //   this.loginFieldsMissing = true;
+    // }
+    // else if (this.formIsSubmittable()) {
+    //   this.loginFieldsMissing = false;
+    //   this.invalidPassword = false;
+    //   this.noAccountTypeSelected = false;
+    //   this.passwordsMatch = true;
+    //
+    //   let accountInfo = {
+    //     firstName: this.formLoginInformation.value.firstName,
+    //     lastName: this.formLoginInformation.value.lastName,
+    //     isPro: !!this.formLoginInformation.value.checkboxPro,
+    //     isConsumer: !!this.formLoginInformation.value.checkboxConsumer,
+    //     email: this.formLoginInformation.value.email,
+    //     password: this.formLoginInformation.value.password1,
+    //   };
+    //
+    //   this.loadingService.presentLoading();
+    //   this.accountCreationService.createAccount(accountInfo)
+    //     .then((result) => {
+    this.userService.getUser()
+      .then((user) => {
+        if (user.profiles && user.profiles.length > 0) {
+          return this.profileService.getUserProfile(user.profiles[0]._id);
+        }
+        return null;
+      })
+      .then((profile) => {
+        if (!profile) {
+          throw Error("No Profiles Found when signing up");
+        }
+        if (this.userService.getNumberOfUserProfiles() === 1) {
+          if (profile.type === 'consumer') {
+            this.navCtrl.setRoot(FindAProPage)
           }
           else {
-            this.navCtrl.push(SelectProfilePage);
+            this.navCtrl.setRoot(FindNewProjectsPage);
           }
-          this.loadingService.hideLoading();
-        })
-        .catch((err) => {
-          this.loadingService.hideLoading();
-          console.log(err);
-          this.toastService.presentToast("Could not create account. Please try again later.");
-        });
-    }
+        }
+        else {
+          this.navCtrl.push(SelectProfilePage);
+        }
+        // this.loadingService.hideLoading();
+      })
+      .catch((err) => {
+        // this.loadingService.hideLoading();
+        console.log(err);
+        this.toastService.presentToast("Could not create account. Please try again later.");
+      });
   }
+
+  // }
 
   dismiss() {
     this.navCtrl.pop();

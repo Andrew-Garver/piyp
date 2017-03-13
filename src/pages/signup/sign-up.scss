@@ -15,7 +15,12 @@ page-sign-up {
 
   ion-list-header {
     color: white !important;
-    border-bottom-color: white !important;
+    border-bottom: 1px solid white !important;
+    border-top-color: transparent !important;
+  }
+
+  .item-md {
+    background-color: transparent !important;
   }
 
   .pretty-button {

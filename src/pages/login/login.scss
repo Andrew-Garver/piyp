@@ -68,11 +68,11 @@ page-login {
       width: 48%;
     }
 
-    .sign-up-link {
-      text-align: center;
-      position: relative;
-      top: 18%;
-    }
+    //.sign-up-link {
+    //  text-align: center;
+    //  position: relative;
+    //  top: 18%;
+    //}
   }
 
   @media (min-height: 741px) {
@@ -85,11 +85,19 @@ page-login {
       width: 36%;
     }
 
-    .sign-up-link {
-      text-align: center;
-      position: relative;
-      top: 2%;
-    }
+    //.sign-up-link {
+    //  text-align: center;
+    //  position: relative;
+    //  top: 2%;
+    //}
+  }
+
+  .sign-up-link {
+    position: absolute;
+    bottom: 16px;
+    width: 100%;
+    text-align: center;
+    right: 1%;
   }
 
   .link {
